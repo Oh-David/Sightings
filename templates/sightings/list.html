@@ -1,0 +1,16 @@
+<!-- templates/sightings/list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Sightings</h2>
+    <ul>
+        {% for sighting in sightings %}
+        <li>
+            {{ sighting.date_time }} - {{ sighting.location }}
+            <a href="{% url 'sighting_detail' sighting.id %}">Details</a>
+        </li>
+        {% empty %}
+        <li>No sightings reported yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
