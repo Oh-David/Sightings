@@ -1,7 +1,20 @@
 import React from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const SignInScreen = () => {
+type RootStackParamList = {
+  SignIn: undefined;
+  CreateAccount: undefined;
+};
+
+type SignInScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
+
+type SignInScreenProps = {
+  navigation: SignInScreenNavigationProp;
+};
+
+const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
+    
   return (
     <View style={styles.container}>
       <TextInput 
@@ -19,6 +32,9 @@ const SignInScreen = () => {
         title="Sign In" 
         onPress={() => { /* Handle sign in */ }} 
       />
+      <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
+        <Text style={styles.link}>Don't have an account? Sign Up</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -36,6 +52,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5,
+  },
+  link: { // Define your link style here
+    color: 'blue',
+    marginTop: 15,
+    textDecorationLine: 'underline', // Make the text underlined to indicate it's a link
   },
 });
 
