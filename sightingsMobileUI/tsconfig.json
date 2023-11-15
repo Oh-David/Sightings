@@ -3,5 +3,12 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react",
-  }
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    }
+  },
+  "include": ["./src/**/*"]
 }
