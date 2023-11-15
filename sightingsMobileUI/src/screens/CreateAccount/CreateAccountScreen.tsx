@@ -14,21 +14,21 @@ type SignUpScreenProps = {
   navigation: SignUpScreenNavigationProp;
 };
 
-
-
 const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
+    const formattedPhoneNumber = `+1${phoneNumber}`;
+
     try {
       const signUpResponse = await Auth.signUp({
         username: email,
         password,
         attributes: {
           email,
-          phone_number: phoneNumber,
+          phone_number: formattedPhoneNumber,
         }
       });
       console.log("Sign up success", signUpResponse);
@@ -39,14 +39,6 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <TextInput 
-        value={phoneNumber}
-        placeholder="Phone Number" 
-        onChangeText={setPhoneNumber}
-        style={styles.input} 
-        testID="input-phone-number" 
-        keyboardType='phone-pad'
-      /> */}
       <TextInput 
         value={email}
         placeholder="Email" 
@@ -64,14 +56,6 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
         keyboardType="phone-pad"
         testID="input-number" 
       />
-      {/* <TextInput 
-        value={phoneNumber}
-        placeholder="PhoneNumber" 
-        onChangeText={setPhoneNumber}
-        style={styles.input} 
-        testID="input-phone-number" 
-        keyboardType='phone-pad'
-      /> */}
       <TextInput 
         placeholder="Password" 
         onChangeText={setPassword}
