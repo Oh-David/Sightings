@@ -21,8 +21,11 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   
   const handleSignIn = async () => {
     try {
-      const user = await Auth.signIn(username, password);
-      console.log('Sign in successful!', user);
+      const user = await Auth.signIn({
+        username,
+        password
+      });
+      console.log('Test Sign in successful!', user);
       // Navigate to the next screen after sign in
       navigation.navigate('LandingPage');
 

@@ -36,6 +36,7 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
           phone_number: formattedPhoneNumber,
         }
       });
+      navigation.navigate('LandingPage');
       console.log("Sign up success", signUpResponse);
     } catch (error) {
       console.log("Sign up error", error);
@@ -134,8 +135,8 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
         onPress={handleSignUp} 
       />
 
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.link}>Sign Up</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <Text style={styles.link}>Sign In</Text>
       </TouchableOpacity>
     </View>
   );
