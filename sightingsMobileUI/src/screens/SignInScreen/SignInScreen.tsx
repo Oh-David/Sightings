@@ -1,10 +1,12 @@
-import React from 'react';
-import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { Auth } from 'aws-amplify';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
   SignIn: undefined;
   CreateAccount: undefined;
+  LandingPage: undefined;
 };
 
 type SignInScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
@@ -14,15 +16,35 @@ type SignInScreenProps = {
 };
 
 const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
-    
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const handleSignIn = async () => {
+    try {
+      const user = await Auth.signIn(username, password);
+      console.log('Sign in successful!', user);
+      // Navigate to the next screen after sign in
+      navigation.navigate('LandingPage');
+
+    } catch (error) {
+      console.error('Error signing in:', error);
+      Alert.alert("Nope");
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput 
+      <TextInput
+        value={username}
+        onChangeText={setUsername}
         placeholder="Username" 
         style={styles.input} 
-        testID="input-username" 
+        testID="input-username"
+        autoCapitalize="none"
       />
-      <TextInput 
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
         placeholder="Password" 
         style={styles.input} 
         secureTextEntry 
@@ -30,7 +52,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       />
       <Button 
         title="Sign In" 
-        onPress={() => { /* Handle sign in */ }} 
+        onPress={() => {handleSignIn}} 
       />
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
         <Text style={styles.link}>Don't have an account? Sign Up</Text>

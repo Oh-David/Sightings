@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
+  LandingPage: undefined;
 };
 
 type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignUp'>;
@@ -16,8 +17,12 @@ type SignUpScreenProps = {
 
 const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const handleSignUp = async () => {
     const formattedPhoneNumber = `+1${phoneNumber}`;
@@ -37,38 +42,93 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
     }
   }
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(email);
+    setIsEmailValid(isValid);
+    return isValid;
+  };
+  
+  const validatePhoneNumber = (phoneNumber: string) => {
+    const numericPhoneNumber = phoneNumber.replace(/\D/g, '');
+    const isValid = numericPhoneNumber.length === 10;
+    setIsPhoneNumberValid(isValid);
+    return isValid;
+  };
+
+  const handlePasswordChange = (newPassword: string) => {
+    setPassword(newPassword);
+    setPasswordsMatch(newPassword === confirmPassword);
+  };
+  
+  const handleConfirmPasswordChange = (newConfirmPassword: string) => {
+    setConfirmPassword(newConfirmPassword);
+    setPasswordsMatch(newConfirmPassword === password);
+  };
+  
+  
   return (
     <View style={styles.container}>
+      <View style={styles.input} >
       <TextInput 
         value={email}
         placeholder="Email" 
-        onChangeText={setEmail}
-        style={styles.input} 
+        onChangeText={(text) =>{
+          setEmail(text);
+          validateEmail(text);
+        }}
+        style={[!isEmailValid && styles.invalidInput]} 
+        onBlur={() => validateEmail(email)}
         testID="email-address"
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <TextInput 
-        value={phoneNumber}
-        placeholder="Phone Number" 
-        onChangeText={setPhoneNumber}
-        style={styles.input} 
-        keyboardType="phone-pad"
-        testID="input-number" 
-      />
-      <TextInput 
-        placeholder="Password" 
-        onChangeText={setPassword}
-        style={styles.input} 
-        secureTextEntry 
-        testID="input-password" 
-      />
-      <TextInput 
-        placeholder="Confirm Password" 
-        style={styles.input} 
-        secureTextEntry 
-        testID="input-confirm-password" 
-      />
+      {!isEmailValid && <Text style={styles.errorMessage}>Invalid email address</Text>}
+      </View>
+      <View style={styles.input} >
+        <TextInput 
+          value={phoneNumber}
+          placeholder="Phone Number" 
+          onChangeText={(text) => {
+            const numericText = text.replace(/\D/g, '');
+            setPhoneNumber(numericText);
+            validatePhoneNumber(numericText);
+          }}
+          style={!isPhoneNumberValid && styles.invalidInput}
+          onBlur={() => validatePhoneNumber(phoneNumber)}
+          keyboardType="numeric"
+          testID="input-number" 
+          maxLength={10}
+        />
+        {!isPhoneNumberValid && <Text style={styles.errorMessage}>Invalid phone number</Text>}
+      </View>
+      <View style={styles.input} >
+        <TextInput 
+          placeholder="Password" 
+          onChangeText={(text) => {
+            setPassword(text);
+            handlePasswordChange(text);
+          }}
+          style={!passwordsMatch && styles.invalidInput}
+          secureTextEntry 
+          testID="input-password" 
+        />
+      </View>
+      <View style={styles.input} >
+        <TextInput 
+          value={confirmPassword}
+          onChangeText={(text) => {
+            setConfirmPassword(text);
+            handleConfirmPasswordChange(text);
+          }}
+          placeholder="Confirm Password" 
+          style={!passwordsMatch && styles.invalidInput}
+          secureTextEntry 
+          testID="input-confirm-password" 
+        />
+        {!passwordsMatch && <Text style={styles.errorMessage}>Passwords do not match</Text>}
+      </View>
+      
       <Button 
         title="Sign Up" 
         onPress={handleSignUp} 
@@ -99,6 +159,13 @@ const styles = StyleSheet.create({
     color: 'blue',
     marginTop: 15,
     textDecorationLine: 'underline',
+  },
+  invalidInput: {
+    borderColor: 'red',
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: 12,
   },
 });
 
