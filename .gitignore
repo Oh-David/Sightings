@@ -3,3 +3,4 @@ __pycache__/
 db.sqlite3
 .env
 venv/
+sightingsMobileUI/%ProgramData%/Microsoft/Windows/UUS/State/_active.uusver

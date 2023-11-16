@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import { Auth } from 'aws-amplify';
-import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-  SignIn: undefined;
-  CreateAccount: undefined;
-  LandingPage: undefined;
-};
-
-type SignInScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
+import { SignInScreenNavigationProp } from 'models/navigationTypes';
 
 type SignInScreenProps = {
   navigation: SignInScreenNavigationProp;
@@ -25,13 +17,18 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         username,
         password
       });
-      console.log('Test Sign in successful!', user);
       // Navigate to the next screen after sign in
       navigation.navigate('LandingPage');
-
     } catch (error) {
-      console.error('Error signing in:', error);
-      Alert.alert("Nope");
+      const amplifyError = error as { code?: string, message?: string };
+      if (amplifyError.code === 'UserNotConfirmedException') {
+      // User account is not confirmed, navigate to ConfirmationScreen
+      navigation.navigate('ConfirmationScreen', { username });
+      } else {
+        // Handle other types of errors
+        console.error('Error signing in:', amplifyError);
+        Alert.alert('Error', amplifyError.message || 'An error occurred during sign in');
+      }
     }
   };
 
@@ -55,7 +52,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       />
       <Button 
         title="Sign In" 
-        onPress={() => {handleSignIn}} 
+        onPress={handleSignIn} 
       />
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
         <Text style={styles.link}>Don't have an account? Sign Up</Text>

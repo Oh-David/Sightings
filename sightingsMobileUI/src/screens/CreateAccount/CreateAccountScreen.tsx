@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity  } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-  LandingPage: undefined;
-};
-
-type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignUp'>;
+import { SignUpScreenNavigationProp } from 'models/navigationTypes';
 
 type SignUpScreenProps = {
   navigation: SignUpScreenNavigationProp;
@@ -36,7 +28,7 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
           phone_number: formattedPhoneNumber,
         }
       });
-      navigation.navigate('LandingPage');
+      navigation.navigate('ConfirmationScreen', { username: email });
       console.log("Sign up success", signUpResponse);
     } catch (error) {
       console.log("Sign up error", error);

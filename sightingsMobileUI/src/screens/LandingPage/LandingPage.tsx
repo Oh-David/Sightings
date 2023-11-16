@@ -1,20 +1,14 @@
 import { StackNavigationProp } from '@react-navigation/stack';
+import { LandingPageScreenNavigationProp } from 'models/navigationTypes';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-type RootStackParamList = {
-  SignIn: undefined;
-  CreateAccount: undefined;
-  LandingPage: undefined;
-};
-
-type LandingPageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LandingPage'>;
 
 type LandingPageScreenProps = {
   navigation: LandingPageScreenNavigationProp;
 };
 
-const LandingPage: React.FC = () => {
+const LandingPage: React.FC<LandingPageScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Hello World</Text>
