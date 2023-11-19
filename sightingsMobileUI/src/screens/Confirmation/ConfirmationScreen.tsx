@@ -15,7 +15,7 @@ const ConfirmationScreen: React.FC<CreateAccountProps> = ({ route, navigation })
 
   useEffect(() => {
     const confirmSignUp = async () => {
-      if (code.length === 6) { // Assuming the confirmation code is 6 digits
+      if (code.length === 6) {
         setIsConfirming(true);
         const fullCode = code.join('');
 
