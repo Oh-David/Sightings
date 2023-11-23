@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Camera } from 'expo-camera';
+import { View, Text, StyleSheet } from 'react-native';
+import { Camera, CameraType } from 'expo-camera';
+import * as Permissions from 'expo-permissions';
+
+async function getCameraPermission() {
+  const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  return status === 'granted';
+}
 
 const CameraComponent = () => {
   const [hasPermission, setHasPermission] = useState<null | boolean>(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [type, setType] = useState(CameraType.back);
+  
+  setType(type === CameraType.back ? CameraType.front : CameraType.back);
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
+    // (async () => {
+    //   const { status } = await Camera.requestCameraPermissionsAsync();
+    //   setHasPermission(status === 'granted');
+    // })();
+    getCameraPermission().then(hasPermission => {
+      setHasPermission(hasPermission);
+    });
+    
   }, []);
 
   if (hasPermission === null) {
@@ -21,21 +33,9 @@ const CameraComponent = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-        </View>
+    <View style={{ flex: 1 }}>
+      <Camera style={{ flex: 1 }} type={CameraType.back}>
+        {/* Camera UI here */}
       </Camera>
     </View>
   );
