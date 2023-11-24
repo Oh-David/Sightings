@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { SignInScreenNavigationProp } from 'models/navigationTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type SignInScreenProps = {
   navigation: SignInScreenNavigationProp;
@@ -17,6 +18,8 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         username,
         password
       });
+      // Store a token in AsyncStorage upon successful login
+      await AsyncStorage.setItem('userToken', user.signInUserSession.idToken.jwtToken);
       // Navigate to the next screen after sign in
       navigation.navigate('LandingPage');
     } catch (error) {
