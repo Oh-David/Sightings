@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import WildlifeMap from './Features/Map/MapComponent';
 import CameraModal from './Features/Camera/CameraModal';
@@ -11,13 +11,23 @@ const wildlifeSightings = [
 const LandingPage: React.FC = () => {
   const [isCameraVisible, setIsCameraVisible] = useState(false);
 
+  const handlePressCamera = () => {
+    setIsCameraVisible(true);
+  };
+
+  const closeCamera = useCallback(() => {
+    setIsCameraVisible(false);
+  }, []);
+  
   return (
     <View style={styles.container}>
       <WildlifeMap sightings={wildlifeSightings} />
       <View style={styles.buttonContainer}>
         <Button title="Sighting" onPress={() => setIsCameraVisible(true)} />
       </View>
-      <CameraModal isVisible={isCameraVisible} onClose={() => setIsCameraVisible(false)} />
+      {isCameraVisible && (
+        <CameraModal isVisible={isCameraVisible} onClose={closeCamera} />
+      )}
     </View>
   );
 };

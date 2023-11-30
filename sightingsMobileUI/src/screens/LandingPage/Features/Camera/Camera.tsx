@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 
@@ -12,7 +12,9 @@ const CameraComponent = () => {
   const [hasPermission, setHasPermission] = useState<null | boolean>(null);
   const [type, setType] = useState(CameraType.back);
   
-  setType(type === CameraType.back ? CameraType.front : CameraType.back);
+  const toggleCameraType = () => {
+    setType(type === CameraType.back ? CameraType.front : CameraType.back);
+  };
 
   useEffect(() => {
     // (async () => {
@@ -33,10 +35,15 @@ const CameraComponent = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={CameraType.back}>
-        {/* Camera UI here */}
+    <View style={styles.container}>
+      <Camera style={styles.camera} type={type}>
+        {/* ... other camera components ... */}
       </Camera>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+          <Text style={styles.text}>Flip</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
