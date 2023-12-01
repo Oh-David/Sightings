@@ -1,47 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
-import * as Permissions from 'expo-permissions';
-
-async function getCameraPermission() {
-  const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  return status === 'granted';
-}
+import * as MediaLibrary from 'expo-media-library';
+import * as Location from 'expo-location';
+import * as FileSystem from 'expo-file-system';
+import { Magnetometer } from 'expo-sensors';
 
 const CameraComponent = () => {
-  const [hasPermission, setHasPermission] = useState<null | boolean>(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState<null | boolean>(null);
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<null | boolean>(null);
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
+  const [photoLocation, setPhotoLocation] = useState<Location.LocationObject | null>(null);
+  const [heading, setHeading] = useState<number | null>(null);
   const [type, setType] = useState(CameraType.back);
-  
+  const cameraRef = useRef<Camera>(null);
+
+  useEffect(() => {
+    async function requestPermissions() {
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      const mediaLibraryStatus = await MediaLibrary.requestPermissionsAsync();
+      const locationStatus = await Location.requestForegroundPermissionsAsync();
+      const { status: magnetometerStatus } = await Magnetometer.requestPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+      setHasMediaLibraryPermission(mediaLibraryStatus.status === 'granted');
+      Magnetometer.addListener((data) => {
+        const { x, y } = data;
+        setHeading(Math.atan2(y, x) * (180 / Math.PI));
+      });
+    }
+
+    requestPermissions();
+    return () => {
+      Magnetometer.removeAllListeners();
+    };
+  }, []);
+
+  const savePhotoWithWatermark = async () => {
+    // Here, you would render the photo with the watermark and save it
+    // This is a complex operation and might require a different approach
+  };
+
+
   const toggleCameraType = () => {
     setType(type === CameraType.back ? CameraType.front : CameraType.back);
   };
 
-  useEffect(() => {
-    // (async () => {
-    //   const { status } = await Camera.requestCameraPermissionsAsync();
-    //   setHasPermission(status === 'granted');
-    // })();
-    getCameraPermission().then(hasPermission => {
-      setHasPermission(hasPermission);
-    });
-    
-  }, []);
+  const savePhoto = async (photoUri: string, location: Location.LocationObject, heading: number) => {    
+    if (!hasMediaLibraryPermission) {
+      Alert.alert('Access denied', 'Sorry, we need camera roll permissions to make this work!');
+      return;
+    }
+    try {
+      const asset = await MediaLibrary.createAssetAsync(photoUri);
+      console.log('Photo location:', location.coords, 'Heading:', heading);
+      // Optionally, you can save location data here
+      console.log('Photo location:', location.coords);
+      await MediaLibrary.createAlbumAsync('YourAlbumName', asset, false);
+    } catch (error) {
+      console.error('Error saving photo:', error);
+      Alert.alert('Error', 'Failed to save photo');
+    }
+  };
 
-  if (hasPermission === null) {
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      const photo = await cameraRef.current.takePictureAsync();
+      const location = await Location.getCurrentPositionAsync({});
+      savePhoto(photo.uri, location, heading ?? 0);
+      setPhotoLocation(location);
+      // Optionally save or process the photo with watermark here
+      savePhotoWithWatermark();
+      setPhotoUri(photo.uri);
+    }
+  };
+
+  if (hasCameraPermission === null || hasMediaLibraryPermission === null) {
     return <View />;
   }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+  if (!hasCameraPermission || !hasMediaLibraryPermission) {
+    return <Text>No access to camera or media library</Text>;
   }
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
+      {photoUri && (
+        <View style={styles.watermarkContainer}>
+          <Image source={{ uri: photoUri }} style={styles.photo} />
+          <Text 
+            style={styles.watermark}>
+              Location: 
+                {photoLocation?.coords.latitude}, 
+                {photoLocation?.coords.longitude}, 
+              Heading: 
+                {heading}
+          </Text>          
+          <Text 
+            style={styles.watermark}>
+              Location: 
+                {photoLocation?.coords.latitude}, 
+                {photoLocation?.coords.longitude}, 
+              Heading: 
+                {heading}
+            </Text>
+        </View>
+      )}
+      <Camera style={styles.camera} type={type} ref={cameraRef}>
         {/* ... other camera components ... */}
       </Camera>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
           <Text style={styles.text}>Flip</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={takePicture}>
+          <Text style={styles.text}>Snap</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -56,19 +127,44 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
+    flex: 0.1,
     flexDirection: 'row',
+    justifyContent: 'space-around',
     margin: 20,
   },
   button: {
-    flex: 0.1,
+    flex: 0.3,
     alignSelf: 'flex-end',
     alignItems: 'center',
+    backgroundColor: '#fff', // You can style this as you like
+    padding: 10,
+    borderRadius: 5,
   },
   text: {
     fontSize: 18,
+    color: 'black', // Choose color for the text
+  },
+  watermarkContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  photo: {
+    width: '100%',
+    height: '100%',
+  },
+  watermark: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
     color: 'white',
+    fontSize: 14,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 5,
   },
 });
 

@@ -4,6 +4,7 @@ import awsConfig from './src/aws-exports';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from './src/screens/SignInScreen/SignInScreen';
+import ProfileScreen from './src/screens/Account/ProfileScreen'
 import CreateAccountScreen from './src/screens/CreateAccount/CreateAccountScreen';
 import ConfirmationScreen from './src/screens/Confirmation/ConfirmationScreen';
 import LandingPage from './src/screens/LandingPage/LandingPage';
@@ -40,6 +41,7 @@ export default function App() {
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="ConfirmationScreen" component={ConfirmationScreen} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
