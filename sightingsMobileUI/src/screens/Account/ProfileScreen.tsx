@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { ImageInfo } from 'expo-image-picker';
+import uploadImage from '../LandingPage/Features/UploadSighting/uploadImage';
 
 const ProfileScreen = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
@@ -10,29 +10,60 @@ const ProfileScreen = () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
-        Alert.alert('Permission required', 'Sorry, we need camera roll permissions to make this work!');
-        return;
-      }
+      Alert.alert('Permission required', 'Sorry, we need camera roll permissions to make this work!');
+      return;
+    }
 
     let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-    
-      if (!result.canceled) {
-        const imageResult = result as any; // Type assertion here
-        setImageUri(imageResult.uri);
-      }
-  };
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
 
-  const uploadImage = async () => {
-    if (imageUri) {
-      // Implement your image upload logic here
-      Alert.alert('Image Uploaded', 'Your profile picture has been updated!');
+    console.log('Image picker result:', result); // Log the entire result object
+      
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const imageUri = result.assets[0].uri;
+      setImageUri(imageUri);
+      console.log('Image picker result:', result);
+    } else {
+      console.log('Image picking was cancelled or no image was selected');
     }
   };
+
+  // const uploadImage = async () => {
+  //   if (imageUri) {
+  //     try {
+  //       // Fetch the file from the local filesystem
+  //       const response = await fetch(imageUri);
+  //       const blob = await response.blob();
+
+  //       // Upload the file to S3
+  //       const uploadedImage = await Storage.put('', blob, {
+  //         contentType: 'image/jpeg', // Set the content type
+  //       });
+
+  //       Alert.alert('Image Uploaded', 'Your profile picture has been updated!');
+
+  //       // Do something with the uploaded image response if needed
+  //       console.log(uploadedImage);
+
+  //     } catch (error) {
+  //       console.error('Error uploading photo:', error);
+  //       Alert.alert('Error', 'Failed to upload photo');
+  //     }
+  //   }
+  // };
+
+  const handleUploadImage = async () => {
+    if (imageUri) {
+      console.log('Image picked:', imageUri); // Log the URI
+      await uploadImage(imageUri);
+    } else {
+      Alert.alert('No Image', 'Please select an image first.');
+    }
+  }; 
 
   return (
     <ScrollView 
@@ -49,7 +80,7 @@ const ProfileScreen = () => {
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Select Image" onPress={pickImage} />
-        <Button title="Upload Image" onPress={uploadImage} disabled={!imageUri} />
+        <Button title="Upload Image" onPress={handleUploadImage} disabled={!imageUri} />
       </View>
     </ScrollView>
   );
@@ -57,12 +88,11 @@ const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   scrollViewStyle: {
-        // Styles for the ScrollView, e.g., flex, backgroundColor
-    },
+    flex: 1,
+},
   contentContainerStyle: {
-        alignItems: 'center', // Align items for children
-        justifyContent: 'center', // Justify content for children
-        // Other styles affecting the layout of children
+        alignItems: 'center',
+        justifyContent: 'center',
     },
   container: {
     flex: 1,
