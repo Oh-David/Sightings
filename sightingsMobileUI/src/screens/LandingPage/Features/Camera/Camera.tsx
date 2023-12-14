@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MediaType, launchCamera, launchImageLibrary } from 'react-native-image-picker';
-// import ImagePicker from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
-import { View, Image, Text, StyleSheet, TouchableOpacity, Alert, Button } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
-import * as FileSystem from 'expo-file-system';
 import { Magnetometer } from 'expo-sensors';
+import { useNavigation } from '@react-navigation/native';
+import { UploadSightingImageFormNavigationProp } from 'models/navigationTypes';
 
-const CameraComponent = () => {
+type CameraNavigationProp = {
+  navigation: UploadSightingImageFormNavigationProp;
+};
+
+const CameraComponent: React.FC = () => {
   const [hasCameraPermission, setHasCameraPermission] = useState<null | boolean>(null);
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<null | boolean>(null);
   const [photoUri, setPhotoUri] = useState<string | null>(null);
@@ -17,6 +20,7 @@ const CameraComponent = () => {
   const [heading, setHeading] = useState<number | null>(null);
   const [type, setType] = useState(CameraType.back);
   const cameraRef = useRef<Camera>(null);
+  const navigation = useNavigation<UploadSightingImageFormNavigationProp>();
 
   useEffect(() => {
     async function requestPermissions() {
@@ -74,6 +78,8 @@ const CameraComponent = () => {
       // Optionally save or process the photo with watermark here
       savePhotoWithWatermark();
       setPhotoUri(photo.uri);
+      console.log('takePicture')
+      navigation.navigate('UploadSightingImageForm', { photoUri: photo.uri });
     }
   };
 
@@ -86,10 +92,10 @@ const CameraComponent = () => {
     });
   
     if (!result.canceled) {
-      console.log(result.assets);
-      // Handle the selected image
-    }
-  };
+      console.log('result.canceled', result.assets);
+      navigation.navigate('UploadSightingImageForm', {photoUri: ''});
+    };
+  }
 
   if (hasCameraPermission === null || hasMediaLibraryPermission === null) {
     return <View />;

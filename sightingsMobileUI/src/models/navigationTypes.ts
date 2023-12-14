@@ -6,7 +6,10 @@ type RootStackParamList = {
     CreateAccount: undefined;
     LandingPage: undefined;
     ConfirmationScreen: { username: string }
-    Profile: undefined; 
+    Profile: undefined;
+    UploadSightingImageForm: {
+        photoUri: string;
+    };
 };
 
 export type ConfirmationScreenRouteProp = RouteProp<RootStackParamList, 'ConfirmationScreen'>;
@@ -16,3 +19,4 @@ export type SignInScreenNavigationProp = StackNavigationProp<RootStackParamList,
 export type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CreateAccount'>;
 export type LandingPageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LandingPage'>;
 export type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
+export type UploadSightingImageFormNavigationProp = StackNavigationProp<RootStackParamList, 'UploadSightingImageForm'>;

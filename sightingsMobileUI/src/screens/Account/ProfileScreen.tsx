@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import uploadImage from '../LandingPage/Features/UploadSighting/uploadImage';
+import UploadImage from '../LandingPage/Features/UploadSighting/UploadImage';
 import { Auth } from 'aws-amplify';
 
 const ProfileScreen = () => {
@@ -92,7 +92,7 @@ const ProfileScreen = () => {
   const handleUploadImage = async () => {
     if (imageUri) {
       console.log('Image picked:', imageUri); // Log the URI
-      await uploadImage(imageUri);
+      await UploadImage(imageUri);
     } else {
       Alert.alert('No Image', 'Please select an image first.');
     }

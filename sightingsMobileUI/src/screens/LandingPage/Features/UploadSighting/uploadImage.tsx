@@ -1,7 +1,7 @@
 import { Auth, Storage } from 'aws-amplify';
 import { Alert } from 'react-native';
 
-const uploadImage = async (imageUri: string) => {
+const UploadImage = async (imageUri: string) => {
   if (!imageUri) {
     Alert.alert('No Image', 'No image selected for upload.');
     return;
@@ -34,4 +34,4 @@ const uploadImage = async (imageUri: string) => {
   }
 };
 
-export default uploadImage;
+export default UploadImage;

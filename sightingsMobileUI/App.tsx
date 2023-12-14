@@ -8,6 +8,7 @@ import ProfileScreen from './src/screens/Account/ProfileScreen'
 import CreateAccountScreen from './src/screens/CreateAccount/CreateAccountScreen';
 import ConfirmationScreen from './src/screens/Confirmation/ConfirmationScreen';
 import LandingPage from './src/screens/LandingPage/LandingPage';
+import UploadSightingImageForm from './src/screens/LandingPage/Features/UploadSighting/UploadSightingImageForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Amplify.configure(awsConfig);
@@ -41,6 +42,7 @@ export default function App() {
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="ConfirmationScreen" component={ConfirmationScreen} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="UploadSightingImageForm" component={UploadSightingImageForm} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
