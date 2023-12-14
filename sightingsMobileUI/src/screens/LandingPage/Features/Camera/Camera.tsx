@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { MediaType, launchCamera, launchImageLibrary } from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
+import { View, Image, Text, StyleSheet, TouchableOpacity, Alert, Button } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
@@ -74,6 +77,20 @@ const CameraComponent = () => {
     }
   };
 
+  const selectImageFromGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      console.log(result.assets);
+      // Handle the selected image
+    }
+  };
+
   if (hasCameraPermission === null || hasMediaLibraryPermission === null) {
     return <View />;
   }
@@ -113,6 +130,9 @@ const CameraComponent = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={takePicture}>
           <Text style={styles.text}>Snap</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={selectImageFromGallery}>
+          <Text style={styles.text}>Upload</Text>
         </TouchableOpacity>
       </View>
     </View>

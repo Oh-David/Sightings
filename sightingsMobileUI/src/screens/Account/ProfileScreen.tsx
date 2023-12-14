@@ -1,10 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import uploadImage from '../LandingPage/Features/UploadSighting/uploadImage';
+import { Auth } from 'aws-amplify';
 
 const ProfileScreen = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Function to fetch user profile
+    const fetchUserProfile = async () => {
+      try {
+        // Assuming getUserProfile() is a function that fetches the user's profile
+        // including the image URL from your backend or user attributes.
+        const userProfile = await getUserProfile();
+        if (userProfile && userProfile.imageUri) {
+          setImageUri(userProfile.imageUri);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  const getUserProfile = async () => {
+    try {
+      // Assuming you're storing the image URL in the user's attributes
+      const currentUser = await Auth.currentAuthenticatedUser();
+      console.log('currentUser', currentUser);
+      return {
+        imageUri: currentUser.attributes['custom:imageUrl'] // The custom attribute where the image URL is stored
+      };
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      return null;
+    }
+  };
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -22,7 +55,7 @@ const ProfileScreen = () => {
     });
 
     console.log('Image picker result:', result); // Log the entire result object
-      
+
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const imageUri = result.assets[0].uri;
       setImageUri(imageUri);
