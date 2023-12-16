@@ -3,12 +3,12 @@ import { Amplify } from 'aws-amplify';
 import awsConfig from './src/aws-exports';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignInScreen from './src/screens/SignInScreen/SignInScreen';
-import ProfileScreen from './src/screens/Account/ProfileScreen'
-import CreateAccountScreen from './src/screens/CreateAccount/CreateAccountScreen';
-import ConfirmationScreen from './src/screens/Confirmation/ConfirmationScreen';
+import SignInScreen from './src/screens/Authentication/SignInScreen/SignInScreen';
+import ProfileScreen from './src/screens/Profile/ProfileScreen'
+import CreateAccountScreen from './src/screens/Authentication/CreateAccount/CreateAccountScreen';
+import ConfirmationScreen from './src/screens/Authentication/Confirmation/ConfirmationScreen';
 import LandingPage from './src/screens/LandingPage/LandingPage';
-import UploadSightingImageForm from './src/screens/LandingPage/Features/UploadSighting/UploadSightingImageForm';
+import UploadSightingImageForm from './src/screens/Features/ReportSightings/UploadSighting/UploadSightingImageForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Amplify.configure(awsConfig);

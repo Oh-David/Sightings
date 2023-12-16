@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import UploadImage from '../LandingPage/Features/UploadSighting/UploadImage';
+import UploadImage from '../Features/ReportSightings/UploadSighting/uploadImage';
 import { Auth } from 'aws-amplify';
 
 const ProfileScreen = () => {

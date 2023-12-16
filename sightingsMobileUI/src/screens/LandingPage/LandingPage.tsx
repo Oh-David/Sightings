@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
-import WildlifeMap from './Features/Map/MapComponent';
-import CameraModal from './Features/Camera/CameraModal';
+import WildlifeMap from '../Features/Map/MapComponent';
+import CameraModal from '../Features/Camera/CameraModal';
 import { useNavigation } from '@react-navigation/native';
 import { LandingPageScreenNavigationProp } from 'models/navigationTypes';
 

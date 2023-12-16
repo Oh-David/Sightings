@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import redMarker from '../../../../assets/images/redpp.png';
-import blueMarker from '../../../../assets/images/bluepp.png';
-import bugMarker from '../../../../assets/images/bugpp.png';
+// import redMarker from '../../../../assets/images/redpp.png';
+import redMarker from '../../../assets/images/redpp.png';
+import blueMarker from '../../../assets/images/bluepp.png';
+import bugMarker from '../../../assets/images/bugpp.png';
 
 interface Sighting {
     id: number;
