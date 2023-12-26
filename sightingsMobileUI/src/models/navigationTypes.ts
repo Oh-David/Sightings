@@ -5,11 +5,13 @@ type RootStackParamList = {
     SignIn: undefined;
     CreateAccount: undefined;
     LandingPage: undefined;
-    ConfirmationScreen: { username: string }
+    ConfirmationScreen: { username: string };
     Profile: undefined;
     UploadSightingImageForm: {
         photoUri: string;
     };
+    ForgotPassword: undefined;
+    ResetPassword: {username: string};
 };
 
 export type ConfirmationScreenRouteProp = RouteProp<RootStackParamList, 'ConfirmationScreen'>;
@@ -20,3 +22,6 @@ export type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList,
 export type LandingPageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LandingPage'>;
 export type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 export type UploadSightingImageFormNavigationProp = StackNavigationProp<RootStackParamList, 'UploadSightingImageForm'>;
+export type ForgotPasswordScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ForgotPassword'>;
+export type ResetPasswordScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ResetPassword'>;
+export type ResetPasswordScreenRouteProp = RouteProp<RootStackParamList, 'ResetPassword'>;

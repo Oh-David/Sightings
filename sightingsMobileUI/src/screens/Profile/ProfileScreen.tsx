@@ -3,27 +3,42 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, But
 import * as ImagePicker from 'expo-image-picker';
 import UploadImage from '../Features/ReportSightings/UploadSighting/uploadImage';
 import { Auth } from 'aws-amplify';
+import { ProfileScreenNavigationProp } from 'models/navigationTypes';
+import CheckAuthStatus from './../../utils/CheckAuthStatus/CheckAuthStatus';
 
-const ProfileScreen = () => {
+type ProfileScreenProps = {
+  navigation: ProfileScreenNavigationProp;
+};
+
+const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   useEffect(() => {
-    // Function to fetch user profile
-    const fetchUserProfile = async () => {
-      try {
-        // Assuming getUserProfile() is a function that fetches the user's profile
-        // including the image URL from your backend or user attributes.
-        const userProfile = await getUserProfile();
-        if (userProfile && userProfile.imageUri) {
-          setImageUri(userProfile.imageUri);
-        }
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
+    const verifyAuthStatus = async () => {
+      const isAuthenticated = await CheckAuthStatus(navigation);
+      console.log('isAuthenticated', isAuthenticated);
+      if (!isAuthenticated) {
+        navigation.navigate('SignIn');
+      } else {
+        fetchUserProfile();
       }
     };
 
-    fetchUserProfile();
-  }, []);
+    verifyAuthStatus();
+  }, [navigation]);
+
+  const fetchUserProfile = async () => {
+    try {
+      // Assuming getUserProfile() is a function that fetches the user's profile
+      // including the image URL from your backend or user attributes.
+      const userProfile = await getUserProfile();
+      if (userProfile && userProfile.imageUri) {
+        setImageUri(userProfile.imageUri);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
 
   const getUserProfile = async () => {
     try {

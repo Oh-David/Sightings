@@ -4,6 +4,8 @@ import awsConfig from './src/aws-exports';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from './src/screens/Authentication/SignInScreen/SignInScreen';
+import ForgotPasswordScreen from './src/screens/Authentication/ForgotPassword/ForgotPasswordScreen';
+import ResetPasswordScreen from './src/screens/Authentication/ResetPassword/ResetPasswordScreen';
 import ProfileScreen from './src/screens/Profile/ProfileScreen'
 import CreateAccountScreen from './src/screens/Authentication/CreateAccount/CreateAccountScreen';
 import ConfirmationScreen from './src/screens/Authentication/Confirmation/ConfirmationScreen';
@@ -44,6 +46,8 @@ export default function App() {
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="UploadSightingImageForm" component={UploadSightingImageForm} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
