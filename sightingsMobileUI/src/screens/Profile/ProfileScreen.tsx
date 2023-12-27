@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button, FlatList } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import UploadImage from '../Features/ReportSightings/UploadSighting/uploadImage';
-import { Auth } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 import { ProfileScreenNavigationProp } from 'models/navigationTypes';
 import CheckAuthStatus from './../../utils/CheckAuthStatus/CheckAuthStatus';
 
@@ -12,15 +12,16 @@ type ProfileScreenProps = {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useEffect(() => {
     const verifyAuthStatus = async () => {
       const isAuthenticated = await CheckAuthStatus(navigation);
-      console.log('isAuthenticated', isAuthenticated);
       if (!isAuthenticated) {
         navigation.navigate('SignIn');
       } else {
         fetchUserProfile();
+        fetchImages();
       }
     };
 
@@ -44,13 +45,36 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     try {
       // Assuming you're storing the image URL in the user's attributes
       const currentUser = await Auth.currentAuthenticatedUser();
-      console.log('currentUser', currentUser);
       return {
         imageUri: currentUser.attributes['custom:imageUrl'] // The custom attribute where the image URL is stored
       };
     } catch (error) {
       console.error('Error fetching user profile:', error);
       return null;
+    }
+  };
+
+  const fetchImages = async () => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      const userId = currentUser.attributes.sub;
+      const imageKeysResponse = await Storage.list(`users/${userId}/images/`, { pageSize: 1000 });
+
+      const imageKeys = imageKeysResponse.results;
+
+      const urls = await Promise.all(
+        imageKeys.map(async (item) => {
+          if (item.key) {
+            const signedUrl = await Storage.get(item.key);
+            return signedUrl;
+          }
+          return null;
+        })
+      ).then(results => results.filter(url => url !== null)); // Filter out null values  
+
+      setImageUrls(urls as string[]);
+    } catch (error) {
+      console.error('Error fetching images:', error);
     }
   };
 
@@ -69,40 +93,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log('Image picker result:', result); // Log the entire result object
-
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const imageUri = result.assets[0].uri;
       setImageUri(imageUri);
-      console.log('Image picker result:', result);
     } else {
       console.log('Image picking was cancelled or no image was selected');
     }
   };
-
-  // const uploadImage = async () => {
-  //   if (imageUri) {
-  //     try {
-  //       // Fetch the file from the local filesystem
-  //       const response = await fetch(imageUri);
-  //       const blob = await response.blob();
-
-  //       // Upload the file to S3
-  //       const uploadedImage = await Storage.put('', blob, {
-  //         contentType: 'image/jpeg', // Set the content type
-  //       });
-
-  //       Alert.alert('Image Uploaded', 'Your profile picture has been updated!');
-
-  //       // Do something with the uploaded image response if needed
-  //       console.log(uploadedImage);
-
-  //     } catch (error) {
-  //       console.error('Error uploading photo:', error);
-  //       Alert.alert('Error', 'Failed to upload photo');
-  //     }
-  //   }
-  // };
 
   const handleUploadImage = async () => {
     if (imageUri) {
@@ -113,11 +110,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   }; 
 
+  const renderItem = ({ item }: { item: string }) => (
+    <Image source={{ uri: item }} style={styles.gridImage} />
+  );
+
   return (
-    <ScrollView 
-      style={styles.scrollViewStyle}
-      contentContainerStyle={styles.contentContainerStyle}
-    >
+    <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
       <View style={styles.imageContainer}>
         {imageUri ? (
@@ -130,18 +128,27 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button title="Select Image" onPress={pickImage} />
         <Button title="Upload Image" onPress={handleUploadImage} disabled={!imageUri} />
       </View>
-    </ScrollView>
+      <FlatList
+        data={imageUrls}
+        renderItem={({ item }) => (
+          <Image source={{ uri: item }} style={styles.gridImage} />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={3} // For grid layout
+        style={styles.grid}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
-},
+  },
   contentContainerStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-    },
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -156,13 +163,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     marginBottom: 20,
   },
   buttonContainer: {
     marginBottom: 20,
+  },
+  grid: {
+    flex: 1,
+  },
+  gridImage: {
+    width: '33%',
+    aspectRatio: 1,
+    margin: 1,
   },
 });
 
