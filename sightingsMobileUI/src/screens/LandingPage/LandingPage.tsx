@@ -13,10 +13,6 @@ const wildlifeSightings = [
 const LandingPage: React.FC = () => {
   const [isCameraVisible, setIsCameraVisible] = useState(false);
   const navigation = useNavigation<LandingPageScreenNavigationProp>();
-  
-  const handlePressCamera = () => {
-    setIsCameraVisible(true);
-  };
 
   const closeCamera = useCallback(() => {
     setIsCameraVisible(false);

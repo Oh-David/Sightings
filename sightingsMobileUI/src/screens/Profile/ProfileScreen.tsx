@@ -41,6 +41,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await Auth.signOut();
+      navigation.navigate('SignIn');
+    } catch (error) {
+      console.error('Error signing out: ', error);
+      Alert.alert('Logout Failed', 'Unable to logout at this time.');
+    }
+  };
+
   const getUserProfile = async () => {
     try {
       // Assuming you're storing the image URL in the user's attributes
@@ -102,17 +112,28 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   };
 
   const handleUploadImage = async () => {
-    if (imageUri) {
-      console.log('Image picked:', imageUri); // Log the URI
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      Alert.alert('Permission required', 'Sorry, we need camera roll permissions to make this work!');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const imageUri = result.assets[0].uri;
+
       await UploadImage(imageUri);
     } else {
-      Alert.alert('No Image', 'Please select an image first.');
+      console.log('Image picking was cancelled or no image was selected');
     }
   }; 
-
-  const renderItem = ({ item }: { item: string }) => (
-    <Image source={{ uri: item }} style={styles.gridImage} />
-  );
 
   return (
     <View style={styles.container}>
@@ -125,8 +146,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         )}
       </View>
       <View style={styles.buttonContainer}>
+        <Button title="Logout" onPress={handleLogout} />
         <Button title="Select Image" onPress={pickImage} />
-        <Button title="Upload Image" onPress={handleUploadImage} disabled={!imageUri} />
+        <Button title="Upload Image" onPress={handleUploadImage} />
       </View>
       <FlatList
         data={imageUrls}
