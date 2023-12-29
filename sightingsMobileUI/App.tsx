@@ -10,7 +10,8 @@ import ProfileScreen from './src/screens/Profile/ProfileScreen'
 import CreateAccountScreen from './src/screens/Authentication/CreateAccount/CreateAccountScreen';
 import ConfirmationScreen from './src/screens/Authentication/Confirmation/ConfirmationScreen';
 import LandingPage from './src/screens/LandingPage/LandingPage';
-import UploadSightingImageForm from './src/screens/Features/ReportSightings/UploadSighting/UploadSightingImageForm';
+import PostItem from './src/screens/Features/PostItem/PostItem';
+// import UploadImageForm from './src/screens/Features/PostItem/UploadItem/UploadItemImageForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Amplify.configure(awsConfig);
@@ -44,7 +45,8 @@ export default function App() {
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="ConfirmationScreen" component={ConfirmationScreen} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
-        <Stack.Screen name="UploadSightingImageForm" component={UploadSightingImageForm} />
+        <Stack.Screen name="PostItem" component={PostItem} />
+        {/* <Stack.Screen name="UploadSightingImageForm" component={UploadImageForm} /> */}
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />

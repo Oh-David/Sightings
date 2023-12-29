@@ -1,0 +1,27 @@
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type User @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  username: String!
+  email: String
+  items: [Item] @hasMany(indexName: "itemsByUser", fields: ["id"])
+}
+
+type Item @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+  description: String
+  images: [String]
+  userID: ID! @index(name: "itemsByUser")
+  user: User @belongsTo(fields: ["userID"])
+  offers: [Offer] @hasMany(indexName: "offersByItem", fields: ["id"])
+}
+
+type Offer @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  itemID: ID! @index(name: "offersByItem")
+  item: Item @belongsTo(fields: ["itemID"])
+  offeredByUserID: ID!
+  offeredToUserID: ID!
+  status: String
+}

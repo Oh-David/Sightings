@@ -8,54 +8,312 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
-export const createTodo = /* GraphQL */ `mutation CreateTodo(
-  $input: CreateTodoInput!
-  $condition: ModelTodoConditionInput
+export const createUser = /* GraphQL */ `mutation CreateUser(
+  $input: CreateUserInput!
+  $condition: ModelUserConditionInput
 ) {
-  createTodo(input: $input, condition: $condition) {
+  createUser(input: $input, condition: $condition) {
     id
-    name
-    description
+    username
+    email
+    items {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateTodoMutationVariables,
-  APITypes.CreateTodoMutation
+  APITypes.CreateUserMutationVariables,
+  APITypes.CreateUserMutation
 >;
-export const updateTodo = /* GraphQL */ `mutation UpdateTodo(
-  $input: UpdateTodoInput!
-  $condition: ModelTodoConditionInput
+export const updateUser = /* GraphQL */ `mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
 ) {
-  updateTodo(input: $input, condition: $condition) {
+  updateUser(input: $input, condition: $condition) {
     id
-    name
-    description
+    username
+    email
+    items {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateTodoMutationVariables,
-  APITypes.UpdateTodoMutation
+  APITypes.UpdateUserMutationVariables,
+  APITypes.UpdateUserMutation
 >;
-export const deleteTodo = /* GraphQL */ `mutation DeleteTodo(
-  $input: DeleteTodoInput!
-  $condition: ModelTodoConditionInput
+export const deleteUser = /* GraphQL */ `mutation DeleteUser(
+  $input: DeleteUserInput!
+  $condition: ModelUserConditionInput
 ) {
-  deleteTodo(input: $input, condition: $condition) {
+  deleteUser(input: $input, condition: $condition) {
     id
-    name
-    description
+    username
+    email
+    items {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteTodoMutationVariables,
-  APITypes.DeleteTodoMutation
+  APITypes.DeleteUserMutationVariables,
+  APITypes.DeleteUserMutation
+>;
+export const createItem = /* GraphQL */ `mutation CreateItem(
+  $input: CreateItemInput!
+  $condition: ModelItemConditionInput
+) {
+  createItem(input: $input, condition: $condition) {
+    id
+    title
+    description
+    images
+    userID
+    user {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offers {
+      nextToken
+      startedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateItemMutationVariables,
+  APITypes.CreateItemMutation
+>;
+export const updateItem = /* GraphQL */ `mutation UpdateItem(
+  $input: UpdateItemInput!
+  $condition: ModelItemConditionInput
+) {
+  updateItem(input: $input, condition: $condition) {
+    id
+    title
+    description
+    images
+    userID
+    user {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offers {
+      nextToken
+      startedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateItemMutationVariables,
+  APITypes.UpdateItemMutation
+>;
+export const deleteItem = /* GraphQL */ `mutation DeleteItem(
+  $input: DeleteItemInput!
+  $condition: ModelItemConditionInput
+) {
+  deleteItem(input: $input, condition: $condition) {
+    id
+    title
+    description
+    images
+    userID
+    user {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offers {
+      nextToken
+      startedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteItemMutationVariables,
+  APITypes.DeleteItemMutation
+>;
+export const createOffer = /* GraphQL */ `mutation CreateOffer(
+  $input: CreateOfferInput!
+  $condition: ModelOfferConditionInput
+) {
+  createOffer(input: $input, condition: $condition) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateOfferMutationVariables,
+  APITypes.CreateOfferMutation
+>;
+export const updateOffer = /* GraphQL */ `mutation UpdateOffer(
+  $input: UpdateOfferInput!
+  $condition: ModelOfferConditionInput
+) {
+  updateOffer(input: $input, condition: $condition) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateOfferMutationVariables,
+  APITypes.UpdateOfferMutation
+>;
+export const deleteOffer = /* GraphQL */ `mutation DeleteOffer(
+  $input: DeleteOfferInput!
+  $condition: ModelOfferConditionInput
+) {
+  deleteOffer(input: $input, condition: $condition) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteOfferMutationVariables,
+  APITypes.DeleteOfferMutation
 >;

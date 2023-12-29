@@ -3,7 +3,6 @@ import { Alert } from 'react-native';
 
 const UploadImage = async (image: string) => {
 
-
   try {
     // Fetch the current user ID
     const currentUser = await Auth.currentAuthenticatedUser();
@@ -20,14 +19,12 @@ const UploadImage = async (image: string) => {
       contentType: 'image/jpeg', // Set the content type
     });
 
-    Alert.alert('Image Uploaded', 'Your profile picture has been updated!');
-
-    // Do something with the uploaded image response if needed
-    console.log('Image Uploaded', uploadedImage);
+    return key;
 
   } catch (error) {
     console.error('Error uploading photo:', error);
     Alert.alert('Error', 'Failed to upload photo');
+    return null;
   }
 };
 

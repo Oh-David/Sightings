@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Button, FlatList } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import UploadImage from '../Features/ReportSightings/UploadSighting/uploadImage';
+import UploadImage from '../Features/PostItem/UploadItem/uploadImage';
 import { Auth, Storage } from 'aws-amplify';
 import { ProfileScreenNavigationProp } from 'models/navigationTypes';
 import CheckAuthStatus from './../../utils/CheckAuthStatus/CheckAuthStatus';
@@ -30,8 +30,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   const fetchUserProfile = async () => {
     try {
-      // Assuming getUserProfile() is a function that fetches the user's profile
-      // including the image URL from your backend or user attributes.
       const userProfile = await getUserProfile();
       if (userProfile && userProfile.imageUri) {
         setImageUri(userProfile.imageUri);
@@ -139,8 +137,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
       <View style={styles.imageContainer}>
-        {imageUri ? (
-          <Image source={{ uri: imageUri }} style={styles.image} />
+        {imageUrls[0] ? (
+          <Image source={{ uri: imageUrls[0] }} style={styles.image} />
         ) : (
           <Image source={require('../../assets/images/bugpp.png')} style={styles.image} />
         )}

@@ -8,33 +8,338 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getTodo = /* GraphQL */ `query GetTodo($id: ID!) {
-  getTodo(id: $id) {
+export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
+  getUser(id: $id) {
     id
-    name
-    description
+    username
+    email
+    items {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetTodoQueryVariables, APITypes.GetTodoQuery>;
-export const listTodos = /* GraphQL */ `query ListTodos(
-  $filter: ModelTodoFilterInput
+` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
+export const listUsers = /* GraphQL */ `query ListUsers(
+  $filter: ModelUserFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      name
-      description
+      username
+      email
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
       __typename
     }
     nextToken
+    startedAt
     __typename
   }
 }
-` as GeneratedQuery<APITypes.ListTodosQueryVariables, APITypes.ListTodosQuery>;
+` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
+export const syncUsers = /* GraphQL */ `query SyncUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncUsers(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.SyncUsersQueryVariables, APITypes.SyncUsersQuery>;
+export const getItem = /* GraphQL */ `query GetItem($id: ID!) {
+  getItem(id: $id) {
+    id
+    title
+    description
+    images
+    userID
+    user {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offers {
+      nextToken
+      startedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetItemQueryVariables, APITypes.GetItemQuery>;
+export const listItems = /* GraphQL */ `query ListItems(
+  $filter: ModelItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListItemsQueryVariables, APITypes.ListItemsQuery>;
+export const syncItems = /* GraphQL */ `query SyncItems(
+  $filter: ModelItemFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncItems(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.SyncItemsQueryVariables, APITypes.SyncItemsQuery>;
+export const getOffer = /* GraphQL */ `query GetOffer($id: ID!) {
+  getOffer(id: $id) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetOfferQueryVariables, APITypes.GetOfferQuery>;
+export const listOffers = /* GraphQL */ `query ListOffers(
+  $filter: ModelOfferFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOffers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      itemID
+      offeredByUserID
+      offeredToUserID
+      status
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOffersQueryVariables,
+  APITypes.ListOffersQuery
+>;
+export const syncOffers = /* GraphQL */ `query SyncOffers(
+  $filter: ModelOfferFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncOffers(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      itemID
+      offeredByUserID
+      offeredToUserID
+      status
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SyncOffersQueryVariables,
+  APITypes.SyncOffersQuery
+>;
+export const itemsByUserID = /* GraphQL */ `query ItemsByUserID(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  itemsByUserID(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      description
+      images
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ItemsByUserIDQueryVariables,
+  APITypes.ItemsByUserIDQuery
+>;
+export const offersByItemID = /* GraphQL */ `query OffersByItemID(
+  $itemID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOfferFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  offersByItemID(
+    itemID: $itemID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      itemID
+      offeredByUserID
+      offeredToUserID
+      status
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.OffersByItemIDQueryVariables,
+  APITypes.OffersByItemIDQuery
+>;
