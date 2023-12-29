@@ -17,7 +17,7 @@ type Item @model @auth(rules: [{ allow: owner }]) {
   offers: [Offer] @hasMany(indexName: "offersByItem", fields: ["id"])
 }
 
-type Offer @model @auth(rules: [{ allow: owner }]) {
+type Offer @model @auth(rules: [{ allow: owner, operations: [read] }]) {
   id: ID!
   itemID: ID! @index(name: "offersByItem")
   item: Item @belongsTo(fields: ["itemID"])
