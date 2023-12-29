@@ -17,6 +17,8 @@ import { ProfileScreenNavigationProp } from "models/navigationTypes";
 import CheckAuthStatus from "./../../utils/CheckAuthStatus/CheckAuthStatus";
 import { itemsByUserID } from "../../graphql/queries";
 import { ItemsByUserIDQuery, Item } from "../../API";
+import UserItem from "./ProfileFeatures/UserItem";
+import { deleteItem, updateItem } from "../../graphql/mutations";
 
 type ProfileScreenProps = {
   navigation: ProfileScreenNavigationProp;
@@ -63,11 +65,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 .filter((imageKey): imageKey is string => imageKey !== null) // Type guard to filter out null imageKeys
                 .map(async (imageKey) => {
                   // imageKey is guaranteed to be string here
-                  const url = await Storage.get(imageKey, { level: 'public' });
+                  const url = await Storage.get(imageKey, { level: "public" });
                   return url;
                 })
             );
-            return { ...item, images: imageUrls.filter((url): url is string => url !== null) }; // Type guard to filter out null URLs
+            return {
+              ...item,
+              images: imageUrls.filter((url): url is string => url !== null),
+            }; // Type guard to filter out null URLs
           })
       );
 
@@ -192,6 +197,52 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
+  const handleEditItem = async (item: Item) => {
+    console.log("Updated item 1:", item);
+    try {
+      if (!item.id) {
+        console.error("Invalid updated item ID");
+        return;
+      }
+
+      const response = await API.graphql(
+        graphqlOperation(updateItem, {
+          input: {
+            id: item.id,
+          },
+        })
+      );
+      console.log("Updated item 2:", response);
+      fetchUserItems();
+    } catch (error) {
+      console.error("Error updated item:", error);
+      Alert.alert("Update Failed", "Unable to update the item at this time.");
+    }
+  };
+
+  const handleDeleteItem = async (item: Item) => {
+    try {
+      if (!item.id) {
+        console.error("Invalid deleted item ID");
+        return;
+      }
+
+      const response = await API.graphql(
+        graphqlOperation(deleteItem, {
+          input: {
+            id: item.id,
+            _version: item._version,
+          },
+        })
+      );
+      console.log("Deleted item:", response);
+      fetchUserItems();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      Alert.alert("Delete Failed", "Unable to delete the item at this time.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
@@ -213,24 +264,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       <FlatList
         data={userItems}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            {/* Render images if they exist */}
-            {item.images &&
-              item.images.length > 0 &&
-              item.images.map(
-                (imageUrl, index) =>
-                  imageUrl && (
-                    <Image
-                      key={index}
-                      source={{ uri: imageUrl }}
-                      style={styles.image}
-                    />
-                  )
-              )}
-          </View>
+          <UserItem
+            item={item}
+            onEdit={() => handleEditItem(item)}
+            onDelete={() => handleDeleteItem(item)}
+          />
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
+        // ... other FlatList props ...
       />
     </View>
   );
