@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import {
   View,
+  Text,
   TextInput,
   Button,
   StyleSheet,
   Alert,
   Image,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import UploadImage from "./UploadItem/uploadImage";
@@ -63,6 +65,14 @@ const PostItem: React.FC = () => {
     }
   };
 
+  const handleDeleteImage = (index: number) => {
+    setPost((previousPost) => {
+      const newImages = [...previousPost.images];
+      newImages.splice(index, 1);
+      return { ...previousPost, images: newImages };
+    });
+  };
+
   const handleSubmit = async () => {
     if (!post.title || post.images.length === 0) {
       Alert.alert(
@@ -105,7 +115,12 @@ const PostItem: React.FC = () => {
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
         {post.images.map((uri, index) => (
-          <Image key={index} source={{ uri }} style={styles.image} />
+          <View key={index} style={styles.imageWrapper}>
+            <Image source={{ uri }} style={styles.image} />
+            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteImage(index)}>
+              <Text style={styles.deleteButtonText}>X</Text>
+            </TouchableOpacity>
+          </View>
         ))}
       </View>
       <Button title="Upload Image" onPress={handleSelectImage} />
@@ -154,6 +169,22 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginBottom: 10,
     // If you want to arrange buttons side by side, you might need additional styling
+  },
+  imageWrapper: {
+    marginBottom: 20,
+    alignItems: 'center',
+    position: 'relative',
+  },
+  deleteButton: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    backgroundColor: 'red',
+    borderRadius: 50,
+    padding: 5,
+  },
+  deleteButtonText: {
+    color: 'white',
   },
 });
 

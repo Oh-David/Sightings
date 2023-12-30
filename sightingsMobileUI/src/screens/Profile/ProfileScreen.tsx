@@ -210,10 +210,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         const key = urlParts.pathname.substring(
           urlParts.pathname.indexOf("public/") + 7
         );
-        console.log(`Attempting to delete image with key: ${key}`);
         try {
           await Storage.remove(key, { level: "public" });
-          console.log(`Successfully deleted image with key: ${key}`);
         } catch (error) {
           console.error(`Error deleting image with key ${key}:`, error);
         }
