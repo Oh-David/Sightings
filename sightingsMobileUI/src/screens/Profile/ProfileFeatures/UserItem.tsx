@@ -21,6 +21,8 @@ const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
     return null;
   }
 
+  console.log('item', item);
+
 //   console.log("item", item);
   const confirmDelete = () => {
     Alert.alert(
@@ -61,7 +63,7 @@ const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
         )}
       </View>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.itemTitle}>{item.title}</Text>
+        <Text style={styles.itemDescription}>{item.description}</Text>
         {/* Description goes here */}
       </View>
       <View style={styles.actionButtonsContainer}>
@@ -103,6 +105,7 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     fontSize: 14,
+    padding: 10,
   },
   actionButtonsContainer: {
     width: "30%", // adjust the width as needed

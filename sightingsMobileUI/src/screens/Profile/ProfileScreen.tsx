@@ -54,26 +54,30 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       )) as { data: ItemsByUserIDQuery };
       const items = itemsData.data.itemsByUserID?.items ?? [];
 
+      const activeItems = items.filter(
+        (item): item is Item => item !== null && item._deleted !== true
+      );
+
+      // .filter((item): item is Item => item !== null) // Type guard to filter out null items
+      // .map(async (item) => {
+
       // Convert S3 keys to presigned URLs
       const itemsWithImageUrls = await Promise.all(
-        items
-          .filter((item): item is Item => item !== null) // Type guard to filter out null items
-          .map(async (item) => {
-            // Now TypeScript knows item is not null
-            const imageUrls = await Promise.all(
-              (item.images || [])
-                .filter((imageKey): imageKey is string => imageKey !== null) // Type guard to filter out null imageKeys
-                .map(async (imageKey) => {
-                  // imageKey is guaranteed to be string here
-                  const url = await Storage.get(imageKey, { level: "public" });
-                  return url;
-                })
-            );
-            return {
-              ...item,
-              images: imageUrls.filter((url): url is string => url !== null),
-            }; // Type guard to filter out null URLs
-          })
+        activeItems.map(async (item) => {
+          const imageUrls = await Promise.all(
+            (item.images || [])
+              .filter((imageKey): imageKey is string => imageKey !== null)
+              .map(async (imageKey) => {
+                const url = await Storage.get(imageKey, { level: "public" });
+                return url;
+              })
+          );
+          console.log(item);
+          return {
+            ...item,
+            images: imageUrls.filter((url): url is string => url !== null),
+          };
+        })
       );
 
       setUserItems(itemsWithImageUrls as Item[]);
@@ -115,7 +119,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       return null;
     }
   };
-  
+
   const pickImage = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -196,9 +200,23 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   const handleDeleteItem = async (item: Item) => {
     try {
-      if (!item.id) {
-        console.error("Invalid deleted item ID");
+      if (!item.id || !item.images) {
+        console.error("Invalid item data for deletion");
         return;
+      }
+
+      for (const imageUrl of item.images) {
+        const urlParts = new URL(decodeURIComponent(imageUrl as string));
+        const key = urlParts.pathname.substring(
+          urlParts.pathname.indexOf("public/") + 7
+        );
+        console.log(`Attempting to delete image with key: ${key}`);
+        try {
+          await Storage.remove(key, { level: "public" });
+          console.log(`Successfully deleted image with key: ${key}`);
+        } catch (error) {
+          console.error(`Error deleting image with key ${key}:`, error);
+        }
       }
 
       const response = await API.graphql(
