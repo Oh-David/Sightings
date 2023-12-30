@@ -21,6 +21,7 @@ const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
     return null;
   }
 
+//   console.log("item", item);
   const confirmDelete = () => {
     Alert.alert(
       "Confirm Delete",
@@ -39,8 +40,8 @@ const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
   };
 
   const confirmEdit = () => {
-    console.log('Updating Item', item.id)
-    onEdit(item.id)
+    console.log("Updating Item", item.id);
+    onEdit(item.id);
   };
 
   return (
@@ -64,7 +65,7 @@ const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
         {/* Description goes here */}
       </View>
       <View style={styles.actionButtonsContainer}>
-      <TouchableOpacity onPress={confirmEdit} style={styles.editButton}>
+        <TouchableOpacity onPress={confirmEdit} style={styles.editButton}>
           <Text>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={confirmDelete} style={styles.deleteButton}>

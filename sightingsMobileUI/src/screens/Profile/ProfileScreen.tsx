@@ -115,33 +115,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       return null;
     }
   };
-
-  const fetchImages = async () => {
-    try {
-      const currentUser = await Auth.currentAuthenticatedUser();
-      const userId = currentUser.attributes.sub;
-      const imageKeysResponse = await Storage.list(`users/${userId}/images/`, {
-        pageSize: 1000,
-      });
-
-      const imageKeys = imageKeysResponse.results;
-
-      const urls = await Promise.all(
-        imageKeys.map(async (item) => {
-          if (item.key) {
-            const signedUrl = await Storage.get(item.key);
-            return signedUrl;
-          }
-          return null;
-        })
-      ).then((results) => results.filter((url) => url !== null)); // Filter out null values
-
-      setImageUrls(urls as string[]);
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    }
-  };
-
+  
   const pickImage = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();

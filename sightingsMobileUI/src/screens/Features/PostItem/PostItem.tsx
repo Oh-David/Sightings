@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, ScrollView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import UploadImage from './UploadItem/uploadImage';
-import { useNavigation } from '@react-navigation/native';
-import { PostItemScreenNavigationProp } from 'models/navigationTypes';
-import { API, Auth, graphqlOperation } from 'aws-amplify';
-import { createItem } from '../../../../src/graphql/mutations';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState } from "react";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  Image,
+  ScrollView,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import UploadImage from "./UploadItem/uploadImage";
+import { useNavigation } from "@react-navigation/native";
+import { PostItemScreenNavigationProp } from "models/navigationTypes";
+import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
+import { createItem } from "../../../../src/graphql/mutations";
 
 // Define the types for the sighting report details
 type PostItemForm = {
@@ -19,82 +26,89 @@ type PostItemForm = {
 const PostItem: React.FC = () => {
   const navigation = useNavigation<PostItemScreenNavigationProp>();
   const [post, setPost] = useState<PostItemForm>({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     images: [],
     // Initialize other fields
   });
 
-  const handleSubmit = async () => {
-    if (!post.title || post.images.length === 0) {
-      Alert.alert('Error', 'Please fill in all required fields and upload at least one image.');
-      return;
-    }
-
-    const currentUser = await Auth.currentAuthenticatedUser();
-    const userId = currentUser.attributes.sub;
-
-    const itemData = {
-      title: post.title,
-      description: post.description,
-      images: post.images,
-      userID: userId
-    };
-
-    try {
-      await API.graphql(graphqlOperation(createItem, { input: itemData }));
-      Alert.alert('Success', 'Your item has been posted to the market.');
-      console.log('itemData', itemData)
-      setPost({ title: '', description: '', images: [] });
-      navigation.navigate('LandingPage');
-    } catch (error) {
-      console.error('Error submitting the item:', error);
-      Alert.alert('Error', 'An error occurred while submitting the item.');
-    }
-  };
-
-  const handleUploadImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const handleSelectImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      Alert.alert('Permission required', 'Sorry, we need camera roll permissions to make this work!');
+      Alert.alert(
+        "Permission required",
+        "Camera roll permissions are needed to select images."
+      );
       return;
     }
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const imageKeys = await Promise.all(
-        result.assets.map(async (asset) => {
-          return await UploadImage(asset.uri);
-        })
-      );
-  
-      // Filter out any null values (failed uploads)
-      const successfulUploads = imageKeys.filter((key): key is string => key !== null);
-  
-      setPost(previousPost => ({
+    if (!result.canceled && result.assets) {
+      setPost((previousPost) => ({
         ...previousPost,
-        images: [...previousPost.images, ...successfulUploads],
+        images: [
+          ...previousPost.images,
+          ...result.assets.map((asset) => asset.uri),
+        ],
       }));
     } else {
-      console.log('Image picking was cancelled or no image was selected');
+      console.log("Image picking was cancelled or no image was selected");
     }
-  }; 
+  };
+
+  const handleSubmit = async () => {
+    if (!post.title || post.images.length === 0) {
+      Alert.alert(
+        "Error",
+        "Please fill in all required fields and upload at least one image."
+      );
+      return;
+    }
+
+    const currentUser = await Auth.currentAuthenticatedUser();
+    const userId = currentUser.attributes.sub;
+
+    // Upload images to S3 and get their keys
+    const uploadedKeys = await Promise.all(
+      post.images.map(async (imageUri) => {
+        const key = await UploadImage(imageUri);
+        return key;
+      })
+    );
+
+    const itemData = {
+      title: post.title,
+      description: post.description,
+      images: uploadedKeys.filter((key): key is string => key !== null),
+      userID: userId,
+    };
+
+    try {
+      await API.graphql(graphqlOperation(createItem, { input: itemData }));
+      Alert.alert("Success", "Your item has been posted to the market.");
+      setPost({ title: "", description: "", images: [] });
+      navigation.navigate("LandingPage");
+    } catch (error) {
+      console.error("Error submitting the item:", error);
+      Alert.alert("Error", "An error occurred while submitting the item.");
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
         {post.images.map((uri, index) => (
-          <Image key={index} source={{ uri: uri }} style={styles.image} />
+          <Image key={index} source={{ uri }} style={styles.image} />
         ))}
       </View>
-      <Button title="Upload Image" onPress={handleUploadImage} />
-
+      <Button title="Upload Image" onPress={handleSelectImage} />
       <TextInput
         value={post.title}
         onChangeText={(text) => setPost({ ...post, title: text })}
@@ -121,21 +135,22 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    width: '100%',
+    width: "100%",
   },
   imageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   image: {
-    width: '100%',
+    width: "100%",
+    aspectRatio: 4 / 3,
     height: 200,
     marginBottom: 10,
-  }, 
+  },
   buttonContainer: {
     marginBottom: 10,
     // If you want to arrange buttons side by side, you might need additional styling
