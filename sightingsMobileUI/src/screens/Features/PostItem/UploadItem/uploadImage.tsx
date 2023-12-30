@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 type UploadImageParams = {
   imageUri: string;
-  imageType: 'profilepic' | 'item';
+  imageType: 'profile' | 'item';
 };
 
 const UploadImage = async (params: UploadImageParams) => {
@@ -18,9 +18,9 @@ const UploadImage = async (params: UploadImageParams) => {
     const blob = await response.blob();
     const timestamp = new Date().toISOString(); // Use ISO string for uniqueness
     let key;
-    if (params.imageType === 'profilepic') {
-      key = `users/${userId}/profilepic/${timestamp}-${blob.size}.jpg`;
-    } else { // Default to 'item' type
+    if (params.imageType === 'profile') {
+      key = `users/${userId}/profile/${timestamp}-${blob.size}.jpg`;
+    } else {
       key = `users/${userId}/items/${timestamp}-${blob.size}.jpg`;
     }    
 

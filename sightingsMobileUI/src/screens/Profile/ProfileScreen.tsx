@@ -4,12 +4,13 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
   ScrollView,
   Alert,
   Button,
   FlatList,
   Modal,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import UploadImage from "../Features/PostItem/UploadItem/uploadImage";
@@ -27,9 +28,7 @@ type ProfileScreenProps = {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [userItems, setUserItems] = useState<Item[]>([]);
-  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -40,7 +39,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         navigation.navigate("SignIn");
       } else {
         fetchUserProfile();
-        // fetchImages();
         fetchUserItems();
       }
     };
@@ -62,9 +60,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         (item): item is Item => item !== null && item._deleted !== true
       );
 
-      // .filter((item): item is Item => item !== null) // Type guard to filter out null items
-      // .map(async (item) => {
-
       // Convert S3 keys to presigned URLs
       const itemsWithImageUrls = await Promise.all(
         activeItems.map(async (item) => {
@@ -76,7 +71,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 return url;
               })
           );
-          console.log(item);
           return {
             ...item,
             images: imageUrls.filter((url): url is string => url !== null),
@@ -92,9 +86,26 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const userProfile = await getUserProfile();
-      if (userProfile && userProfile.imageUri) {
-        setImageUri(userProfile.imageUri);
+      const currentUser = await Auth.currentAuthenticatedUser();
+      const userId = currentUser.attributes.sub;
+
+      const s3Path = `users/${userId}/profile/`;
+      const files = await Storage.list(s3Path, {
+        level: "public",
+        pageSize: 1,
+      });
+
+      // Check if there are any files and get the first one
+      if (files.results.length > 0) {
+        const firstFile = files.results[0];
+        const imageUrl = await Storage.get(firstFile.key as string, {
+          level: "public",
+        });
+
+        // Set the image URL state
+        setImageUri(imageUrl);
+      } else {
+        console.log("No profile image found for the user.");
       }
     } catch (error) {
       console.error("Error fetching user profile:", error);
@@ -111,69 +122,43 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
-  const getUserProfile = async () => {
-    try {
-      // Assuming you're storing the image URL in the user's attributes
+  const handleProfileImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      Alert.alert(
+        "Permission required",
+        "Sorry, we need camera roll permissions to make this work!"
+      );
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
       const currentUser = await Auth.currentAuthenticatedUser();
-      return {
-        imageUri: currentUser.attributes["custom:imageUrl"], // The custom attribute where the image URL is stored
-      };
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-      return null;
-    }
-  };
-
-  const pickImage = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert(
-        "Permission required",
-        "Sorry, we need camera roll permissions to make this work!"
-      );
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const userId = currentUser.attributes.sub;
+      const s3Path = `users/${userId}/profile/`;
+      const files = await Storage.list(s3Path, {
+        level: "public",
+        pageSize: 1,
+      });
+      if (files.results.length > 0) {
+        // Delete the previous profile picture
+        await Storage.remove(files.results[0].key as string, {
+          level: "public",
+        });
+      }
       const imageUri = result.assets[0].uri;
+
+      await UploadImage({ imageUri: imageUri, imageType: "profile" });
       setImageUri(imageUri);
-    } else {
-      console.log("Image picking was cancelled or no image was selected");
-    }
-  };
-
-  const handleUploadImage = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert(
-        "Permission required",
-        "Sorry, we need camera roll permissions to make this work!"
-      );
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const imageUri = result.assets[0].uri;
-
-      await UploadImage({ imageUri: imageUri, imageType: 'profilepic' });
     } else {
       console.log("Image picking was cancelled or no image was selected");
     }
@@ -237,30 +222,20 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
-  const handleImages = (item: Item) => {
-    if (item.images && item.images.length > 0) {
-      setSelectedImageUrl(item.images[0]);
-      setIsModalVisible(true);
-    }
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
       <View style={styles.imageContainer}>
-        {imageUrls[0] ? (
-          <Image source={{ uri: imageUrls[0] }} style={styles.image} />
-        ) : (
-          <Image
-            source={require("../../assets/images/bugpp.png")}
-            style={styles.image}
-          />
-        )}
+        <TouchableWithoutFeedback onLongPress={handleProfileImage}>
+          {imageUri ? (
+            <Image source={{ uri: imageUri }} style={styles.image} />
+          ) : (
+            <ActivityIndicator size="large" color="#0000ff" />
+          )}
+        </TouchableWithoutFeedback>
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Logout" onPress={handleLogout} />
-        <Button title="Select Image" onPress={pickImage} />
-        <Button title="Upload Image" onPress={handleUploadImage} />
       </View>
       <FlatList
         data={userItems}
@@ -269,7 +244,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             item={item}
             onImageSelect={(selectedItem) => {
               if (selectedItem.images && selectedItem.images.length > 0) {
-                // Filter out null values
                 const nonNullImages = selectedItem.images.filter(
                   (image): image is string => image !== null
                 );
@@ -282,7 +256,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           />
         )}
         keyExtractor={(item) => item.id}
-        // ... other FlatList props ...
       />
       <Modal
         animationType="slide"
