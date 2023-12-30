@@ -9,6 +9,7 @@ import {
   Alert,
   Button,
   FlatList,
+  Modal,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import UploadImage from "../Features/PostItem/UploadItem/uploadImage";
@@ -28,6 +29,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [userItems, setUserItems] = useState<Item[]>([]);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
   useEffect(() => {
     const verifyAuthStatus = async () => {
@@ -169,7 +173,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const imageUri = result.assets[0].uri;
 
-      await UploadImage(imageUri);
+      await UploadImage({ imageUri: imageUri, imageType: 'profilepic' });
     } else {
       console.log("Image picking was cancelled or no image was selected");
     }
@@ -233,6 +237,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
+  const handleImages = (item: Item) => {
+    if (item.images && item.images.length > 0) {
+      setSelectedImageUrl(item.images[0]);
+      setIsModalVisible(true);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
@@ -256,7 +267,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         renderItem={({ item }) => (
           <UserItem
             item={item}
-            onImageSelect={() => handleImages(item)}
+            onImageSelect={(selectedItem) => {
+              if (selectedItem.images && selectedItem.images.length > 0) {
+                // Filter out null values
+                const nonNullImages = selectedItem.images.filter(
+                  (image): image is string => image !== null
+                );
+                setSelectedImages(nonNullImages);
+                setIsModalVisible(true);
+              }
+            }}
             onEdit={() => handleEditItem(item)}
             onDelete={() => handleDeleteItem(item)}
           />
@@ -264,6 +284,29 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         // ... other FlatList props ...
       />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => {
+          setIsModalVisible(!isModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView pagingEnabled={true} style={styles.scrollView}>
+              {selectedImages.map((imageUri, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: imageUri }}
+                  style={styles.modalImage}
+                />
+              ))}
+            </ScrollView>
+            <Button title="Close" onPress={() => setIsModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -314,6 +357,35 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalImage: {
+    width: 300,
+    height: 300,
+    resizeMode: "contain",
+  },
+  scrollView: {
+    // styles for your scroll view
   },
 });
 

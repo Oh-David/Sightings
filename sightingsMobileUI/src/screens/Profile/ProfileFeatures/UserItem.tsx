@@ -13,9 +13,15 @@ type UserItemProps = {
   item: Item;
   onDelete: (itemId: string) => void;
   onEdit: (itemId: string) => void;
+  onImageSelect: (item: Item) => void;
 };
 
-const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
+const UserItem: React.FC<UserItemProps> = ({
+  item,
+  onDelete,
+  onEdit,
+  onImageSelect,
+}) => {
   if (item._deleted === true) {
     // Skip rendering deleted items
     return null;
@@ -46,16 +52,10 @@ const UserItem: React.FC<UserItemProps> = ({ item, onDelete, onEdit }) => {
     <View style={styles.itemContainer}>
       <View style={styles.imageContainer}>
         <Text style={styles.itemTitle}>{item.title}</Text>
-
-        {item.images?.map(
-          (imageUrl, index) =>
-            imageUrl && (
-              <Image
-                key={index}
-                source={{ uri: imageUrl }}
-                style={styles.image}
-              />
-            )
+        {item.images && item.images?.length > 0 && item.images[0] && (
+          <TouchableOpacity onPress={() => onImageSelect(item)}>
+            <Image source={{ uri: item.images?.[0] }} style={styles.image} />
+          </TouchableOpacity>
         )}
       </View>
       <View style={styles.descriptionContainer}>

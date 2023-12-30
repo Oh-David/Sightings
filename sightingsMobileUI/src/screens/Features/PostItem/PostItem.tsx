@@ -89,7 +89,7 @@ const PostItem: React.FC = () => {
     // Upload images to S3 and get their keys
     const uploadedKeys = await Promise.all(
       post.images.map(async (imageUri) => {
-        const key = await UploadImage(imageUri);
+        const key = await UploadImage({ imageUri: imageUri, imageType: 'item' });
         return key;
       })
     );
@@ -113,16 +113,18 @@ const PostItem: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.imageContainer}>
-        {post.images.map((uri, index) => (
-          <View key={index} style={styles.imageWrapper}>
-            <Image source={{ uri }} style={styles.image} />
-            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteImage(index)}>
-              <FontAwesome name="times" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-        ))}
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <View style={styles.horizontalScrollContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {post.images.map((uri, index) => (
+            <View key={index} style={styles.imageWrapper}>
+              <Image source={{ uri }} style={styles.thumbnailImage} />
+              <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteImage(index)}>
+                <FontAwesome name="times" size={20} color="white" />
+              </TouchableOpacity>
+            </View>
+          ))}
+        </ScrollView>
       </View>
       <Button title="Upload Image" onPress={handleSelectImage} />
       <TextInput
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
     // If you want to arrange buttons side by side, you might need additional styling
   },
   imageWrapper: {
-    marginBottom: 20,
+    marginRight: 10, // Add space between images
     alignItems: 'center',
     position: 'relative',
   },
@@ -186,6 +188,19 @@ const styles = StyleSheet.create({
   },
   deleteButtonText: {
     color: 'white',
+  },
+  contentContainer: {
+    flexGrow: 1,
+  },
+  thumbnailImage: {
+    width: 100, // Smaller width for thumbnails
+    height: 75, // Adjust height accordingly
+    resizeMode: 'cover',
+    borderRadius: 5,
+  },
+  horizontalScrollContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
   },
 });
 

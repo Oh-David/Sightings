@@ -1,7 +1,12 @@
 import { Auth, Storage } from 'aws-amplify';
 import { Alert } from 'react-native';
 
-const UploadImage = async (image: string) => {
+type UploadImageParams = {
+  imageUri: string;
+  imageType: 'profilepic' | 'item';
+};
+
+const UploadImage = async (params: UploadImageParams) => {
 
   try {
     // Fetch the current user ID
@@ -9,11 +14,16 @@ const UploadImage = async (image: string) => {
     const userId = currentUser.attributes.sub;
 
     // Fetch the file from the local filesystem
-    const response = await fetch(image);
+    const response = await fetch(params.imageUri);
     const blob = await response.blob();
     const timestamp = new Date().toISOString(); // Use ISO string for uniqueness
-    const key = `users/${userId}/images/${timestamp}-${blob.size}.jpg`; // Unique key for each image
-    
+    let key;
+    if (params.imageType === 'profilepic') {
+      key = `users/${userId}/profilepic/${timestamp}-${blob.size}.jpg`;
+    } else { // Default to 'item' type
+      key = `users/${userId}/items/${timestamp}-${blob.size}.jpg`;
+    }    
+
     // Upload the file to S3
     const uploadedImage = await Storage.put(key, blob, {
       contentType: 'image/jpeg', // Set the content type
