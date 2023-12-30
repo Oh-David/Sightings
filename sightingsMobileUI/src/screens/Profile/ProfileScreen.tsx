@@ -256,6 +256,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         renderItem={({ item }) => (
           <UserItem
             item={item}
+            onImageSelect={() => handleImages(item)}
             onEdit={() => handleEditItem(item)}
             onDelete={() => handleDeleteItem(item)}
           />

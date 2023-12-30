@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { PostItemScreenNavigationProp } from "models/navigationTypes";
 import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
 import { createItem } from "../../../../src/graphql/mutations";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // Define the types for the sighting report details
 type PostItemForm = {
@@ -118,7 +119,7 @@ const PostItem: React.FC = () => {
           <View key={index} style={styles.imageWrapper}>
             <Image source={{ uri }} style={styles.image} />
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteImage(index)}>
-              <Text style={styles.deleteButtonText}>X</Text>
+              <FontAwesome name="times" size={20} color="white" />
             </TouchableOpacity>
           </View>
         ))}
