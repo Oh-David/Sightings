@@ -99,105 +99,99 @@ const CreateAccountScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"} // 'padding' on iOS, 'height' on Android
-      keyboardVerticalOffset={Platform.select({ ios: 60, android: 80 })} // Adjust the value as needed
-    >
-      <ScrollView contentContainerStyle={styles.innerContainer}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.formContainer}>
-            <View style={styles.input}>
-              <TextInput
-                value={email}
-                placeholder="Email"
-                onChangeText={(text) => {
-                  setEmail(text);
-                  validateEmail(text);
-                }}
-                placeholderTextColor="#888"
-                style={[
-                  styles.passwordInputField,
-                  !isEmailValid && styles.invalidInput,
-                ]}
-                onBlur={() => validateEmail(email)}
-                testID="email-address"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-              {!isEmailValid && (
-                <Text style={styles.errorMessage}>Invalid email address</Text>
-              )}
-            </View>
-            <View style={styles.input}>
-              <TextInput
-                value={phoneNumber}
-                placeholder="Phone Number"
-                onChangeText={(text) => {
-                  const numericText = text.replace(/\D/g, "");
-                  setPhoneNumber(numericText);
-                  validatePhoneNumber(numericText);
-                }}
-                placeholderTextColor="#888"
-                style={[
-                  styles.passwordInputField,
-                  !isPhoneNumberValid && styles.invalidInput,
-                ]}
-                onBlur={() => validatePhoneNumber(phoneNumber)}
-                keyboardType="numeric"
-                testID="input-number"
-                maxLength={10}
-              />
-              {!isPhoneNumberValid && (
-                <Text style={styles.errorMessage}>Invalid phone number</Text>
-              )}
-            </View>
-            <View style={styles.input}>
-              <TextInput
-                placeholder="Password"
-                onChangeText={(text) => {
-                  setPassword(text);
-                  handlePasswordChange(text);
-                }}
-                placeholderTextColor="#888"
-                style={[
-                  styles.passwordInputField,
-                  !passwordsMatch && styles.invalidInput,
-                ]}
-                secureTextEntry
-                testID="input-password"
-              />
-            </View>
-            <View style={styles.input}>
-              <TextInput
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChangeText={(text) => {
-                  setConfirmPassword(text);
-                  handleConfirmPasswordChange(text);
-                }}
-                placeholderTextColor="#888"
-                style={[
-                  styles.passwordInputField,
-                  !passwordsMatch && styles.invalidInput,
-                ]}
-                secureTextEntry
-                testID="input-confirm-password"
-              />
-              {!passwordsMatch && (
-                <Text style={styles.errorMessage}>Passwords do not match</Text>
-              )}
-            </View>
+    <ScrollView contentContainerStyle={styles.innerContainer}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.formContainer}>
+        <View style={styles.input}>
+          <TextInput
+            value={email}
+            placeholder="Email"
+            onChangeText={(text) => {
+              setEmail(text);
+              validateEmail(text);
+            }}
+            placeholderTextColor="#888"
+            style={[
+              styles.passwordInputField,
+              !isEmailValid && styles.invalidInput,
+            ]}
+            onBlur={() => validateEmail(email)}
+            testID="email-address"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          {!isEmailValid && (
+            <Text style={styles.errorMessage}>Invalid email address</Text>
+          )}
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            value={phoneNumber}
+            placeholder="Phone Number"
+            onChangeText={(text) => {
+              const numericText = text.replace(/\D/g, "");
+              setPhoneNumber(numericText);
+              validatePhoneNumber(numericText);
+            }}
+            placeholderTextColor="#888"
+            style={[
+              styles.passwordInputField,
+              !isPhoneNumberValid && styles.invalidInput,
+            ]}
+            onBlur={() => validatePhoneNumber(phoneNumber)}
+            keyboardType="numeric"
+            testID="input-number"
+            maxLength={10}
+          />
+          {!isPhoneNumberValid && (
+            <Text style={styles.errorMessage}>Invalid phone number</Text>
+          )}
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            placeholder="Password"
+            onChangeText={(text) => {
+              setPassword(text);
+              handlePasswordChange(text);
+            }}
+            placeholderTextColor="#888"
+            style={[
+              styles.passwordInputField,
+              !passwordsMatch && styles.invalidInput,
+            ]}
+            secureTextEntry
+            testID="input-password"
+          />
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChangeText={(text) => {
+              setConfirmPassword(text);
+              handleConfirmPasswordChange(text);
+            }}
+            placeholderTextColor="#888"
+            style={[
+              styles.passwordInputField,
+              !passwordsMatch && styles.invalidInput,
+            ]}
+            secureTextEntry
+            testID="input-confirm-password"
+          />
+          {!passwordsMatch && (
+            <Text style={styles.errorMessage}>Passwords do not match</Text>
+          )}
+        </View>
 
-            <Button title="Sign Up" onPress={handleSignUp} />
+        <Button title="Sign Up" onPress={handleSignUp} />
 
-            <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-              <Text style={styles.link}>Sign In</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
+          <Text style={styles.link}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
+  </ScrollView>
   );
 };
 
