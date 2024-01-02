@@ -8,6 +8,32 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const listPublicItems = /* GraphQL */ `query ListPublicItems($limit: Int) {
+  listPublicItems(limit: $limit) {
+    items {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListPublicItemsQueryVariables,
+  APITypes.ListPublicItemsQuery
+>;
 export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   getUser(id: $id) {
     id
@@ -15,7 +41,6 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -82,98 +107,6 @@ export const syncUsers = /* GraphQL */ `query SyncUsers(
   }
 }
 ` as GeneratedQuery<APITypes.SyncUsersQueryVariables, APITypes.SyncUsersQuery>;
-export const getItem = /* GraphQL */ `query GetItem($id: ID!) {
-  getItem(id: $id) {
-    id
-    title
-    description
-    images
-    userID
-    user {
-      id
-      username
-      email
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offers {
-      nextToken
-      startedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.GetItemQueryVariables, APITypes.GetItemQuery>;
-export const listItems = /* GraphQL */ `query ListItems(
-  $filter: ModelItemFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      title
-      description
-      images
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.ListItemsQueryVariables, APITypes.ListItemsQuery>;
-export const syncItems = /* GraphQL */ `query SyncItems(
-  $filter: ModelItemFilterInput
-  $limit: Int
-  $nextToken: String
-  $lastSync: AWSTimestamp
-) {
-  syncItems(
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    lastSync: $lastSync
-  ) {
-    items {
-      id
-      title
-      description
-      images
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.SyncItemsQueryVariables, APITypes.SyncItemsQuery>;
 export const getOffer = /* GraphQL */ `query GetOffer($id: ID!) {
   getOffer(id: $id) {
     id
@@ -183,6 +116,8 @@ export const getOffer = /* GraphQL */ `query GetOffer($id: ID!) {
       title
       description
       images
+      isPublic
+      price
       userID
       createdAt
       updatedAt
@@ -269,43 +204,6 @@ export const syncOffers = /* GraphQL */ `query SyncOffers(
   APITypes.SyncOffersQueryVariables,
   APITypes.SyncOffersQuery
 >;
-export const itemsByUserID = /* GraphQL */ `query ItemsByUserID(
-  $userID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelItemFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  itemsByUserID(
-    userID: $userID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      title
-      description
-      images
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ItemsByUserIDQueryVariables,
-  APITypes.ItemsByUserIDQuery
->;
 export const offersByItemID = /* GraphQL */ `query OffersByItemID(
   $itemID: ID!
   $sortDirection: ModelSortDirection
@@ -342,4 +240,138 @@ export const offersByItemID = /* GraphQL */ `query OffersByItemID(
 ` as GeneratedQuery<
   APITypes.OffersByItemIDQueryVariables,
   APITypes.OffersByItemIDQuery
+>;
+export const getItem = /* GraphQL */ `query GetItem($id: ID!) {
+  getItem(id: $id) {
+    id
+    title
+    description
+    images
+    isPublic
+    price
+    userID
+    user {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offers {
+      nextToken
+      startedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetItemQueryVariables, APITypes.GetItemQuery>;
+export const listItems = /* GraphQL */ `query ListItems(
+  $filter: ModelItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListItemsQueryVariables, APITypes.ListItemsQuery>;
+export const syncItems = /* GraphQL */ `query SyncItems(
+  $filter: ModelItemFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncItems(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.SyncItemsQueryVariables, APITypes.SyncItemsQuery>;
+export const itemsByUserID = /* GraphQL */ `query ItemsByUserID(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  itemsByUserID(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ItemsByUserIDQueryVariables,
+  APITypes.ItemsByUserIDQuery
 >;

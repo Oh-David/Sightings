@@ -18,7 +18,6 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -44,7 +43,6 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -70,7 +68,6 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -86,6 +83,123 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
   APITypes.OnDeleteUserSubscriptionVariables,
   APITypes.OnDeleteUserSubscription
 >;
+export const onCreateOffer = /* GraphQL */ `subscription OnCreateOffer(
+  $filter: ModelSubscriptionOfferFilterInput
+  $owner: String
+) {
+  onCreateOffer(filter: $filter, owner: $owner) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateOfferSubscriptionVariables,
+  APITypes.OnCreateOfferSubscription
+>;
+export const onUpdateOffer = /* GraphQL */ `subscription OnUpdateOffer(
+  $filter: ModelSubscriptionOfferFilterInput
+  $owner: String
+) {
+  onUpdateOffer(filter: $filter, owner: $owner) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateOfferSubscriptionVariables,
+  APITypes.OnUpdateOfferSubscription
+>;
+export const onDeleteOffer = /* GraphQL */ `subscription OnDeleteOffer(
+  $filter: ModelSubscriptionOfferFilterInput
+  $owner: String
+) {
+  onDeleteOffer(filter: $filter, owner: $owner) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteOfferSubscriptionVariables,
+  APITypes.OnDeleteOfferSubscription
+>;
 export const onCreateItem = /* GraphQL */ `subscription OnCreateItem(
   $filter: ModelSubscriptionItemFilterInput
   $owner: String
@@ -95,6 +209,8 @@ export const onCreateItem = /* GraphQL */ `subscription OnCreateItem(
     title
     description
     images
+    isPublic
+    price
     userID
     user {
       id
@@ -135,6 +251,8 @@ export const onUpdateItem = /* GraphQL */ `subscription OnUpdateItem(
     title
     description
     images
+    isPublic
+    price
     userID
     user {
       id
@@ -175,6 +293,8 @@ export const onDeleteItem = /* GraphQL */ `subscription OnDeleteItem(
     title
     description
     images
+    isPublic
+    price
     userID
     user {
       id
@@ -205,115 +325,4 @@ export const onDeleteItem = /* GraphQL */ `subscription OnDeleteItem(
 ` as GeneratedSubscription<
   APITypes.OnDeleteItemSubscriptionVariables,
   APITypes.OnDeleteItemSubscription
->;
-export const onCreateOffer = /* GraphQL */ `subscription OnCreateOffer(
-  $filter: ModelSubscriptionOfferFilterInput
-  $owner: String
-) {
-  onCreateOffer(filter: $filter, owner: $owner) {
-    id
-    itemID
-    item {
-      id
-      title
-      description
-      images
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offeredByUserID
-    offeredToUserID
-    status
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnCreateOfferSubscriptionVariables,
-  APITypes.OnCreateOfferSubscription
->;
-export const onUpdateOffer = /* GraphQL */ `subscription OnUpdateOffer(
-  $filter: ModelSubscriptionOfferFilterInput
-  $owner: String
-) {
-  onUpdateOffer(filter: $filter, owner: $owner) {
-    id
-    itemID
-    item {
-      id
-      title
-      description
-      images
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offeredByUserID
-    offeredToUserID
-    status
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnUpdateOfferSubscriptionVariables,
-  APITypes.OnUpdateOfferSubscription
->;
-export const onDeleteOffer = /* GraphQL */ `subscription OnDeleteOffer(
-  $filter: ModelSubscriptionOfferFilterInput
-  $owner: String
-) {
-  onDeleteOffer(filter: $filter, owner: $owner) {
-    id
-    itemID
-    item {
-      id
-      title
-      description
-      images
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offeredByUserID
-    offeredToUserID
-    status
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteOfferSubscriptionVariables,
-  APITypes.OnDeleteOfferSubscription
 >;

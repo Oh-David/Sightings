@@ -117,6 +117,20 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
+                "isPublic": {
+                    "name": "isPublic",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "price": {
+                    "name": "price",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "userID": {
                     "name": "userID",
                     "isArray": false,
@@ -203,6 +217,13 @@ export const schema = {
                                     "delete",
                                     "read"
                                 ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ],
+                                "provider": "iam"
                             }
                         ]
                     }
@@ -315,7 +336,30 @@ export const schema = {
         }
     },
     "enums": {},
-    "nonModels": {},
+    "nonModels": {
+        "ModelItemConnection": {
+            "name": "ModelItemConnection",
+            "fields": {
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "model": "Item"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "nextToken": {
+                    "name": "nextToken",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        }
+    },
     "codegenVersion": "3.4.4",
-    "version": "cc0cf8a8953dc91543793c45cd154257"
+    "version": "dc434172f5393e065d32730304cb6d02"
 };

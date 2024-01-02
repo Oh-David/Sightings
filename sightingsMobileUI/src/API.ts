@@ -19,8 +19,8 @@ export type ModelUserConditionInput = {
 };
 
 export type ModelStringInput = {
-  ne?: string | null,
   eq?: string | null,
+  ne?: string | null,
   le?: string | null,
   lt?: string | null,
   ge?: string | null,
@@ -29,40 +29,11 @@ export type ModelStringInput = {
   notContains?: string | null,
   between?: Array< string | null > | null,
   beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export enum ModelAttributeTypes {
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-  _null = "_null",
-}
-
-
-export type ModelSizeInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
 };
 
 export type ModelBooleanInput = {
-  ne?: boolean | null,
   eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
+  ne?: boolean | null,
 };
 
 export type User = {
@@ -81,9 +52,8 @@ export type User = {
 
 export type ModelItemConnection = {
   __typename: "ModelItemConnection",
-  items:  Array<Item | null >,
+  items?:  Array<Item | null > | null,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type Item = {
@@ -92,6 +62,8 @@ export type Item = {
   title: string,
   description?: string | null,
   images?: Array< string | null > | null,
+  isPublic: string,
+  price?: number | null,
   userID: string,
   user?: User | null,
   offers?: ModelOfferConnection | null,
@@ -143,6 +115,8 @@ export type CreateItemInput = {
   title: string,
   description?: string | null,
   images?: Array< string | null > | null,
+  isPublic: string,
+  price?: number | null,
   userID: string,
   _version?: number | null,
 };
@@ -151,6 +125,8 @@ export type ModelItemConditionInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   images?: ModelStringInput | null,
+  isPublic?: ModelStringInput | null,
+  price?: ModelFloatInput | null,
   userID?: ModelIDInput | null,
   and?: Array< ModelItemConditionInput | null > | null,
   or?: Array< ModelItemConditionInput | null > | null,
@@ -158,9 +134,19 @@ export type ModelItemConditionInput = {
   _deleted?: ModelBooleanInput | null,
 };
 
+export type ModelFloatInput = {
+  eq?: number | null,
+  ne?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+};
+
 export type ModelIDInput = {
-  ne?: string | null,
   eq?: string | null,
+  ne?: string | null,
   le?: string | null,
   lt?: string | null,
   ge?: string | null,
@@ -169,9 +155,6 @@ export type ModelIDInput = {
   notContains?: string | null,
   between?: Array< string | null > | null,
   beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateItemInput = {
@@ -179,6 +162,8 @@ export type UpdateItemInput = {
   title?: string | null,
   description?: string | null,
   images?: Array< string | null > | null,
+  isPublic?: string | null,
+  price?: number | null,
   userID?: string | null,
   _version?: number | null,
 };
@@ -239,18 +224,6 @@ export type ModelUserConnection = {
   startedAt?: number | null,
 };
 
-export type ModelItemFilterInput = {
-  id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  images?: ModelStringInput | null,
-  userID?: ModelIDInput | null,
-  and?: Array< ModelItemFilterInput | null > | null,
-  or?: Array< ModelItemFilterInput | null > | null,
-  not?: ModelItemFilterInput | null,
-  _deleted?: ModelBooleanInput | null,
-};
-
 export type ModelOfferFilterInput = {
   id?: ModelIDInput | null,
   itemID?: ModelIDInput | null,
@@ -268,6 +241,16 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelItemFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  images?: ModelStringInput | null,
+  isPublic?: ModelStringInput | null,
+  price?: ModelFloatInput | null,
+  userID?: ModelIDInput | null,
+};
 
 export type ModelSubscriptionUserFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -308,17 +291,6 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionItemFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  title?: ModelSubscriptionStringInput | null,
-  description?: ModelSubscriptionStringInput | null,
-  images?: ModelSubscriptionStringInput | null,
-  userID?: ModelSubscriptionIDInput | null,
-  and?: Array< ModelSubscriptionItemFilterInput | null > | null,
-  or?: Array< ModelSubscriptionItemFilterInput | null > | null,
-  _deleted?: ModelBooleanInput | null,
-};
-
 export type ModelSubscriptionOfferFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   itemID?: ModelSubscriptionIDInput | null,
@@ -328,6 +300,31 @@ export type ModelSubscriptionOfferFilterInput = {
   and?: Array< ModelSubscriptionOfferFilterInput | null > | null,
   or?: Array< ModelSubscriptionOfferFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,
+};
+
+export type ModelSubscriptionItemFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  images?: ModelSubscriptionStringInput | null,
+  isPublic?: ModelSubscriptionStringInput | null,
+  price?: ModelSubscriptionFloatInput | null,
+  userID?: ModelSubscriptionIDInput | null,
+  and?: Array< ModelSubscriptionItemFilterInput | null > | null,
+  or?: Array< ModelSubscriptionItemFilterInput | null > | null,
+  _deleted?: ModelBooleanInput | null,
+};
+
+export type ModelSubscriptionFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
 };
 
 export type CreateUserMutationVariables = {
@@ -344,7 +341,6 @@ export type CreateUserMutation = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -369,7 +365,6 @@ export type UpdateUserMutation = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -394,7 +389,6 @@ export type DeleteUserMutation = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -417,6 +411,8 @@ export type CreateItemMutation = {
     title: string,
     description?: string | null,
     images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
     userID: string,
     user?:  {
       __typename: "User",
@@ -456,6 +452,8 @@ export type UpdateItemMutation = {
     title: string,
     description?: string | null,
     images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
     userID: string,
     user?:  {
       __typename: "User",
@@ -495,6 +493,8 @@ export type DeleteItemMutation = {
     title: string,
     description?: string | null,
     images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
     userID: string,
     user?:  {
       __typename: "User",
@@ -538,6 +538,8 @@ export type CreateOfferMutation = {
       title: string,
       description?: string | null,
       images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -574,6 +576,8 @@ export type UpdateOfferMutation = {
       title: string,
       description?: string | null,
       images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -610,6 +614,8 @@ export type DeleteOfferMutation = {
       title: string,
       description?: string | null,
       images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -630,6 +636,33 @@ export type DeleteOfferMutation = {
   } | null,
 };
 
+export type ListPublicItemsQueryVariables = {
+  limit?: number | null,
+};
+
+export type ListPublicItemsQuery = {
+  listPublicItems?:  {
+    __typename: "ModelItemConnection",
+    items?:  Array< {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetUserQueryVariables = {
   id: string,
 };
@@ -643,7 +676,6 @@ export type GetUserQuery = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -707,101 +739,6 @@ export type SyncUsersQuery = {
   } | null,
 };
 
-export type GetItemQueryVariables = {
-  id: string,
-};
-
-export type GetItemQuery = {
-  getItem?:  {
-    __typename: "Item",
-    id: string,
-    title: string,
-    description?: string | null,
-    images?: Array< string | null > | null,
-    userID: string,
-    user?:  {
-      __typename: "User",
-      id: string,
-      username: string,
-      email?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null,
-    offers?:  {
-      __typename: "ModelOfferConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    owner?: string | null,
-  } | null,
-};
-
-export type ListItemsQueryVariables = {
-  filter?: ModelItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListItemsQuery = {
-  listItems?:  {
-    __typename: "ModelItemConnection",
-    items:  Array< {
-      __typename: "Item",
-      id: string,
-      title: string,
-      description?: string | null,
-      images?: Array< string | null > | null,
-      userID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncItemsQueryVariables = {
-  filter?: ModelItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncItemsQuery = {
-  syncItems?:  {
-    __typename: "ModelItemConnection",
-    items:  Array< {
-      __typename: "Item",
-      id: string,
-      title: string,
-      description?: string | null,
-      images?: Array< string | null > | null,
-      userID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type GetOfferQueryVariables = {
   id: string,
 };
@@ -817,6 +754,8 @@ export type GetOfferQuery = {
       title: string,
       description?: string | null,
       images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -894,36 +833,6 @@ export type SyncOffersQuery = {
   } | null,
 };
 
-export type ItemsByUserIDQueryVariables = {
-  userID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ItemsByUserIDQuery = {
-  itemsByUserID?:  {
-    __typename: "ModelItemConnection",
-    items:  Array< {
-      __typename: "Item",
-      id: string,
-      title: string,
-      description?: string | null,
-      images?: Array< string | null > | null,
-      userID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type OffersByItemIDQueryVariables = {
   itemID: string,
   sortDirection?: ModelSortDirection | null,
@@ -954,6 +863,136 @@ export type OffersByItemIDQuery = {
   } | null,
 };
 
+export type GetItemQueryVariables = {
+  id: string,
+};
+
+export type GetItemQuery = {
+  getItem?:  {
+    __typename: "Item",
+    id: string,
+    title: string,
+    description?: string | null,
+    images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
+    userID: string,
+    user?:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null,
+    offers?:  {
+      __typename: "ModelOfferConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListItemsQueryVariables = {
+  filter?: ModelItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListItemsQuery = {
+  listItems?:  {
+    __typename: "ModelItemConnection",
+    items?:  Array< {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type SyncItemsQueryVariables = {
+  filter?: ModelItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncItemsQuery = {
+  syncItems?:  {
+    __typename: "ModelItemConnection",
+    items?:  Array< {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ItemsByUserIDQueryVariables = {
+  userID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ItemsByUserIDQuery = {
+  itemsByUserID?:  {
+    __typename: "ModelItemConnection",
+    items?:  Array< {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateUserSubscriptionVariables = {
   filter?: ModelSubscriptionUserFilterInput | null,
   owner?: string | null,
@@ -968,7 +1007,6 @@ export type OnCreateUserSubscription = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -993,7 +1031,6 @@ export type OnUpdateUserSubscription = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1018,8 +1055,121 @@ export type OnDeleteUserSubscription = {
     items?:  {
       __typename: "ModelItemConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnCreateOfferSubscriptionVariables = {
+  filter?: ModelSubscriptionOfferFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateOfferSubscription = {
+  onCreateOffer?:  {
+    __typename: "Offer",
+    id: string,
+    itemID: string,
+    item?:  {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null,
+    offeredByUserID: string,
+    offeredToUserID: string,
+    status?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateOfferSubscriptionVariables = {
+  filter?: ModelSubscriptionOfferFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateOfferSubscription = {
+  onUpdateOffer?:  {
+    __typename: "Offer",
+    id: string,
+    itemID: string,
+    item?:  {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null,
+    offeredByUserID: string,
+    offeredToUserID: string,
+    status?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteOfferSubscriptionVariables = {
+  filter?: ModelSubscriptionOfferFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteOfferSubscription = {
+  onDeleteOffer?:  {
+    __typename: "Offer",
+    id: string,
+    itemID: string,
+    item?:  {
+      __typename: "Item",
+      id: string,
+      title: string,
+      description?: string | null,
+      images?: Array< string | null > | null,
+      isPublic: string,
+      price?: number | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null,
+    offeredByUserID: string,
+    offeredToUserID: string,
+    status?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1041,6 +1191,8 @@ export type OnCreateItemSubscription = {
     title: string,
     description?: string | null,
     images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
     userID: string,
     user?:  {
       __typename: "User",
@@ -1080,6 +1232,8 @@ export type OnUpdateItemSubscription = {
     title: string,
     description?: string | null,
     images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
     userID: string,
     user?:  {
       __typename: "User",
@@ -1119,6 +1273,8 @@ export type OnDeleteItemSubscription = {
     title: string,
     description?: string | null,
     images?: Array< string | null > | null,
+    isPublic: string,
+    price?: number | null,
     userID: string,
     user?:  {
       __typename: "User",
@@ -1137,114 +1293,6 @@ export type OnDeleteItemSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    owner?: string | null,
-  } | null,
-};
-
-export type OnCreateOfferSubscriptionVariables = {
-  filter?: ModelSubscriptionOfferFilterInput | null,
-  owner?: string | null,
-};
-
-export type OnCreateOfferSubscription = {
-  onCreateOffer?:  {
-    __typename: "Offer",
-    id: string,
-    itemID: string,
-    item?:  {
-      __typename: "Item",
-      id: string,
-      title: string,
-      description?: string | null,
-      images?: Array< string | null > | null,
-      userID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null,
-    offeredByUserID: string,
-    offeredToUserID: string,
-    status?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    owner?: string | null,
-  } | null,
-};
-
-export type OnUpdateOfferSubscriptionVariables = {
-  filter?: ModelSubscriptionOfferFilterInput | null,
-  owner?: string | null,
-};
-
-export type OnUpdateOfferSubscription = {
-  onUpdateOffer?:  {
-    __typename: "Offer",
-    id: string,
-    itemID: string,
-    item?:  {
-      __typename: "Item",
-      id: string,
-      title: string,
-      description?: string | null,
-      images?: Array< string | null > | null,
-      userID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null,
-    offeredByUserID: string,
-    offeredToUserID: string,
-    status?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    owner?: string | null,
-  } | null,
-};
-
-export type OnDeleteOfferSubscriptionVariables = {
-  filter?: ModelSubscriptionOfferFilterInput | null,
-  owner?: string | null,
-};
-
-export type OnDeleteOfferSubscription = {
-  onDeleteOffer?:  {
-    __typename: "Offer",
-    id: string,
-    itemID: string,
-    item?:  {
-      __typename: "Item",
-      id: string,
-      title: string,
-      description?: string | null,
-      images?: Array< string | null > | null,
-      userID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      owner?: string | null,
-    } | null,
-    offeredByUserID: string,
-    offeredToUserID: string,
-    status?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,

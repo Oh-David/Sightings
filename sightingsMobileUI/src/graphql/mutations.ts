@@ -18,7 +18,6 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -44,7 +43,6 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -70,7 +68,6 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     email
     items {
       nextToken
-      startedAt
       __typename
     }
     createdAt
@@ -95,6 +92,8 @@ export const createItem = /* GraphQL */ `mutation CreateItem(
     title
     description
     images
+    isPublic
+    price
     userID
     user {
       id
@@ -135,6 +134,8 @@ export const updateItem = /* GraphQL */ `mutation UpdateItem(
     title
     description
     images
+    isPublic
+    price
     userID
     user {
       id
@@ -175,6 +176,8 @@ export const deleteItem = /* GraphQL */ `mutation DeleteItem(
     title
     description
     images
+    isPublic
+    price
     userID
     user {
       id
@@ -218,6 +221,8 @@ export const createOffer = /* GraphQL */ `mutation CreateOffer(
       title
       description
       images
+      isPublic
+      price
       userID
       createdAt
       updatedAt
@@ -255,6 +260,8 @@ export const updateOffer = /* GraphQL */ `mutation UpdateOffer(
       title
       description
       images
+      isPublic
+      price
       userID
       createdAt
       updatedAt
@@ -292,6 +299,8 @@ export const deleteOffer = /* GraphQL */ `mutation DeleteOffer(
       title
       description
       images
+      isPublic
+      price
       userID
       createdAt
       updatedAt

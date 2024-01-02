@@ -4,7 +4,19 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 
 
 
+type EagerModelItemConnection = {
+  readonly items?: (Item | null)[] | null;
+  readonly nextToken?: string | null;
+}
 
+type LazyModelItemConnection = {
+  readonly items: AsyncCollection<Item>;
+  readonly nextToken?: string | null;
+}
+
+export declare type ModelItemConnection = LazyLoading extends LazyLoadingDisabled ? EagerModelItemConnection : LazyModelItemConnection
+
+export declare const ModelItemConnection: (new (init: ModelInit<ModelItemConnection>) => ModelItemConnection)
 
 type EagerUser = {
   readonly [__modelMeta__]: {
@@ -47,6 +59,8 @@ type EagerItem = {
   readonly title: string;
   readonly description?: string | null;
   readonly images?: (string | null)[] | null;
+  readonly isPublic: string;
+  readonly price?: number | null;
   readonly userID: string;
   readonly user?: User | null;
   readonly offers?: (Offer | null)[] | null;
@@ -63,6 +77,8 @@ type LazyItem = {
   readonly title: string;
   readonly description?: string | null;
   readonly images?: (string | null)[] | null;
+  readonly isPublic: string;
+  readonly price?: number | null;
   readonly userID: string;
   readonly user: AsyncItem<User | undefined>;
   readonly offers: AsyncCollection<Offer>;
