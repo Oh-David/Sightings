@@ -17,7 +17,6 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt
@@ -42,7 +41,6 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt
@@ -67,7 +65,6 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt

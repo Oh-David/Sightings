@@ -2,7 +2,7 @@
 import { Auth } from 'aws-amplify';
 import { ProfileScreenNavigationProp } from './../../models/navigationTypes'; 
 
-const CheckAuthStatus = async (navigation: ProfileScreenNavigationProp): Promise<boolean> => {
+const CheckAuthStatus = async (): Promise<boolean> => {
   try {
     await Auth.currentAuthenticatedUser();
     // User is authenticated

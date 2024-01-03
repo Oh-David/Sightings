@@ -1,34 +1,47 @@
 import { Item } from "API";
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
-const ItemCard: React.FC<{ item: Item  }> = ({ item }) => {
-  const defaultImageUrl = "path-to-default-image";
+const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
+  const defaultImageUrl = "";
 
   return (
     <View style={styles.card}>
-      <Image
-        source={{ uri: item.images?.[0] || defaultImageUrl }}
-        style={styles.image}
-      />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text>{item.description || 'No description available'}</Text>
-      {/* Other details */}
+      {item.images && item.images[0] ? (
+        <TouchableOpacity
+          onPress={() => {
+            console.log('item', item);
+          }}
+        >
+          <Image source={{ uri: item.images[0] }} style={styles.image} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            console.log("touched");
+          }}
+        >
+          <Image source={{ uri: defaultImageUrl }} style={styles.image} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    // Styles for the card
-  },
+  card: {},
   image: {
-    // Styles for the image
+    width: 125, // example width
+    height: 125, // example height
+    resizeMode: "cover", // or 'cover'
   },
-  title: {
-    // Styles for the title
-  },
-  // Other styles
 });
 
 export default ItemCard;

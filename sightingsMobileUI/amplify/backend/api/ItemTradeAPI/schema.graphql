@@ -53,7 +53,6 @@ input ModelItemFilterInput {
 
 type ModelItemConnection {
   items: [Item]
-  nextToken: String
 }
 
 input ModelIDInput {

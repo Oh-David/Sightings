@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TextInput,
   Button,
   StyleSheet,
@@ -16,14 +15,14 @@ import { useNavigation } from "@react-navigation/native";
 import { PostItemScreenNavigationProp } from "models/navigationTypes";
 import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
 import { createItem } from "../../../../src/graphql/mutations";
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Define the types for the sighting report details
 type PostItemForm = {
   title: string;
   description?: string;
   images: string[];
-  // Add other fields as needed
+  price: number | null;
 };
 
 const PostItem: React.FC = () => {
@@ -32,6 +31,7 @@ const PostItem: React.FC = () => {
     title: "",
     description: "",
     images: [],
+    price: null,
     // Initialize other fields
   });
 
@@ -75,10 +75,10 @@ const PostItem: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!post.title || post.images.length === 0) {
+    if (!post.title || post.images.length === 0 || post.price == null || isNaN(post.price)) {
       Alert.alert(
         "Error",
-        "Please fill in all required fields and upload at least one image."
+        "Please fill in all required fields, upload at least one image, and provide a valid price."
       );
       return;
     }
@@ -89,7 +89,10 @@ const PostItem: React.FC = () => {
     // Upload images to S3 and get their keys
     const uploadedKeys = await Promise.all(
       post.images.map(async (imageUri) => {
-        const key = await UploadImage({ imageUri: imageUri, imageType: 'item' });
+        const key = await UploadImage({
+          imageUri: imageUri,
+          imageType: "item",
+        });
         return key;
       })
     );
@@ -99,12 +102,14 @@ const PostItem: React.FC = () => {
       description: post.description,
       images: uploadedKeys.filter((key): key is string => key !== null),
       userID: userId,
+      isPublic: "true",
+      price: post.price,
     };
 
     try {
       await API.graphql(graphqlOperation(createItem, { input: itemData }));
       Alert.alert("Success", "Your item has been posted to the market.");
-      setPost({ title: "", description: "", images: [] });
+      setPost({ title: "", description: "", images: [], price: null });
       navigation.navigate("LandingPage");
     } catch (error) {
       console.error("Error submitting the item:", error);
@@ -113,13 +118,19 @@ const PostItem: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       <View style={styles.horizontalScrollContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {post.images.map((uri, index) => (
             <View key={index} style={styles.imageWrapper}>
               <Image source={{ uri }} style={styles.thumbnailImage} />
-              <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteImage(index)}>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => handleDeleteImage(index)}
+              >
                 <FontAwesome name="times" size={20} color="white" />
               </TouchableOpacity>
             </View>
@@ -139,6 +150,15 @@ const PostItem: React.FC = () => {
         placeholder="Description"
         style={styles.input}
         multiline
+      />
+      <TextInput
+        value={post.price?.toString() || ""}
+        onChangeText={(text) =>
+          setPost({ ...post, price: text ? Number(text) : null })
+        }
+        placeholder="Price"
+        keyboardType="numeric" // Set keyboard type for numeric input
+        style={styles.input}
       />
       {/* You may want to add other input fields as needed */}
       <Button title="Submit" onPress={handleSubmit} />
@@ -175,19 +195,19 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     marginRight: 10, // Add space between images
-    alignItems: 'center',
-    position: 'relative',
+    alignItems: "center",
+    position: "relative",
   },
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
     top: 10,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     borderRadius: 50,
     padding: 5,
   },
   deleteButtonText: {
-    color: 'white',
+    color: "white",
   },
   contentContainer: {
     flexGrow: 1,
@@ -195,11 +215,11 @@ const styles = StyleSheet.create({
   thumbnailImage: {
     width: 100, // Smaller width for thumbnails
     height: 75, // Adjust height accordingly
-    resizeMode: 'cover',
+    resizeMode: "cover",
     borderRadius: 5,
   },
   horizontalScrollContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
   },
 });

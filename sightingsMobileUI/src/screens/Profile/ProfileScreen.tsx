@@ -34,7 +34,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     const verifyAuthStatus = async () => {
-      const isAuthenticated = await CheckAuthStatus(navigation);
+      const isAuthenticated = await CheckAuthStatus();
       if (!isAuthenticated) {
         navigation.navigate("SignIn");
       } else {
@@ -115,6 +115,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const handleLogout = async () => {
     try {
       await Auth.signOut();
+      setUserItems([]);
+      setImageUri(null);
       navigation.navigate("SignIn");
     } catch (error) {
       console.error("Error signing out: ", error);

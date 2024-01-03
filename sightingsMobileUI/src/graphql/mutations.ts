@@ -17,7 +17,6 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt
@@ -42,7 +41,6 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt
@@ -67,7 +65,6 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt

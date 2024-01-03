@@ -349,17 +349,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true
-                },
-                "nextToken": {
-                    "name": "nextToken",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
                 }
             }
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "dc434172f5393e065d32730304cb6d02"
+    "version": "5e215d708e96ba8c832677c785ead39e"
 };

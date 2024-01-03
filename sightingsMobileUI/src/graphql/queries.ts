@@ -26,7 +26,6 @@ export const listPublicItems = /* GraphQL */ `query ListPublicItems($limit: Int)
       owner
       __typename
     }
-    nextToken
     __typename
   }
 }
@@ -40,7 +39,6 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     username
     email
     items {
-      nextToken
       __typename
     }
     createdAt
@@ -299,7 +297,6 @@ export const listItems = /* GraphQL */ `query ListItems(
       owner
       __typename
     }
-    nextToken
     __typename
   }
 }
@@ -332,7 +329,6 @@ export const syncItems = /* GraphQL */ `query SyncItems(
       owner
       __typename
     }
-    nextToken
     __typename
   }
 }
@@ -367,7 +363,6 @@ export const itemsByUserID = /* GraphQL */ `query ItemsByUserID(
       owner
       __typename
     }
-    nextToken
     __typename
   }
 }

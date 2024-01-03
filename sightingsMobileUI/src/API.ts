@@ -53,7 +53,6 @@ export type User = {
 export type ModelItemConnection = {
   __typename: "ModelItemConnection",
   items?:  Array<Item | null > | null,
-  nextToken?: string | null,
 };
 
 export type Item = {
@@ -340,7 +339,6 @@ export type CreateUserMutation = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -364,7 +362,6 @@ export type UpdateUserMutation = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -388,7 +385,6 @@ export type DeleteUserMutation = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -659,7 +655,6 @@ export type ListPublicItemsQuery = {
       _lastChangedAt: number,
       owner?: string | null,
     } | null > | null,
-    nextToken?: string | null,
   } | null,
 };
 
@@ -675,7 +670,6 @@ export type GetUserQuery = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -928,7 +922,6 @@ export type ListItemsQuery = {
       _lastChangedAt: number,
       owner?: string | null,
     } | null > | null,
-    nextToken?: string | null,
   } | null,
 };
 
@@ -958,7 +951,6 @@ export type SyncItemsQuery = {
       _lastChangedAt: number,
       owner?: string | null,
     } | null > | null,
-    nextToken?: string | null,
   } | null,
 };
 
@@ -989,7 +981,6 @@ export type ItemsByUserIDQuery = {
       _lastChangedAt: number,
       owner?: string | null,
     } | null > | null,
-    nextToken?: string | null,
   } | null,
 };
 
@@ -1006,7 +997,6 @@ export type OnCreateUserSubscription = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1030,7 +1020,6 @@ export type OnUpdateUserSubscription = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1054,7 +1043,6 @@ export type OnDeleteUserSubscription = {
     email?: string | null,
     items?:  {
       __typename: "ModelItemConnection",
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,

@@ -6,12 +6,10 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 
 type EagerModelItemConnection = {
   readonly items?: (Item | null)[] | null;
-  readonly nextToken?: string | null;
 }
 
 type LazyModelItemConnection = {
   readonly items: AsyncCollection<Item>;
-  readonly nextToken?: string | null;
 }
 
 export declare type ModelItemConnection = LazyLoading extends LazyLoadingDisabled ? EagerModelItemConnection : LazyModelItemConnection
