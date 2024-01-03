@@ -13,7 +13,7 @@ const LandingPage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const navigation = useNavigation<LandingPageScreenNavigationProp>();
   const [publicItems, setPublicItems] = useState<Item[]>([]);
-  const renderItem = ({ item }: { item: Item }) => <ItemCard item={item} />;
+  const renderItem = ({ item }: { item: Item }) => <ItemCard item={item} navigation={navigation} />;
 
   useEffect(() => {
     const verifyAuthStatus = async () => {

@@ -11,6 +11,7 @@ import CreateAccountScreen from './src/screens/Authentication/CreateAccount/Crea
 import ConfirmationScreen from './src/screens/Authentication/Confirmation/ConfirmationScreen';
 import LandingPage from './src/screens/LandingPage/LandingPage';
 import PostItem from './src/screens/Features/PostItem/PostItem';
+import ItemDetails from './src/screens/LandingPage/ItemDetails/ItemDetails';
 // import UploadImageForm from './src/screens/Features/PostItem/UploadItem/UploadItemImageForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -46,6 +47,7 @@ export default function App() {
         <Stack.Screen name="ConfirmationScreen" component={ConfirmationScreen} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="PostItem" component={PostItem} />
+        <Stack.Screen name="ItemDetails" component={ItemDetails} />
         {/* <Stack.Screen name="UploadSightingImageForm" component={UploadImageForm} /> */}
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />

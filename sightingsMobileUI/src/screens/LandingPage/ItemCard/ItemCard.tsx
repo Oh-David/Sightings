@@ -9,25 +9,24 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
+const ItemCard: React.FC<{ item: Item; navigation: any }> = ({
+  item,
+  navigation,
+}) => {
   const defaultImageUrl = "";
+
+  const handlePress = () => {
+    navigation.navigate("ItemDetails", { item });
+  };
 
   return (
     <View style={styles.card}>
       {item.images && item.images[0] ? (
-        <TouchableOpacity
-          onPress={() => {
-            console.log('item', item);
-          }}
-        >
+        <TouchableOpacity onPress={handlePress}>
           <Image source={{ uri: item.images[0] }} style={styles.image} />
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity
-          onPress={() => {
-            console.log("touched");
-          }}
-        >
+        <TouchableOpacity onPress={handlePress}>
           <Image source={{ uri: defaultImageUrl }} style={styles.image} />
         </TouchableOpacity>
       )}
