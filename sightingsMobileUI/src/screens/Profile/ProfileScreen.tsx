@@ -17,10 +17,10 @@ import UploadImage from "../Features/PostItem/UploadItem/uploadImage";
 import { API, Auth, Storage, graphqlOperation } from "aws-amplify";
 import { ProfileScreenNavigationProp } from "models/navigationTypes";
 import CheckAuthStatus from "./../../utils/CheckAuthStatus/CheckAuthStatus";
-import { itemsByUserID } from "../../graphql/queries";
-import { ItemsByUserIDQuery, Item } from "../../API";
+import { Item } from "../../API";
 import UserItem from "./ProfileFeatures/UserItem";
 import { deleteItem, updateItem } from "../../graphql/mutations";
+import useFetchUserItems from "../../screens/Features/FetchItems/useFetchUserItems";
 
 type ProfileScreenProps = {
   navigation: ProfileScreenNavigationProp;
@@ -28,7 +28,7 @@ type ProfileScreenProps = {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [userItems, setUserItems] = useState<Item[]>([]);
+  const [userItems, refreshUserItems, clearUserItems] = useFetchUserItems();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -39,50 +39,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         navigation.navigate("SignIn");
       } else {
         fetchUserProfile();
-        fetchUserItems();
       }
     };
 
     verifyAuthStatus();
   }, [navigation]);
-
-  const fetchUserItems = async () => {
-    try {
-      const currentUser = await Auth.currentAuthenticatedUser();
-      const userId = currentUser.attributes.sub;
-
-      const itemsData = (await API.graphql(
-        graphqlOperation(itemsByUserID, { userID: userId })
-      )) as { data: ItemsByUserIDQuery };
-      const items = itemsData.data.itemsByUserID?.items ?? [];
-
-      const activeItems = items.filter(
-        (item): item is Item => item !== null && item._deleted !== true
-      );
-
-      // Convert S3 keys to presigned URLs
-      const itemsWithImageUrls = await Promise.all(
-        activeItems.map(async (item) => {
-          const imageUrls = await Promise.all(
-            (item.images || [])
-              .filter((imageKey): imageKey is string => imageKey !== null)
-              .map(async (imageKey) => {
-                const url = await Storage.get(imageKey, { level: "public" });
-                return url;
-              })
-          );
-          return {
-            ...item,
-            images: imageUrls.filter((url): url is string => url !== null),
-          };
-        })
-      );
-
-      setUserItems(itemsWithImageUrls as Item[]);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
 
   const fetchUserProfile = async () => {
     try {
@@ -115,7 +76,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const handleLogout = async () => {
     try {
       await Auth.signOut();
-      setUserItems([]);
+      clearUserItems();
       setImageUri(null);
       navigation.navigate("SignIn");
     } catch (error) {
@@ -182,7 +143,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         })
       );
       console.log("Updated item 2:", response);
-      fetchUserItems();
+      refreshUserItems();
     } catch (error) {
       console.error("Error updated item:", error);
       Alert.alert("Update Failed", "Unable to update the item at this time.");
@@ -217,7 +178,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         })
       );
       console.log("Deleted item:", response);
-      fetchUserItems();
+      refreshUserItems();
     } catch (error) {
       console.error("Error deleting item:", error);
       Alert.alert("Delete Failed", "Unable to delete the item at this time.");
