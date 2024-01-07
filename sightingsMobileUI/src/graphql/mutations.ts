@@ -8,6 +8,342 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createOffer = /* GraphQL */ `mutation CreateOffer(
+  $input: CreateOfferInput!
+  $condition: ModelOfferConditionInput
+) {
+  createOffer(input: $input, condition: $condition) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateOfferMutationVariables,
+  APITypes.CreateOfferMutation
+>;
+export const updateOffer = /* GraphQL */ `mutation UpdateOffer(
+  $input: UpdateOfferInput!
+  $condition: ModelOfferConditionInput
+) {
+  updateOffer(input: $input, condition: $condition) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateOfferMutationVariables,
+  APITypes.UpdateOfferMutation
+>;
+export const deleteOffer = /* GraphQL */ `mutation DeleteOffer(
+  $input: DeleteOfferInput!
+  $condition: ModelOfferConditionInput
+) {
+  deleteOffer(input: $input, condition: $condition) {
+    id
+    itemID
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    offeredByUserID
+    offeredToUserID
+    status
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteOfferMutationVariables,
+  APITypes.DeleteOfferMutation
+>;
+export const createTradeOffer = /* GraphQL */ `mutation CreateTradeOffer(
+  $input: CreateTradeOfferInput!
+  $condition: ModelTradeOfferConditionInput
+) {
+  createTradeOffer(input: $input, condition: $condition) {
+    id
+    createdBy {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdById
+    itemTradeOffers {
+      nextToken
+      __typename
+    }
+    offeredByUser {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    offeredByUserId
+    status
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateTradeOfferMutationVariables,
+  APITypes.CreateTradeOfferMutation
+>;
+export const updateTradeOffer = /* GraphQL */ `mutation UpdateTradeOffer(
+  $input: UpdateTradeOfferInput!
+  $condition: ModelTradeOfferConditionInput
+) {
+  updateTradeOffer(input: $input, condition: $condition) {
+    id
+    createdBy {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdById
+    itemTradeOffers {
+      nextToken
+      __typename
+    }
+    offeredByUser {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    offeredByUserId
+    status
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateTradeOfferMutationVariables,
+  APITypes.UpdateTradeOfferMutation
+>;
+export const deleteTradeOffer = /* GraphQL */ `mutation DeleteTradeOffer(
+  $input: DeleteTradeOfferInput!
+  $condition: ModelTradeOfferConditionInput
+) {
+  deleteTradeOffer(input: $input, condition: $condition) {
+    id
+    createdBy {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdById
+    itemTradeOffers {
+      nextToken
+      __typename
+    }
+    offeredByUser {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    offeredByUserId
+    status
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteTradeOfferMutationVariables,
+  APITypes.DeleteTradeOfferMutation
+>;
+export const createItemTradeOffer = /* GraphQL */ `mutation CreateItemTradeOffer(
+  $input: CreateItemTradeOfferInput!
+  $condition: ModelItemTradeOfferConditionInput
+) {
+  createItemTradeOffer(input: $input, condition: $condition) {
+    id
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    itemId
+    tradeOffer {
+      id
+      createdById
+      offeredByUserId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
+    tradeOfferId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateItemTradeOfferMutationVariables,
+  APITypes.CreateItemTradeOfferMutation
+>;
+export const updateItemTradeOffer = /* GraphQL */ `mutation UpdateItemTradeOffer(
+  $input: UpdateItemTradeOfferInput!
+  $condition: ModelItemTradeOfferConditionInput
+) {
+  updateItemTradeOffer(input: $input, condition: $condition) {
+    id
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    itemId
+    tradeOffer {
+      id
+      createdById
+      offeredByUserId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
+    tradeOfferId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateItemTradeOfferMutationVariables,
+  APITypes.UpdateItemTradeOfferMutation
+>;
+export const deleteItemTradeOffer = /* GraphQL */ `mutation DeleteItemTradeOffer(
+  $input: DeleteItemTradeOfferInput!
+  $condition: ModelItemTradeOfferConditionInput
+) {
+  deleteItemTradeOffer(input: $input, condition: $condition) {
+    id
+    item {
+      id
+      title
+      description
+      images
+      isPublic
+      price
+      userID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    itemId
+    tradeOffer {
+      id
+      createdById
+      offeredByUserId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
+    tradeOfferId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteItemTradeOfferMutationVariables,
+  APITypes.DeleteItemTradeOfferMutation
+>;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!
   $condition: ModelUserConditionInput
@@ -19,11 +355,12 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     items {
       __typename
     }
+    tradeOffers {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
-    _version
-    _deleted
-    _lastChangedAt
     owner
     __typename
   }
@@ -43,11 +380,12 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     items {
       __typename
     }
+    tradeOffers {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
-    _version
-    _deleted
-    _lastChangedAt
     owner
     __typename
   }
@@ -67,11 +405,12 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     items {
       __typename
     }
+    tradeOffers {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
-    _version
-    _deleted
-    _lastChangedAt
     owner
     __typename
   }
@@ -98,22 +437,19 @@ export const createItem = /* GraphQL */ `mutation CreateItem(
       email
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       owner
       __typename
     }
     offers {
       nextToken
-      startedAt
+      __typename
+    }
+    itemTradeOffers {
+      nextToken
       __typename
     }
     createdAt
     updatedAt
-    _version
-    _deleted
-    _lastChangedAt
     owner
     __typename
   }
@@ -140,22 +476,19 @@ export const updateItem = /* GraphQL */ `mutation UpdateItem(
       email
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       owner
       __typename
     }
     offers {
       nextToken
-      startedAt
+      __typename
+    }
+    itemTradeOffers {
+      nextToken
       __typename
     }
     createdAt
     updatedAt
-    _version
-    _deleted
-    _lastChangedAt
     owner
     __typename
   }
@@ -182,22 +515,19 @@ export const deleteItem = /* GraphQL */ `mutation DeleteItem(
       email
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       owner
       __typename
     }
     offers {
       nextToken
-      startedAt
+      __typename
+    }
+    itemTradeOffers {
+      nextToken
       __typename
     }
     createdAt
     updatedAt
-    _version
-    _deleted
-    _lastChangedAt
     owner
     __typename
   }
@@ -205,121 +535,4 @@ export const deleteItem = /* GraphQL */ `mutation DeleteItem(
 ` as GeneratedMutation<
   APITypes.DeleteItemMutationVariables,
   APITypes.DeleteItemMutation
->;
-export const createOffer = /* GraphQL */ `mutation CreateOffer(
-  $input: CreateOfferInput!
-  $condition: ModelOfferConditionInput
-) {
-  createOffer(input: $input, condition: $condition) {
-    id
-    itemID
-    item {
-      id
-      title
-      description
-      images
-      isPublic
-      price
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offeredByUserID
-    offeredToUserID
-    status
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateOfferMutationVariables,
-  APITypes.CreateOfferMutation
->;
-export const updateOffer = /* GraphQL */ `mutation UpdateOffer(
-  $input: UpdateOfferInput!
-  $condition: ModelOfferConditionInput
-) {
-  updateOffer(input: $input, condition: $condition) {
-    id
-    itemID
-    item {
-      id
-      title
-      description
-      images
-      isPublic
-      price
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offeredByUserID
-    offeredToUserID
-    status
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateOfferMutationVariables,
-  APITypes.UpdateOfferMutation
->;
-export const deleteOffer = /* GraphQL */ `mutation DeleteOffer(
-  $input: DeleteOfferInput!
-  $condition: ModelOfferConditionInput
-) {
-  deleteOffer(input: $input, condition: $condition) {
-    id
-    itemID
-    item {
-      id
-      title
-      description
-      images
-      isPublic
-      price
-      userID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-      __typename
-    }
-    offeredByUserID
-    offeredToUserID
-    status
-    createdAt
-    updatedAt
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteOfferMutationVariables,
-  APITypes.DeleteOfferMutation
 >;

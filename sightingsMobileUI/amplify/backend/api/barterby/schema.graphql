@@ -1,0 +1,126 @@
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type User @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  username: String!
+  email: String
+  items: [Item] @hasMany(indexName: "itemsByUser", fields: ["id"])
+  tradeOffers: [TradeOffer] @hasMany(fields: ["id"])
+}
+
+type Query {
+  listPublicItems(limit: Int): ModelItemConnection
+}
+
+type Item
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: public, operations: [read], provider: iam }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String
+  images: [String]
+  isPublic: String!
+  price: Float
+  userID: ID! @index(name: "itemsByUser")
+  user: User @belongsTo(fields: ["userID"])
+  offers: [Offer] @hasMany(indexName: "byItem", fields: ["id"])
+  itemTradeOffers: [ItemTradeOffer]
+    @hasMany(indexName: "byItem", fields: ["id"])
+}
+
+type Offer @model @auth(rules: [{ allow: owner, operations: [read] }]) {
+  id: ID! @primaryKey(sortKeyFields: ["itemID"])
+  itemID: ID! @index(name: "byItem")
+  item: Item @belongsTo(fields: ["itemID"])
+  offeredByUserID: ID!
+  offeredToUserID: ID!
+  status: String
+}
+
+type TradeOffer @model {
+  id: ID!
+  createdBy: User @belongsTo(fields: ["createdById"])
+  createdById: ID!
+  itemTradeOffers: [ItemTradeOffer]
+    @hasMany(indexName: "byTradeOffer", fields: ["id"])
+  offeredByUser: User @belongsTo(fields: ["offeredByUserId"])
+  offeredByUserId: ID!
+  status: String
+}
+
+type ItemTradeOffer @model {
+  id: ID!
+  item: Item @belongsTo(fields: ["itemId"])
+  itemId: ID! @index(name: "byItem")
+  tradeOffer: TradeOffer @belongsTo(fields: ["tradeOfferId"])
+  tradeOfferId: ID! @index(name: "byTradeOffer")
+}
+
+input CreateTradeOfferInput {
+  targetItemId: ID!
+  targetItemOwnerId: ID!
+  offeredItemIds: [ID]!
+  offeredByUserId: ID!
+}
+
+input ModelItemFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  description: ModelStringInput
+  images: ModelStringInput
+  isPublic: ModelStringInput
+  price: ModelFloatInput
+  userID: ModelIDInput
+  # add other fields as necessary
+}
+
+type ModelItemConnection {
+  items: [Item]
+}
+
+input ModelIDInput {
+  eq: ID
+  ne: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input ModelStringInput {
+  eq: String
+  ne: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelBooleanInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelFloatInput {
+  eq: Float
+  ne: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+}
