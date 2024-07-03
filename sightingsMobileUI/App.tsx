@@ -94,7 +94,11 @@ export default function App() {
           options={{ title: "Reset Password" }}
         />
 
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
+          options={{ title: "Product Detail" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
