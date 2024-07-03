@@ -32,20 +32,25 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: "#4CAF50", // Green background
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: "#FFFFFF", // Pure white background
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 25, // Rounded corners
+    borderWidth: 1,
+    borderColor: "#CCCCCC", // Light grey border
     elevation: 3, // Shadow for Android
     shadowColor: "#000", // Shadow for iOS
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
-    color: "#fff", // White text
+    color: "#000000", // Black text
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "600", // Semi-bold text
+    // fontFamily: "Helvetica", // Classic font
   },
 });
 
