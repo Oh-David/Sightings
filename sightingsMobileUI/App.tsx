@@ -13,7 +13,6 @@ import LandingPage from "./src/screens/LandingPage/LandingPage";
 import PostItem from "./src/screens/Features/PostItem/PostItem";
 import ItemDetails from "./src/screens/LandingPage/ItemDetails/ItemDetails";
 import ProductList from "./src/screens/ProductList";
-// import UploadImageForm from './src/screens/Features/PostItem/UploadItem/UploadItemImageForm';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 Amplify.configure(awsConfig);
@@ -22,13 +21,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [initialRouteName, setInitialRouteName] = useState("SignIn");
-  const [isTokenChecked, setIsTokenChecked] = useState(false); // New state to track token check completion
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
 
   useEffect(() => {
     const checkLoginState = async () => {
       const userToken = await AsyncStorage.getItem("userToken");
       if (userToken) {
-        setInitialRouteName("LandingPage"); // User is logged in
+        setInitialRouteName("LandingPage");
       }
       setIsTokenChecked(true);
     };
@@ -43,20 +42,56 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={initialRouteName}>
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
+        <Stack.Screen
+          name="SignIn"
+          component={SignInScreen}
+          options={{ title: "Sign In" }}
+        />
+        <Stack.Screen
+          name="CreateAccount"
+          component={CreateAccountScreen}
+          options={{ title: "Create Account" }}
+        />
         <Stack.Screen
           name="ConfirmationScreen"
           component={ConfirmationScreen}
+          options={{ title: "Confirm Your Account" }}
         />
-        <Stack.Screen name="LandingPage" component={LandingPage} />
-        <Stack.Screen name="PostItem" component={PostItem} />
-        <Stack.Screen name="ItemDetails" component={ItemDetails} />
-        {/* <Stack.Screen name="UploadSightingImageForm" component={UploadImageForm} /> */}
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="ProductList" component={ProductList} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+        <Stack.Screen
+          name="LandingPage"
+          component={LandingPage}
+          options={{ title: "Welcome to BarterApp" }} // Customized title
+        />
+        <Stack.Screen
+          name="PostItem"
+          component={PostItem}
+          options={{ title: "Post a New Item" }}
+        />
+        <Stack.Screen
+          name="ItemDetails"
+          component={ItemDetails}
+          options={{ title: "Item Details" }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ title: "Your Profile" }}
+        />
+        <Stack.Screen
+          name="ProductList"
+          component={ProductList}
+          options={{ title: "Product Listings" }}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
+          options={{ title: "Forgot Password" }}
+        />
+        <Stack.Screen
+          name="ResetPassword"
+          component={ResetPasswordScreen}
+          options={{ title: "Reset Password" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
