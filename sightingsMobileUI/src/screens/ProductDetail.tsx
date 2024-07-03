@@ -51,9 +51,8 @@ const userItems = [
     id: "4",
     name: "Drone",
     image:
-      "https://images.pexels.com/photos/1930185/pexels-photo-1930185.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://images.pexels.com/photos/1506991/pexels-photo-1506991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   },
-  // Add more user items as needed
 ];
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
