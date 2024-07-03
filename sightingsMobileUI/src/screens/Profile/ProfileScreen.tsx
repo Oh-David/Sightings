@@ -14,8 +14,8 @@ import {
   ProfileScreenNavigationProp,
   RouteParams,
 } from "models/navigationTypes";
-import UserItem from "./ProfileFeatures/UserItem";
 import useProfile from "./useProfile";
+import { userItems } from "../Mock"; // Ensure this path is correct
 
 type ProfileScreenProps = {
   navigation: ProfileScreenNavigationProp;
@@ -24,8 +24,8 @@ type ProfileScreenProps = {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
   const {
-    imageUri,
-    userItems,
+    //imageUri,
+    //userItems
     isModalVisible,
     selectedImages,
     offers,
@@ -37,14 +37,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
     handleDeleteItem,
   } = useProfile(navigation, route);
 
-  let image =
+  const imageUri =
     "https://images.pexels.com/photos/1310522/pexels-photo-1310522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
 
   const renderHeader = () => (
     <View style={styles.header}>
       <TouchableOpacity onLongPress={handleProfileImage}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.profileImage} />
+        {imageUri ? (
+          <Image source={{ uri: imageUri }} style={styles.profileImage} />
         ) : (
           <View style={styles.placeholderImage}>
             <Text style={styles.placeholderText}>Upload Image</Text>
@@ -61,6 +61,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
     </View>
   );
 
+  const renderUserItem = ({ item }) => (
+    <View style={styles.itemCard}>
+      <Image source={{ uri: item.image }} style={styles.itemImage} />
+      <Text style={styles.itemName}>{item.name}</Text>
+      <View style={styles.itemButtonContainer}></View>
+    </View>
+  );
+
   return (
     <FlatList
       data={[]}
@@ -70,22 +78,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
           {renderSectionTitle("Your Items")}
           <FlatList
             data={userItems}
-            renderItem={({ item }) => (
-              <UserItem
-                item={item}
-                onImageSelect={(selectedItem) => {
-                  if (selectedItem.images && selectedItem.images.length > 0) {
-                    const nonNullImages = selectedItem.images.filter(
-                      (image): image is string => image !== null
-                    );
-                    setSelectedImages(nonNullImages);
-                    setIsModalVisible(true);
-                  }
-                }}
-                onEdit={() => handleEditItem(item)}
-                onDelete={() => handleDeleteItem(item)}
-              />
-            )}
+            renderItem={renderUserItem}
             keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -240,6 +233,43 @@ const styles = StyleSheet.create({
   offersContainer: {
     padding: 10,
     backgroundColor: "#f0f0f0",
+  },
+  itemImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 5,
+  },
+  itemName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginVertical: 5,
+  },
+  itemButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  itemButton: {
+    padding: 10,
+    backgroundColor: "#007bff",
+    borderRadius: 5,
+  },
+  deleteButton: {
+    backgroundColor: "#dc3545",
+  },
+  itemButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  itemCard: {
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
   },
 });
 
