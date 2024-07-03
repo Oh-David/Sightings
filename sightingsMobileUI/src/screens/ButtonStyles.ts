@@ -15,6 +15,8 @@ export const buttonStyles = StyleSheet.create({
     shadowRadius: 5,
     alignItems: "center",
     justifyContent: "center",
+    alignSelf: "center",
+    marginTop: 20,
   },
   buttonText: {
     color: "#000000", // Black text
