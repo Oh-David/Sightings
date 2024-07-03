@@ -6,8 +6,27 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Button,
 } from "react-native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "models/navigationTypes"; // Adjust the import path as needed
 import { buttonStyles } from "./ButtonStyles";
+
+type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">;
+type ProductDetailNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "ProductDetail"
+>;
+
+interface ProductDetailProps {
+  route: ProductDetailRouteProp;
+}
+
+interface Offer {
+  productOffered: string;
+  productRequested: string;
+}
 
 const userItems = [
   {
@@ -37,14 +56,21 @@ const userItems = [
   // Add more user items as needed
 ];
 
-const ProductDetail = ({ route, navigation }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
   const { product } = route.params;
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<
+    (typeof userItems)[0] | null
+  >(null);
+  const navigation = useNavigation<ProductDetailNavigationProp>();
 
   const handleTradeOffer = () => {
     if (selectedItem) {
-      alert(`You offered your ${selectedItem.name} for the ${product.name}`);
-      navigation.goBack();
+      const newOffer: Offer = {
+        productOffered: selectedItem.name,
+        productRequested: product.name,
+      };
+
+      navigation.navigate("Profile", { newOffer });
     } else {
       alert("Please select an item to trade.");
     }
@@ -79,7 +105,6 @@ const ProductDetail = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       />
-
       <TouchableOpacity style={buttonStyles.button} onPress={handleTradeOffer}>
         <Text style={buttonStyles.buttonText}>Make Trade Offer</Text>
       </TouchableOpacity>
@@ -136,6 +161,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     textAlign: "center",
+  },
+  button: {
+    backgroundColor: "#007BFF",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#007BFF",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    marginTop: 20,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
 

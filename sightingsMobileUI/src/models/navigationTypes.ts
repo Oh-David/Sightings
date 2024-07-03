@@ -2,7 +2,26 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Item } from "API";
 
-type RootStackParamList = {
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  tradeFor: string;
+}
+
+export interface Offer {
+  productOffered: string;
+  productRequested: string;
+}
+
+// Ensure RouteParams is defined and exported
+export type RouteParams = {
+  // Define the properties of RouteParams here
+};
+
+export type RootStackParamList = {
+  ProductDetail: { product: Product };
   ProductList: undefined;
   SignIn: undefined;
   CreateAccount: undefined;
@@ -10,7 +29,7 @@ type RootStackParamList = {
   PostItem: undefined;
   ItemDetails: { item: Item };
   ConfirmationScreen: { username: string };
-  Profile: undefined;
+  Profile: { newOffer?: Offer };
   UploadSightingImageForm: {
     photoUri: string;
   };
@@ -47,10 +66,6 @@ export type ItemDetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "ItemDetails"
 >;
-export type ProfileScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  "Profile"
->;
 export type UploadSightingImageFormNavigationProp = StackNavigationProp<
   RootStackParamList,
   "UploadSightingImageForm"
@@ -66,4 +81,14 @@ export type ResetPasswordScreenNavigationProp = StackNavigationProp<
 export type ResetPasswordScreenRouteProp = RouteProp<
   RootStackParamList,
   "ResetPassword"
+>;
+
+export type ProfileScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Profile"
+>;
+
+export type ProductDetailScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "ProductDetail"
 >;
