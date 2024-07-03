@@ -9,6 +9,7 @@ import { GraphQLResult } from "@aws-amplify/api-graphql";
 import ItemCard from "../LandingPage/ItemCard/ItemCard";
 import CheckAuthStatus from "../../utils/CheckAuthStatus/CheckAuthStatus";
 import CustomButtons from "./CustomButtons";
+import ProductList from "../ProductList";
 
 const LandingPage: React.FC = () => {
   const navigation = useNavigation<LandingPageScreenNavigationProp>();
@@ -109,18 +110,22 @@ const LandingPage: React.FC = () => {
           simple, fun, and rewarding!
         </Text>
       </View>
-      <FlatList
-        data={publicItems}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={3}
-        columnWrapperStyle={styles.row}
-        ListEmptyComponent={
-          <Text style={styles.noItemsText}>
-            No items available for barter at the moment.
-          </Text>
-        }
-      />
+      {publicItems.length === 0 ? (
+        <ProductList /> // Use the ProductList component when there are no public items
+      ) : (
+        <FlatList
+          data={publicItems}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={3}
+          columnWrapperStyle={styles.row}
+          ListEmptyComponent={
+            <Text style={styles.noItemsText}>
+              No items available for barter at the moment.
+            </Text>
+          }
+        />
+      )}
       <View style={styles.buttonContainer}>
         <CustomButtons />
       </View>
