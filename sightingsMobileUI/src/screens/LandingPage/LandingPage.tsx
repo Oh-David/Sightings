@@ -94,17 +94,20 @@ const LandingPage: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Welcome to BarterApp</Text>
-        <Text style={styles.subtitle}>
-          Find amazing items to barter or trade!
-        </Text>
+      <View style={styles.heroSection}>
         <Image
           source={{
             uri: "https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
           }}
-          style={styles.headerImage}
+          style={styles.heroImage}
         />
+        <Text style={styles.tagline}>
+          Discover Amazing Items to Barter or Trade
+        </Text>
+        <Text style={styles.description}>
+          Join our community and start trading your items with others. It's
+          simple, fun, and rewarding!
+        </Text>
       </View>
       <FlatList
         data={publicItems}
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f5f5",
   },
-  header: {
+  heroSection: {
     alignItems: "center",
     padding: 20,
     backgroundColor: "#ffffff",
@@ -138,21 +141,25 @@ const styles = StyleSheet.create({
     borderBottomColor: "#dddddd",
     marginBottom: 10,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333333",
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666666",
-    marginBottom: 10,
-  },
-  headerImage: {
+  heroImage: {
     width: 200,
     height: 200,
     resizeMode: "cover",
     borderRadius: 100,
+    marginBottom: 10,
+  },
+  tagline: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333333",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  description: {
+    fontSize: 16,
+    color: "#666666",
+    textAlign: "center",
+    paddingHorizontal: 20,
   },
   row: {
     flex: 1,
