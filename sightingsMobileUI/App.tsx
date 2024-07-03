@@ -14,6 +14,7 @@ import PostItem from "./src/screens/Features/PostItem/PostItem";
 import ItemDetails from "./src/screens/LandingPage/ItemDetails/ItemDetails";
 import ProductList from "./src/screens/ProductList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ProductDetail from "./src/screens/ProductDetail";
 
 Amplify.configure(awsConfig);
 
@@ -92,6 +93,8 @@ export default function App() {
           component={ResetPasswordScreen}
           options={{ title: "Reset Password" }}
         />
+
+        <Stack.Screen name="ProductDetail" component={ProductDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
