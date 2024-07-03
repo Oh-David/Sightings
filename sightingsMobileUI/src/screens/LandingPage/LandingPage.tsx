@@ -8,6 +8,7 @@ import { Item } from "API";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import ItemCard from "../LandingPage/ItemCard/ItemCard";
 import CheckAuthStatus from "../../utils/CheckAuthStatus/CheckAuthStatus";
+import CustomButtons from "./CustomButtons";
 
 const LandingPage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
@@ -106,13 +107,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Button title="Go to Profile" onPress={goToProfile} />
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <Button title="Go to Product Listing" onPress={goToProductList} />
-      </View>
       <FlatList
         data={publicItems}
         renderItem={renderItem}
@@ -120,8 +114,8 @@ const LandingPage: React.FC = () => {
         numColumns={3}
         columnWrapperStyle={styles.row}
       />
-      <View style={styles.buttonContainer}>
-        <Button title="Post" onPress={goToPostItem} />
+      <View style={{ marginBottom: 10 }}>
+        <CustomButtons />
       </View>
     </View>
   );
