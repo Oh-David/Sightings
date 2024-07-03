@@ -13,7 +13,9 @@ const LandingPage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const navigation = useNavigation<LandingPageScreenNavigationProp>();
   const [publicItems, setPublicItems] = useState<Item[]>([]);
-  const renderItem = ({ item }: { item: Item }) => <ItemCard item={item} navigation={navigation} />;
+  const renderItem = ({ item }: { item: Item }) => (
+    <ItemCard item={item} navigation={navigation} />
+  );
 
   useEffect(() => {
     const verifyAuthStatus = async () => {
@@ -98,11 +100,18 @@ const LandingPage: React.FC = () => {
   const goToPostItem = () => {
     navigation.navigate("PostItem");
   };
+  const goToProductList = () => {
+    navigation.navigate("ProductList");
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <Button title="Go to Profile" onPress={goToProfile} />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button title="Go to Product Listing" onPress={goToProductList} />
       </View>
       <FlatList
         data={publicItems}
@@ -141,7 +150,7 @@ const styles = StyleSheet.create({
     // Update the rest of your ItemCard styles here
   },
   grid: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   itemContainer: {
     flex: 1 / 3, // Divide the row into three equal columns
@@ -151,9 +160,9 @@ const styles = StyleSheet.create({
     marginVertical: 1,
   },
   image: {
-    width: '100%', // Take up all available width
-    height: '100%', // Take up all available height
-    resizeMode: 'cover', // Cover the entire space of the image view
+    width: "100%", // Take up all available width
+    height: "100%", // Take up all available height
+    resizeMode: "cover", // Cover the entire space of the image view
   },
 });
 
