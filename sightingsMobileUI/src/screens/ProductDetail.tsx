@@ -4,10 +4,10 @@ import {
   Text,
   Image,
   StyleSheet,
-  Button,
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import { buttonStyles } from "./ButtonStyles";
 
 const userItems = [
   {
@@ -79,7 +79,10 @@ const ProductDetail = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       />
-      <Button title="Make Trade Offer" onPress={handleTradeOffer} />
+
+      <TouchableOpacity style={buttonStyles.button} onPress={handleTradeOffer}>
+        <Text style={buttonStyles.buttonText}>Make Trade Offer</Text>
+      </TouchableOpacity>
     </View>
   );
 };
