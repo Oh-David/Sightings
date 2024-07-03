@@ -15,12 +15,7 @@ type Query {
 
 type Item
   @model
-  @auth(
-    rules: [
-      { allow: owner }
-      { allow: public, operations: [read], provider: iam }
-    ]
-  ) {
+  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   title: String!
   description: String
@@ -54,7 +49,9 @@ type TradeOffer @model {
   status: String
 }
 
-type ItemTradeOffer @model {
+type ItemTradeOffer
+  @model
+  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   item: Item @belongsTo(fields: ["itemId"])
   itemId: ID! @index(name: "byItem")

@@ -75,7 +75,12 @@ const PostItem: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!post.title || post.images.length === 0 || post.price == null || isNaN(post.price)) {
+    if (
+      !post.title ||
+      post.images.length === 0 ||
+      post.price == null ||
+      isNaN(post.price)
+    ) {
       Alert.alert(
         "Error",
         "Please fill in all required fields, upload at least one image, and provide a valid price."
