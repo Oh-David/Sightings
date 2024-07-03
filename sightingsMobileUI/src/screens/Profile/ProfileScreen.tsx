@@ -16,6 +16,7 @@ import {
 } from "models/navigationTypes";
 import useProfile from "./useProfile";
 import { userItems } from "../Mock"; // Ensure this path is correct
+import { buttonStyles } from "../ButtonStyles";
 
 type ProfileScreenProps = {
   navigation: ProfileScreenNavigationProp;
@@ -104,8 +105,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
             contentContainerStyle={styles.offersContainer}
           />
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleLogout}>
-              <Text style={styles.buttonText}>Logout</Text>
+            <TouchableOpacity
+              style={buttonStyles.button}
+              onPress={handleLogout}
+            >
+              <Text style={buttonStyles.buttonText}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>
