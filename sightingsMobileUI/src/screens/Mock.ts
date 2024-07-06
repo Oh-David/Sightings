@@ -1,4 +1,4 @@
-import { UserItem } from "./Data/UserItems";
+import { Bid, UserItem } from "./Data/UserItems";
 
 export const itemNames = [
   "Laptop",
@@ -84,5 +84,51 @@ export const userItems: UserItem[] = [
     image:
       "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     tradeFor: "Drone",
+  },
+];
+
+// Mock data for all items (no overlap with user items)
+export const allItems: UserItem[] = [
+  {
+    id: "5",
+    name: "Smartphone",
+    description: "A handy gadget.",
+    image:
+      "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Smartwatch",
+  },
+  {
+    id: "6",
+    name: "Headphones",
+    description: "High-quality sound.",
+    image:
+      "https://images.pexels.com/photos/3394651/pexels-photo-3394651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Speakers",
+  },
+  {
+    id: "7",
+    name: "Backpack",
+    description: "A sturdy backpack.",
+    image:
+      "https://images.pexels.com/photos/374898/pexels-photo-374898.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Travel bag",
+  },
+];
+
+export const userBids: Bid[] = [
+  {
+    id: "1",
+    itemOffered: userItems[0],
+    itemRequested: allItems[0],
+  },
+  {
+    id: "2",
+    itemOffered: userItems[1],
+    itemRequested: allItems[1],
+  },
+  {
+    id: "3",
+    itemOffered: userItems[2],
+    itemRequested: allItems[2],
   },
 ];
