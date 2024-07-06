@@ -13,11 +13,18 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Platform,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import React from "react";
 import { buttonStyles } from "../../ButtonStyles";
+import { useNavigation } from "@react-navigation/native";
+import { LandingPageScreenNavigationProp } from "../../../models/navigationTypes";
 
 const PostItem: React.FC = () => {
+  const navigation = useNavigation<LandingPageScreenNavigationProp>();
+
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -33,6 +40,12 @@ const PostItem: React.FC = () => {
       tradeFor,
     };
     dispatch(addItem(newItem));
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Item posted successfully!", ToastAndroid.SHORT);
+    } else {
+      Alert.alert("Success", "Item posted successfully!");
+    }
+    navigation.navigate("LandingPage");
   };
 
   const handleAutoGenerate = () => {
