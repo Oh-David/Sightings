@@ -20,7 +20,7 @@ const ProductList: React.FC = () => {
     (state: RootState) => state.userItems.items
   ) as UserItem[];
 
-  const { handleAddItem, handleRemoveItem } = useProductList(
+  const { handleAddItem } = useProductList(
     itemNames,
     itemDescriptions,
     itemImages,
@@ -41,11 +41,6 @@ const ProductList: React.FC = () => {
                 <Text style={styles.productDescription}>
                   {item.description}
                 </Text>
-
-                <Button
-                  title="Remove"
-                  onPress={() => handleRemoveItem(item.id)}
-                />
               </View>
             </View>
           </TouchableOpacity>
