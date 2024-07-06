@@ -33,7 +33,7 @@ const userItemsSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<UserItem>) => {
       state.items.push(action.payload);
-      state.allItems.push(action.payload); // Also add to allItems
+      state.allItems.push(action.payload);
     },
     removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
@@ -44,8 +44,18 @@ const userItemsSlice = createSlice({
     addBid: (state, action: PayloadAction<Bid>) => {
       state.userBids.push(action.payload);
     },
+    removeBid: (state, action: PayloadAction<string>) => {
+      state.userBids = state.userBids.filter(
+        (bid) => bid.id !== action.payload
+      );
+    },
     addGeneralItem: (state, action: PayloadAction<UserItem>) => {
       state.allItems.push(action.payload);
+    },
+    removeGeneralItem: (state, action: PayloadAction<string>) => {
+      state.allItems = state.allItems.filter(
+        (item) => item.id !== action.payload
+      );
     },
   },
 });
