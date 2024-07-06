@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import useProductList from "./useProductList"; // Adjust the import path
+import { useSelector } from "react-redux";
+import useProductList from "./useProductList";
 
 import { RootState } from "./Data/Store";
 import { UserItem } from "./Data/UserItems";
