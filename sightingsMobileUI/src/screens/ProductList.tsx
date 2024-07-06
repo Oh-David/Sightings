@@ -46,7 +46,6 @@ const ProductList: React.FC = () => {
           </TouchableOpacity>
         )}
       />
-      <Button title="Add" onPress={handleAddItem} />
     </View>
   );
 };
