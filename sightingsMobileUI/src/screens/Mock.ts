@@ -1,29 +1,4 @@
-export const userItems = [
-  {
-    id: "1",
-    name: "Electric scooter",
-    image:
-      "https://images.pexels.com/photos/122477/pexels-photo-122477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: "2",
-    name: "Keyboard piano",
-    image:
-      "https://images.pexels.com/photos/164935/pexels-photo-164935.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: "3",
-    name: "High-end smartphone",
-    image:
-      "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: "4",
-    name: "Drone",
-    image:
-      "https://images.pexels.com/photos/1506991/pexels-photo-1506991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-];
+import { UserItem } from "./Data/UserItems";
 
 export const itemNames = [
   "Laptop",
@@ -75,4 +50,39 @@ export const itemImages = [
   "https://images.pexels.com/photos/46710/pexels-photo-46710.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   "https://images.pexels.com/photos/167832/pexels-photo-167832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   "https://images.pexels.com/photos/914912/pexels-photo-914912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+];
+
+export const userItems: UserItem[] = [
+  {
+    id: "1",
+    name: "Bicycle",
+    description: "A nice road bike.",
+    image:
+      "https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Electric scooter",
+  },
+  {
+    id: "2",
+    name: "Guitar",
+    description: "An acoustic guitar.",
+    image:
+      "https://images.pexels.com/photos/165971/pexels-photo-165971.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Keyboard piano",
+  },
+  {
+    id: "3",
+    name: "Laptop",
+    description: "A powerful gaming laptop.",
+    image:
+      "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "High-end smartphone",
+  },
+  {
+    id: "4",
+    name: "Camera",
+    description: "A DSLR camera.",
+    image:
+      "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Drone",
+  },
 ];

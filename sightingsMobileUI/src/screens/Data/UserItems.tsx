@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { userItems } from "../Mock";
 
 export interface UserItem {
   id: string;
@@ -7,41 +8,6 @@ export interface UserItem {
   description: string;
   tradeFor: string;
 }
-
-export const userItems: UserItem[] = [
-  {
-    id: "1",
-    name: "Bicycle",
-    description: "A nice road bike.",
-    image:
-      "https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tradeFor: "Electric scooter",
-  },
-  {
-    id: "2",
-    name: "Guitar",
-    description: "An acoustic guitar.",
-    image:
-      "https://images.pexels.com/photos/165971/pexels-photo-165971.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tradeFor: "Keyboard piano",
-  },
-  {
-    id: "3",
-    name: "Laptop",
-    description: "A powerful gaming laptop.",
-    image:
-      "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tradeFor: "High-end smartphone",
-  },
-  {
-    id: "4",
-    name: "Camera",
-    description: "A DSLR camera.",
-    image:
-      "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tradeFor: "Drone",
-  },
-];
 
 interface UserItemsState {
   items: UserItem[];
