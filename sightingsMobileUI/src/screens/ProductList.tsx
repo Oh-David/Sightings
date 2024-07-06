@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import UserItemsList from "./Data/UserItemsList";
 
 const products = [
   {
@@ -54,6 +55,8 @@ const ProductList: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <UserItemsList />
+
       <FlatList
         data={products}
         keyExtractor={(item) => item.id}
