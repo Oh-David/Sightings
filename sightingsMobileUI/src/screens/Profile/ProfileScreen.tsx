@@ -17,6 +17,7 @@ import {
 import useProfile from "./useProfile";
 import { userItems } from "../Mock"; // Ensure this path is correct
 import { buttonStyles } from "../ButtonStyles";
+import MyProducts from "../MyProducts";
 
 type ProfileScreenProps = {
   navigation: ProfileScreenNavigationProp;
@@ -104,6 +105,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.offersContainer}
           />
+          <MyProducts />
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={buttonStyles.button}

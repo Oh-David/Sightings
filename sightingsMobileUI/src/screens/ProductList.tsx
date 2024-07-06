@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Button,
 } from "react-native";
 import { useSelector } from "react-redux";
 import useProductList from "./useProductList";
@@ -20,7 +19,7 @@ const ProductList: React.FC = () => {
     (state: RootState) => state.userItems.items
   ) as UserItem[];
 
-  const { handleAddItem } = useProductList(
+  const { handlePress } = useProductList(
     itemNames,
     itemDescriptions,
     itemImages,
@@ -33,7 +32,11 @@ const ProductList: React.FC = () => {
         data={products}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              handlePress(item);
+            }}
+          >
             <View style={styles.productItem}>
               <Image source={{ uri: item.image }} style={styles.productImage} />
               <View style={styles.productInfo}>
