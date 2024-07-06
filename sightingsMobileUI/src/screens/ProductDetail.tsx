@@ -7,6 +7,9 @@ import {
   FlatList,
   TouchableOpacity,
   Button,
+  Platform,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -38,16 +41,28 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
   const navigation = useNavigation<ProductDetailNavigationProp>();
 
   const handleTradeOffer = () => {
-    if (selectedItem) {
-      const newOffer: Offer = {
-        productOffered: selectedItem.name,
-        productRequested: product.name,
-      };
-
-      navigation.navigate("Profile", { newOffer });
+    if (Platform.OS === "android") {
+      ToastAndroid.show(
+        "This feature hasn't been implemented yet.",
+        ToastAndroid.SHORT
+      );
     } else {
-      alert("Please select an item to trade.");
+      Alert.alert(
+        "Feature Not Implemented",
+        "This feature hasn't been implemented yet. Please check back later."
+      );
     }
+
+    // if (selectedItem) {
+    //   const newOffer: Offer = {
+    //     productOffered: selectedItem.name,
+    //     productRequested: product.name,
+    //   };
+
+    //   navigation.navigate("Profile", { newOffer });
+    // } else {
+    //   alert("Please select an item to trade.");
+    // }
   };
 
   return (
