@@ -19,8 +19,6 @@ const ProductList: React.FC = () => {
   const products = useSelector(
     (state: RootState) => state.userItems.items
   ) as UserItem[];
-  const dispatch = useDispatch();
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const { handleAddItem, handleRemoveItem } = useProductList(
     itemNames,
