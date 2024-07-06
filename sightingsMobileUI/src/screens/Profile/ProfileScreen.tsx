@@ -77,34 +77,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
       ListHeaderComponent={
         <View>
           {renderHeader()}
-          {renderSectionTitle("Your Items")}
-          <FlatList
-            data={userItems}
-            renderItem={renderUserItem}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.itemsContainer}
-          />
-          {renderSectionTitle("Offers Made")}
-          <FlatList
-            data={offers}
-            renderItem={({ item }) => (
-              <View style={styles.offerCard}>
-                <Text style={styles.offerText}>
-                  <Text style={styles.offerHighlight}>
-                    {item.productOffered}
-                  </Text>{" "}
-                  for{" "}
-                  <Text style={styles.offerHighlight}>
-                    {item.productRequested}
-                  </Text>
-                </Text>
-              </View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            contentContainerStyle={styles.offersContainer}
-          />
+
           <MyProducts />
           <View style={styles.buttonContainer}>
             <TouchableOpacity

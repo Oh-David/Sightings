@@ -6,8 +6,8 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from "react-native";
-
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -41,6 +41,7 @@ const MyProducts: React.FC = () => {
         style={styles.itemContent}
         onPress={() => handlePress(item)}
       >
+        <Image source={{ uri: item.image }} style={styles.itemImage} />
         <Text style={styles.itemText}>{item.name}</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -54,7 +55,7 @@ const MyProducts: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Products</Text>
+      <Text style={styles.title}>Your Products</Text>
       <FlatList
         data={products}
         renderItem={renderItem}
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   title: {
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: "600",
     marginBottom: 20,
     color: "#333",
@@ -96,6 +97,14 @@ const styles = StyleSheet.create({
   },
   itemContent: {
     flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  itemImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    marginRight: 15,
   },
   itemText: {
     fontSize: 18,
