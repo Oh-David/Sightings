@@ -2,14 +2,14 @@ import { StyleSheet } from "react-native";
 
 export const buttonStyles = StyleSheet.create({
   button: {
-    backgroundColor: "#FFFFFF", // Pure white background
+    backgroundColor: "#FFFFFF",
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 25, // Rounded corners
+    borderRadius: 25,
     borderWidth: 1,
-    borderColor: "#CCCCCC", // Light grey border
-    elevation: 3, // Shadow for Android
-    shadowColor: "#000", // Shadow for iOS
+    borderColor: "#CCCCCC",
+    elevation: 3,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -18,9 +18,8 @@ export const buttonStyles = StyleSheet.create({
     alignSelf: "center",
   },
   buttonText: {
-    color: "#000000", // Black text
+    color: "#000000",
     fontSize: 16,
-    fontWeight: "600", // Semi-bold text
-    // fontFamily: "Helvetica", // Classic font
+    fontWeight: "600",
   },
 });
