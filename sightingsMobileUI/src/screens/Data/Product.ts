@@ -12,5 +12,5 @@ export interface Product
   location: string
   ownerId: string
   dimensions?: {width: number; height: number; depth: number; weight: number}
-  dateListed: Date
+  dateListed: string
 }

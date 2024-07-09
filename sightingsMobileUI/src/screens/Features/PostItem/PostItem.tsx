@@ -17,6 +17,8 @@ import React from "react"
 import {buttonStyles} from "../../ButtonStyles"
 import {useNavigation} from "@react-navigation/native"
 import {LandingPageScreenNavigationProp} from "../../../models/navigationTypes"
+import {ProductCategory} from "../../Data/ProductCategory"
+import {Product} from "../../Data/Product"
 
 const PostItem: React.FC = () =>
 {
@@ -27,15 +29,33 @@ const PostItem: React.FC = () =>
   const [description, setDescription] = useState("")
   const [image, setImage] = useState("")
   const [tradeFor, setTradeFor] = useState("")
+  const [category, setCategory] = useState<ProductCategory | null>(null)
+  const [condition, setCondition] = useState<"New" | "Used" | "Refurbished">(
+    "New"
+  )
+  const [location, setLocation] = useState("")
+  const [dimensions, setDimensions] = useState({
+    width: 0,
+    height: 0,
+    depth: 0,
+    weight: 0,
+  })
+  const [dateListed, setDateListed] = useState(new Date().toISOString())
 
   const handleAddItem = () =>
   {
-    const newItem = {
+    const newItem: Product = {
       id: new Date().toISOString(),
       name,
       description,
       image,
       tradeFor,
+      category: category ?? ProductCategory.Other,
+      condition,
+      location,
+      ownerId: "currentUserId", // Replace with actual user ID
+      dimensions,
+      dateListed: new Date().toISOString(), // Convert Date to string
     }
     dispatch(addUserItem(newItem))
     if (Platform.OS === "android")
@@ -56,6 +76,11 @@ const PostItem: React.FC = () =>
     setDescription(randomItem.description)
     setImage(randomItem.image)
     setTradeFor(randomItem.tradeFor)
+    setCategory(randomItem.category)
+    setCondition(randomItem.condition)
+    setLocation(randomItem.location)
+    setDimensions(randomItem.dimensions ?? {width: 0, height: 0, depth: 0, weight: 0})
+    setDateListed(randomItem.dateListed) // Set dateListed from mock data
   }
 
   return (
@@ -92,10 +117,7 @@ const PostItem: React.FC = () =>
         <TouchableOpacity style={buttonStyles.button} onPress={handleAddItem}>
           <Text style={buttonStyles.buttonText}>Post Item</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={buttonStyles.button}
-          onPress={handleAutoGenerate}
-        >
+        <TouchableOpacity style={buttonStyles.button} onPress={handleAutoGenerate}>
           <Text style={buttonStyles.buttonText}>Auto Generate</Text>
         </TouchableOpacity>
       </View>
