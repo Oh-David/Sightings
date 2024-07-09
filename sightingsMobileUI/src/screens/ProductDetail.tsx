@@ -12,10 +12,10 @@ import
   Alert,
 } from "react-native"
 import {RouteProp} from "@react-navigation/native"
-import {RootStackParamList} from "models/navigationTypes" // Adjust the import path as needed
+import {Product, RootStackParamList} from "models/navigationTypes" // Adjust the import path as needed
 import {buttonStyles} from "./ButtonStyles"
-
-import {userItems} from "./Mock"
+import {useSelector} from "react-redux"
+import {RootState} from "./Data/Store"
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 
@@ -27,10 +27,9 @@ interface ProductDetailProps
 
 const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
 {
+  const userProducts = useSelector((state: RootState) => state.products.userProducts) as Product[]
   const {product} = route.params
-  const [selectedItem, setSelectedItem] = useState<
-    (typeof userItems)[0] | null
-  >(null)
+  const [selectedItem, setSelectedItem] = useState<(typeof userProducts)[0] | null>(null)
 
   const handleTradeOffer = () =>
   {
@@ -59,7 +58,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
       </Text>
       <Text style={styles.selectText}>Select an item to trade:</Text>
       <FlatList
-        data={userItems}
+        data={userProducts}
         keyExtractor={(item) => item.id}
         horizontal
         renderItem={({item}) => (
