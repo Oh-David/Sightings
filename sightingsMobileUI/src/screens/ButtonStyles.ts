@@ -33,7 +33,7 @@ export const buttonStyles = StyleSheet.create({
     color: "#FFFFFF",
   },
   redButton: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: "#DC143C",
     borderWidth: 0,
   },
   redButtonText: {

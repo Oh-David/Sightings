@@ -39,10 +39,10 @@ const ProductsPage: React.FC = () =>
                     </View>
                     <MyProducts />
                     <TouchableOpacity
-                        style={[buttonStyles.button, buttonStyles.redButton]}
+                        style={[buttonStyles.button]}
                         onPress={() => setMyProductsModalVisible(false)}
                     >
-                        <Text style={[buttonStyles.buttonText, buttonStyles.redButtonText]}>Close</Text>
+                        <Text style={[buttonStyles.buttonText]}>Close</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>

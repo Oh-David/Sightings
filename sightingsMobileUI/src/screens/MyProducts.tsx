@@ -40,7 +40,7 @@ const MyProducts: React.FC = () =>
         style={styles.removeButton}
         onPress={() => handleRemoveItem(item.id)}
       >
-        <FontAwesome name="trash" size={24} color="red" />
+        <FontAwesome name="trash" size={24} color="#696969" />
       </TouchableOpacity>
     </View>
   )

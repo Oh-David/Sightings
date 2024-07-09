@@ -1,16 +1,16 @@
 import React, {useState} from 'react'
 import
-    {
-        View,
-        Text,
-        FlatList,
-        StyleSheet,
-        Image,
-        TouchableOpacity,
-        Modal,
-        ScrollView,
-        Alert,
-    } from 'react-native'
+{
+    View,
+    Text,
+    FlatList,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    Modal,
+    ScrollView,
+    Alert,
+} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import {MaterialIcons} from '@expo/vector-icons'
 import {RootState} from './Data/Store'
@@ -84,7 +84,7 @@ const BidScreen: React.FC = () =>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemoveBid(item.product1Id, item.product2Id)}>
-                    <MaterialIcons name="delete" size={24} color="red" style={styles.deleteIcon} />
+                    <MaterialIcons name="delete" size={24} color="#696969" style={styles.deleteIcon} />
                 </TouchableOpacity>
             </View>
         )
