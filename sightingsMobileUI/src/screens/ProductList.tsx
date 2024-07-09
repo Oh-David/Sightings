@@ -12,19 +12,13 @@ import {useSelector} from "react-redux"
 import useProductList from "./useProductList"
 
 import {Product} from "./Data/ProductSlice"
-import {itemDescriptions, itemImages, itemNames, itemTradeFor} from "./Mock"
 import {RootState} from "./Data/Store"
 
 const ProductList: React.FC = () =>
 {
   const products = useSelector((state: RootState) => state.products.products) as Product[]
 
-  const {handlePress} = useProductList(
-    itemNames,
-    itemDescriptions,
-    itemImages,
-    itemTradeFor
-  )
+  const {handlePress} = useProductList()
 
   return (
     <View style={styles.container}>
