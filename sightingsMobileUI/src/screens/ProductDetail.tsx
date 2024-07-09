@@ -19,7 +19,6 @@ import {RootState} from "./Data/Store"
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 
-
 interface ProductDetailProps
 {
   route: ProductDetailRouteProp
