@@ -1,24 +1,18 @@
 import {useState} from "react"
 import {useDispatch} from "react-redux"
 import {addUserItem} from "../../Data/ProductSlice"
+import {productItems} from "../../Mock"
 import
-{
-  itemDescriptions,
-  itemImages,
-  itemNames,
-  itemTradeFor,
-} from "../../Mock"
-import
-{
-  TextInput,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Platform,
-  ToastAndroid,
-  Alert,
-} from "react-native"
+  {
+    TextInput,
+    View,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    Platform,
+    ToastAndroid,
+    Alert,
+  } from "react-native"
 import React from "react"
 import {buttonStyles} from "../../ButtonStyles"
 import {useNavigation} from "@react-navigation/native"
@@ -56,11 +50,12 @@ const PostItem: React.FC = () =>
 
   const handleAutoGenerate = () =>
   {
-    const randomIndex = Math.floor(Math.random() * itemNames.length)
-    setName(itemNames[randomIndex])
-    setDescription(itemDescriptions[randomIndex])
-    setImage(itemImages[randomIndex])
-    setTradeFor(itemTradeFor[randomIndex])
+    const randomIndex = Math.floor(Math.random() * productItems.length)
+    const randomItem = productItems[randomIndex]
+    setName(randomItem.name)
+    setDescription(randomItem.description)
+    setImage(randomItem.image)
+    setTradeFor(randomItem.tradeFor)
   }
 
   return (

@@ -87,7 +87,6 @@ export const userItems: Product[] = [
   },
 ];
 
-// Mock data for all items (no overlap with user items)
 export const allItems: Product[] = [
   {
     id: "5",
@@ -123,20 +122,75 @@ export const allItems: Product[] = [
   }
 ];
 
-export const userBids: Bid[] = [
+export const productItems = [
   {
-    id: "1",
-    itemOffered: userItems[0],
-    itemRequested: allItems[0],
+    id: "100",
+    name: "Laptop",
+    description: "A powerful device.",
+    tradeFor: "Tablet",
+    image: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   },
   {
-    id: "2",
-    itemOffered: userItems[1],
-    itemRequested: allItems[1],
+    id: "101",
+    name: "Smartphone",
+    description: "A handy gadget.",
+    tradeFor: "Smartwatch",
+    image: "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   },
   {
-    id: "3",
-    itemOffered: userItems[2],
-    itemRequested: allItems[2],
+    id: "102",
+    name: "Headphones",
+    description: "High-quality sound.",
+    tradeFor: "Speakers",
+    image: "https://images.pexels.com/photos/3394651/pexels-photo-3394651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   },
+  {
+    id: "103",
+    name: "Backpack",
+    description: "A sturdy backpack.",
+    tradeFor: "Travel bag",
+    image: "https://images.pexels.com/photos/374898/pexels-photo-374898.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: "104",
+    name: "Water Bottle",
+    description: "Stay hydrated.",
+    tradeFor: "Fitness tracker",
+    image: "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: "105",
+    name: "Notebook",
+    description: "Keep your notes.",
+    tradeFor: "E-book reader",
+    image: "https://images.pexels.com/photos/1187344/pexels-photo-1187344.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: "106",
+    name: "Pen",
+    description: "For smooth writing.",
+    tradeFor: "Stylus pen",
+    image: "https://images.pexels.com/photos/5088179/pexels-photo-5088179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: "107",
+    name: "Sunglasses",
+    description: "Protect your eyes.",
+    tradeFor: "Hat",
+    image: "https://images.pexels.com/photos/46710/pexels-photo-46710.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: "108",
+    name: "Camera",
+    description: "Capture moments.",
+    tradeFor: "Lens",
+    image: "https://images.pexels.com/photos/167832/pexels-photo-167832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: "109",
+    name: "Charger",
+    description: "Stay charged.",
+    tradeFor: "Power bank",
+    image: "https://images.pexels.com/photos/914912/pexels-photo-914912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  }
 ];
