@@ -1,13 +1,13 @@
 import React, {useState} from "react"
 import
-{
-    View,
-    Text,
-    TouchableOpacity,
-    Modal,
-    ScrollView,
-    StyleSheet,
-} from "react-native"
+    {
+        View,
+        Text,
+        TouchableOpacity,
+        Modal,
+        ScrollView,
+        StyleSheet,
+    } from "react-native"
 import {ProductCategory} from "./Data/ProductCategory"
 
 interface CategoryFilterProps
@@ -128,14 +128,22 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 
 const styles = StyleSheet.create({
     dropdownButton: {
-        padding: 10,
-        backgroundColor: "#ddd",
-        borderRadius: 5,
+        padding: 12,
+        backgroundColor: "#4CAF50",
+        borderRadius: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
         marginBottom: 20,
     },
     dropdownButtonText: {
-        fontSize: 16,
-        textAlign: "center",
+        fontSize: 18,
+        color: "#fff",
+        fontWeight: "bold",
     },
     modalOverlay: {
         flex: 1,
@@ -147,14 +155,23 @@ const styles = StyleSheet.create({
         width: "80%",
         maxHeight: "80%",
         backgroundColor: "#fff",
-        borderRadius: 5,
+        borderRadius: 10,
         padding: 20,
+        shadowColor: "#000",
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     option: {
-        paddingVertical: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#eee",
     },
     optionText: {
         fontSize: 16,
+        color: "#333",
     },
 })
 
