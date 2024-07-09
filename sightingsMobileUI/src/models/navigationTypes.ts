@@ -29,7 +29,7 @@ export type RootStackParamList = {
   PostItem: undefined;
   ItemDetails: { item: Item };
   ConfirmationScreen: { username: string };
-  Profile: RouteParams; // Adjusted to use RouteParams type
+  Profile: undefined; // Adjusted to use RouteParams type
   UploadSightingImageForm: {
     photoUri: string;
   };
@@ -93,4 +93,9 @@ export type ProfileScreenNavigationProp = StackNavigationProp<
 export type ProductDetailScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "ProductDetail"
+>;
+
+export type BidsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "BidScreen"
 >;

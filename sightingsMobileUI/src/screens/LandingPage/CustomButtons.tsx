@@ -10,7 +10,7 @@ const CustomButtons: React.FC = () =>
   const navigation = useNavigation<LandingPageScreenNavigationProp>()
 
   const goToProfile = () => navigation.navigate("Profile")
-  const goToPostItem = () => navigation.navigate("PostItem")
+  const goToBids = () => navigation.navigate("BidScreen")
   const goToProductList = () => navigation.navigate("ProductsPage")
 
   return (
@@ -21,8 +21,8 @@ const CustomButtons: React.FC = () =>
       <TouchableOpacity style={buttonStyles.button} onPress={goToProductList}>
         <Text style={buttonStyles.buttonText}>Products</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={buttonStyles.button} onPress={goToPostItem}>
-        <Text style={buttonStyles.buttonText}>Post Item</Text>
+      <TouchableOpacity style={buttonStyles.button} onPress={goToBids}>
+        <Text style={buttonStyles.buttonText}>Bids</Text>
       </TouchableOpacity>
     </View>
   )
