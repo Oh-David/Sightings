@@ -5,11 +5,7 @@ import
   Text,
   StyleSheet,
   Image,
-  FlatList,
-  Modal,
-  ActivityIndicator,
   TouchableOpacity,
-  Button as RNButton,
 } from "react-native"
 import
 {
@@ -17,7 +13,7 @@ import
   RouteParams,
 } from "models/navigationTypes"
 import useProfile from "./useProfile"
-import {mockUserProducts} from "../Mock" // Ensure this path is correct
+import {mockProfileImage} from "../Mock" // Ensure this path is correct
 import {buttonStyles} from "../ButtonStyles"
 import MyProducts from "../MyProducts"
 
@@ -29,48 +25,17 @@ type ProfileScreenProps = {
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
 {
   const {
-    //imageUri,
-    //userItems
-    isModalVisible,
-    selectedImages,
-    offers,
-    setIsModalVisible,
-    setSelectedImages,
     handleLogout,
     handleProfileImage,
-    handleEditItem,
-    handleDeleteItem,
   } = useProfile(navigation, route)
-
-  const imageUri =
-    "https://images.pexels.com/photos/1310522/pexels-photo-1310522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 
   const renderHeader = () => (
     <View style={styles.header}>
       <TouchableOpacity onLongPress={handleProfileImage}>
-        {imageUri ? (
-          <Image source={{uri: imageUri}} style={styles.profileImage} />
-        ) : (
-          <View style={styles.placeholderImage}>
-            <Text style={styles.placeholderText}>Upload Image</Text>
-          </View>
-        )}
+        <Image source={{uri: mockProfileImage}} style={styles.profileImage} />
+
       </TouchableOpacity>
       <Text style={styles.title}>Welcome to Your Profile</Text>
-    </View>
-  )
-
-  const renderSectionTitle = (title: string) => (
-    <View style={styles.sectionTitleContainer}>
-      <Text style={styles.sectionTitle}>{title}</Text>
-    </View>
-  )
-
-  const renderUserItem = ({item}) => (
-    <View style={styles.itemCard}>
-      <Image source={{uri: item.image}} style={styles.itemImage} />
-      <Text style={styles.itemName}>{item.name}</Text>
-      <View style={styles.itemButtonContainer}></View>
     </View>
   )
 
