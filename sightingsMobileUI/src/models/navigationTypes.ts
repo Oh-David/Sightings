@@ -36,6 +36,7 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   ResetPassword: { username: string };
   ProductsPage: undefined;
+  BidScreen: undefined;
 };
 
 export type ConfirmationScreenRouteProp = RouteProp<

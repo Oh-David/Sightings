@@ -18,6 +18,7 @@ import ProductDetail from "./src/screens/ProductDetail"
 import {Provider} from "react-redux"
 import store from "./src/screens/Data/Store"
 import ProductsPage from "./src/screens/ProductsPage"
+import BidScreen from "./src/screens/BidScreen"
 
 Amplify.configure(awsConfig)
 
@@ -113,6 +114,12 @@ export default function App()
             name="ProductsPage"
             component={ProductsPage}
             options={{title: "Products"}}
+          />
+
+          <Stack.Screen
+            name="BidScreen"
+            component={BidScreen}
+            options={{title: "Bids"}}
           />
 
         </Stack.Navigator>
