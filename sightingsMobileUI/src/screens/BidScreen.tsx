@@ -53,7 +53,6 @@ const BidScreen: React.FC = () =>
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Bids</Text>
             <FlatList
                 data={bids}
                 renderItem={renderItem}
