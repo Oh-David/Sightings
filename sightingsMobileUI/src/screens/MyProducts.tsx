@@ -10,33 +10,17 @@ import
   Image,
 } from "react-native"
 import {FontAwesome} from "@expo/vector-icons"
-import {useNavigation} from "@react-navigation/native"
-import {StackNavigationProp} from "@react-navigation/stack"
-import {RootStackParamList} from "models/navigationTypes"
 import {removeUserItem, Product} from "./Data/ProductSlice"
 import {RootState} from "./Data/Store"
 
-type MyProductsScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  "ProductDetail"
->
-
 const MyProducts: React.FC = () =>
 {
-  const products = useSelector(
-    (state: RootState) => state.products.userProducts
-  ) as Product[]
+  const userProducts = useSelector((state: RootState) => state.products.userProducts) as Product[]
   const dispatch = useDispatch()
-  const navigation = useNavigation<MyProductsScreenNavigationProp>()
 
   const handleRemoveItem = (id: string) =>
   {
     dispatch(removeUserItem(id))
-  }
-
-  const handlePress = (item: Product) =>
-  {
-    navigation.navigate("ProductDetail", {product: item})
   }
 
   const renderItem = ({item}: {item: Product}) => (
@@ -61,7 +45,7 @@ const MyProducts: React.FC = () =>
     <View style={styles.container}>
       <Text style={styles.title}>Your Products</Text>
       <FlatList
-        data={products}
+        data={userProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}

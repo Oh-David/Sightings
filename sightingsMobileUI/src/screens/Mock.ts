@@ -1,4 +1,4 @@
-import { Bid, Product } from "./Data/ProductSlice";
+import { Product } from "./Data/ProductSlice";
 
 export const itemNames = [
   "Laptop",

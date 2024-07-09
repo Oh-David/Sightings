@@ -1,73 +1,57 @@
-import React, { useState } from "react";
-import {
+import React, {useState} from "react"
+import
+{
   View,
   Text,
   Image,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Button,
   Platform,
   ToastAndroid,
   Alert,
-} from "react-native";
-import { RouteProp, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "models/navigationTypes"; // Adjust the import path as needed
-import { buttonStyles } from "./ButtonStyles";
+} from "react-native"
+import {RouteProp} from "@react-navigation/native"
+import {RootStackParamList} from "models/navigationTypes" // Adjust the import path as needed
+import {buttonStyles} from "./ButtonStyles"
 
-import { userItems } from "./Mock";
+import {userItems} from "./Mock"
 
-type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">;
-type ProductDetailNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "ProductDetail"
->;
+type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 
-interface ProductDetailProps {
-  route: ProductDetailRouteProp;
+
+interface ProductDetailProps
+{
+  route: ProductDetailRouteProp
 }
 
-interface Offer {
-  productOffered: string;
-  productRequested: string;
-}
-
-const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
-  const { product } = route.params;
+const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
+{
+  const {product} = route.params
   const [selectedItem, setSelectedItem] = useState<
     (typeof userItems)[0] | null
-  >(null);
-  const navigation = useNavigation<ProductDetailNavigationProp>();
+  >(null)
 
-  const handleTradeOffer = () => {
-    if (Platform.OS === "android") {
+  const handleTradeOffer = () =>
+  {
+    if (Platform.OS === "android")
+    {
       ToastAndroid.show(
         "This feature hasn't been implemented yet.",
         ToastAndroid.SHORT
-      );
-    } else {
+      )
+    } else
+    {
       Alert.alert(
         "Feature Not Implemented",
         "This feature hasn't been implemented yet. Please check back later."
-      );
+      )
     }
-
-    // if (selectedItem) {
-    //   const newOffer: Offer = {
-    //     productOffered: selectedItem.name,
-    //     productRequested: product.name,
-    //   };
-
-    //   navigation.navigate("Profile", { newOffer });
-    // } else {
-    //   alert("Please select an item to trade.");
-    // }
-  };
+  }
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: product.image }} style={styles.productImage} />
+      <Image source={{uri: product.image}} style={styles.productImage} />
       <Text style={styles.productName}>{product.name}</Text>
       <Text style={styles.productDescription}>{product.description}</Text>
       <Text style={styles.tradeFor}>
@@ -78,7 +62,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
         data={userItems}
         keyExtractor={(item) => item.id}
         horizontal
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <TouchableOpacity onPress={() => setSelectedItem(item)}>
             <View
               style={[
@@ -88,7 +72,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
                   : null,
               ]}
             >
-              <Image source={{ uri: item.image }} style={styles.userImage} />
+              <Image source={{uri: item.image}} style={styles.userImage} />
               <Text style={styles.userName}>{item.name}</Text>
             </View>
           </TouchableOpacity>
@@ -98,8 +82,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
         <Text style={buttonStyles.buttonText}>Make Trade Offer</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -168,6 +152,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-});
+})
 
-export default ProductDetail;
+export default ProductDetail
