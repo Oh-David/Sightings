@@ -1,16 +1,17 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React from "react"
+import {View, Text, TouchableOpacity, StyleSheet} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 
-import { LandingPageScreenNavigationProp } from "models/navigationTypes";
-import { buttonStyles } from "../ButtonStyles";
+import {LandingPageScreenNavigationProp} from "models/navigationTypes"
+import {buttonStyles} from "../ButtonStyles"
 
-const CustomButtons: React.FC = () => {
-  const navigation = useNavigation<LandingPageScreenNavigationProp>();
+const CustomButtons: React.FC = () =>
+{
+  const navigation = useNavigation<LandingPageScreenNavigationProp>()
 
-  const goToProfile = () => navigation.navigate("Profile");
-  const goToPostItem = () => navigation.navigate("PostItem");
-  const goToProductList = () => navigation.navigate("ProductList");
+  const goToProfile = () => navigation.navigate("Profile")
+  const goToPostItem = () => navigation.navigate("PostItem")
+  const goToProductList = () => navigation.navigate("ProductsPage")
 
   return (
     <View style={styles.buttonContainer}>
@@ -24,8 +25,8 @@ const CustomButtons: React.FC = () => {
         <Text style={buttonStyles.buttonText}>Post Item</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -33,6 +34,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 20,
   },
-});
+})
 
-export default CustomButtons;
+export default CustomButtons

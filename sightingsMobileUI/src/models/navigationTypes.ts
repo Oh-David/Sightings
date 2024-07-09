@@ -35,6 +35,7 @@ export type RootStackParamList = {
   };
   ForgotPassword: undefined;
   ResetPassword: { username: string };
+  ProductsPage: undefined;
 };
 
 export type ConfirmationScreenRouteProp = RouteProp<
