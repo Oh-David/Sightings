@@ -9,12 +9,14 @@ import {buttonStyles} from './ButtonStyles'
 const BidScreen: React.FC = () =>
 {
     const bids = useSelector((state: RootState) => state.bids.bids)
+    const userProducts = useSelector((state: RootState) => state.products.userProducts)
     const products = useSelector((state: RootState) => state.products.products)
+    const allProducts = [...userProducts, ...products]
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const [isModalVisible, setModalVisible] = useState(false)
 
     const findProductById = (id: string): Product | undefined =>
-        products.find((product) => product.id === id)
+        allProducts.find((product) => product.id === id)
 
     const handleProductPress = (product: Product) =>
     {

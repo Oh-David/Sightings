@@ -11,11 +11,13 @@ import
   ToastAndroid,
   Alert,
 } from "react-native"
-import {RouteProp} from "@react-navigation/native"
-import {Product, RootStackParamList} from "models/navigationTypes" // Adjust the import path as needed
+import {RouteProp, useNavigation} from "@react-navigation/native"
 import {buttonStyles} from "./ButtonStyles"
-import {useSelector} from "react-redux"
+import {useSelector, useDispatch} from "react-redux"
 import {RootState} from "./Data/Store"
+import {addBid} from "./Data/BidSlice"
+import {Product, RootStackParamList} from "models/navigationTypes"
+import {StackNavigationProp} from "@react-navigation/stack"
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 
@@ -29,21 +31,50 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
   const userProducts = useSelector((state: RootState) => state.products.userProducts) as Product[]
   const {product} = route.params
   const [selectedItem, setSelectedItem] = useState<(typeof userProducts)[0] | null>(null)
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const dispatch = useDispatch()
 
   const handleTradeOffer = () =>
   {
-    if (Platform.OS === "android")
+    if (selectedItem)
     {
-      ToastAndroid.show(
-        "This feature hasn't been implemented yet.",
-        ToastAndroid.SHORT
-      )
+      const bid = {
+        product1Id: selectedItem.id,
+        product2Id: product.id,
+      }
+
+      dispatch(addBid(bid))
+
+      if (Platform.OS === "android")
+      {
+        ToastAndroid.show(
+          "Trade offer made successfully!",
+          ToastAndroid.SHORT
+        )
+      } else
+      {
+        Alert.alert(
+          "Success",
+          "Trade offer made successfully!"
+        )
+      }
+
+      navigation.navigate("LandingPage")
     } else
     {
-      Alert.alert(
-        "Feature Not Implemented",
-        "This feature hasn't been implemented yet. Please check back later."
-      )
+      if (Platform.OS === "android")
+      {
+        ToastAndroid.show(
+          "Please select an item to trade.",
+          ToastAndroid.SHORT
+        )
+      } else
+      {
+        Alert.alert(
+          "Error",
+          "Please select an item to trade."
+        )
+      }
     }
   }
 
