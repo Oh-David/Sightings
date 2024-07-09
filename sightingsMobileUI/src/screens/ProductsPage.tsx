@@ -10,7 +10,6 @@ import {RootStackParamList} from "models/navigationTypes"
 
 const ProductsPage: React.FC = () =>
 {
-    const [isProductListModalVisible, setProductListModalVisible] = useState(false)
     const [isMyProductsModalVisible, setMyProductsModalVisible] = useState(false)
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
@@ -18,45 +17,14 @@ const ProductsPage: React.FC = () =>
         <View style={styles.container}>
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Product List</Text>
-                <ProductList />
-                <TouchableOpacity
-                    style={[buttonStyles.button]}
-                    onPress={() => setProductListModalVisible(true)}
-                >
-                    <Text style={[buttonStyles.buttonText]}>View Fullscreen</Text>
-                </TouchableOpacity>
+                <ProductList showCategoryFilter={true} />
             </View>
-            <View style={styles.section}>
-                <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>My Products</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("PostItem")}>
-                        <Ionicons name="add-circle-outline" size={24} color="#8B4513" />
-                    </TouchableOpacity>
-                </View>
-                <MyProducts />
-                <TouchableOpacity
-                    style={[buttonStyles.button]}
-                    onPress={() => setMyProductsModalVisible(true)}
-                >
-                    <Text style={[buttonStyles.buttonText]}>View Fullscreen</Text>
-                </TouchableOpacity>
-            </View>
-
-            <Modal
-                visible={isProductListModalVisible}
-                animationType="slide"
-                onRequestClose={() => setProductListModalVisible(false)}
+            <TouchableOpacity
+                style={[buttonStyles.button]}
+                onPress={() => setMyProductsModalVisible(true)}
             >
-                <View style={styles.modalContainer}>
-                    <ProductList showCategoryFilter={true} allowNavigation={false} />
-                    <TouchableOpacity
-                        style={[buttonStyles.button, buttonStyles.redButton]}
-                        onPress={() => setProductListModalVisible(false)}
-                    >
-                        <Text style={[buttonStyles.buttonText, buttonStyles.redButtonText]}>Close</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
+                <Text style={[buttonStyles.buttonText]}>My Products</Text>
+            </TouchableOpacity>
 
             <Modal
                 visible={isMyProductsModalVisible}
@@ -64,6 +32,12 @@ const ProductsPage: React.FC = () =>
                 onRequestClose={() => setMyProductsModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
+                    <View style={styles.sectionHeader}>
+                        <Text style={styles.sectionTitle}>My Products</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("PostItem")}>
+                            <Ionicons name="add-circle-outline" size={24} color="#8B4513" />
+                        </TouchableOpacity>
+                    </View>
                     <MyProducts />
                     <TouchableOpacity
                         style={[buttonStyles.button, buttonStyles.redButton]}
