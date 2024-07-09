@@ -1,17 +1,17 @@
 import React from "react"
 import
-{
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native"
+  {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+  } from "react-native"
 import
-{
-  ProfileScreenNavigationProp,
-  RouteParams,
-} from "models/navigationTypes"
+  {
+    ProfileScreenNavigationProp,
+    RouteParams,
+  } from "models/navigationTypes"
 import useProfile from "./useProfile"
 import {mockProfileImage} from "../Mock" // Ensure this path is correct
 import {buttonStyles} from "../ButtonStyles"
@@ -24,26 +24,32 @@ type ProfileScreenProps = {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
 {
-  const {
-    handleLogout,
-    handleProfileImage,
-  } = useProfile(navigation, route)
+  const {handleLogout, handleProfileImage} = useProfile(navigation, route)
 
   const renderHeader = () => (
     <View style={styles.header}>
       <TouchableOpacity onLongPress={handleProfileImage}>
         <Image source={{uri: mockProfileImage}} style={styles.profileImage} />
-
       </TouchableOpacity>
       <Text style={styles.title}>Welcome to Your Profile</Text>
     </View>
   )
 
   return (
-    <View>
+    <View style={styles.container}>
       {renderHeader()}
 
-      <MyProducts />
+      {/* Your Products Header */}
+      <View style={styles.productsHeader}>
+        <Text style={styles.productsTitle}>Your Products</Text>
+      </View>
+
+      {/* My Products Section */}
+      <View style={styles.productsContainer}>
+        <MyProducts />
+      </View>
+
+      {/* Logout Button */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={buttonStyles.button}
@@ -78,139 +84,31 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 10,
   },
-  placeholderImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#E0E0E0",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  placeholderText: {
-    color: "#757575",
-    fontSize: 14,
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#333333",
   },
-  sectionTitleContainer: {
-    marginLeft: 20,
-    marginVertical: 10,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333333",
-  },
-  itemsContainer: {
-    paddingLeft: 20,
-  },
-  offerCard: {
+  productsHeader: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     backgroundColor: "#FFFFFF",
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 5,
-    marginHorizontal: 20,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#DDD",
+    alignItems: "center",
   },
-  offerText: {
-    fontSize: 16,
+  productsTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
     color: "#333333",
   },
-  offerHighlight: {
-    fontWeight: "bold",
+  productsContainer: {
+    flex: 1,
+    padding: 10,
   },
   buttonContainer: {
     marginVertical: 20,
     alignItems: "center",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  modalCenteredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    width: "90%",
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalImage: {
-    width: 300,
-    height: 300,
-    margin: 10,
-    borderRadius: 10,
-  },
-  offersContainer: {
-    padding: 10,
-    backgroundColor: "#f0f0f0",
-  },
-  itemImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 5,
-  },
-  itemName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginVertical: 5,
-  },
-  itemButtonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  itemButton: {
-    padding: 10,
-    backgroundColor: "#007bff",
-    borderRadius: 5,
-  },
-  deleteButton: {
-    backgroundColor: "#dc3545",
-  },
-  itemButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  itemCard: {
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    marginVertical: 10,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
   },
 })
 
