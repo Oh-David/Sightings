@@ -67,6 +67,38 @@ export const mockProducts: Product[] = [
     image:
       "https://images.pexels.com/photos/1188649/pexels-photo-1188649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     tradeFor: "Fitness tracker",
+  },
+  {
+    id: "10",
+    name: "Gaming Console",
+    description: "Enjoy your favorite games.",
+    image:
+      "https://images.pexels.com/photos/21067/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Virtual Reality Headset",
+  },
+  {
+    id: "11",
+    name: "E-Reader",
+    description: "Read books on the go.",
+    image:
+      "https://images.pexels.com/photos/1475276/pexels-photo-1475276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Books",
+  },
+  {
+    id: "12",
+    name: "Desk Lamp",
+    description: "Brighten up your workspace.",
+    image:
+      "https://images.pexels.com/photos/568290/pexels-photo-568290.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Office Chair",
+  },
+  {
+    id: "14",
+    name: "Bluetooth Speaker",
+    description: "Portable sound system.",
+    image:
+      "https://images.pexels.com/photos/4062514/pexels-photo-4062514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Headphones",
   }
 ];
 
