@@ -1,5 +1,16 @@
 import React, {useState} from 'react'
-import {View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Button, Alert} from 'react-native'
+import
+    {
+        View,
+        Text,
+        FlatList,
+        StyleSheet,
+        Image,
+        TouchableOpacity,
+        Modal,
+        ScrollView,
+        Alert,
+    } from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import {MaterialIcons} from '@expo/vector-icons'
 import {RootState} from './Data/Store'
@@ -7,6 +18,8 @@ import {buttonStyles} from './ButtonStyles'
 import {selectAllProducts} from './Data/Selectors'
 import {Bid, removeBid} from './Data/BidSlice'
 import {Product} from './Data/Product'
+import CategoryFilter from './CategoryFilter'
+import {ProductCategory} from './Data/ProductCategory'
 
 const BidScreen: React.FC = () =>
 {
@@ -15,6 +28,7 @@ const BidScreen: React.FC = () =>
     const allProducts = useSelector(selectAllProducts)
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const [isModalVisible, setModalVisible] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null)
     const dispatch = useDispatch()
 
     const findProductById = (id: string): Product | undefined =>
@@ -47,34 +61,38 @@ const BidScreen: React.FC = () =>
         const product1 = findProductById(item.product1Id)
         const product2 = findProductById(item.product2Id)
 
+        if (!product1 || !product2) return null
+
+        const shouldDisplayProduct1 = selectedCategory === null || product1.category === selectedCategory
+        const shouldDisplayProduct2 = selectedCategory === null || product2.category === selectedCategory
+
+        if (!shouldDisplayProduct1 && !shouldDisplayProduct2) return null
+
         return (
             <View style={styles.bidItem}>
-                {product1 && product2 && (
-                    <>
-                        <TouchableOpacity style={styles.productContainer} onPress={() => handleProductPress(product1)}>
-                            <Image source={{uri: product1.image}} style={styles.productImage} />
-                            <View style={styles.productDetails}>
-                                <Text style={styles.productName}>{product1.name}</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <MaterialIcons name="swap-horiz" size={24} color="black" style={styles.bidIcon} />
-                        <TouchableOpacity style={styles.productContainer} onPress={() => handleProductPress(product2)}>
-                            <Image source={{uri: product2.image}} style={styles.productImage} />
-                            <View style={styles.productDetails}>
-                                <Text style={styles.productName}>{product2.name}</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleRemoveBid(item.product1Id, item.product2Id)}>
-                            <MaterialIcons name="delete" size={24} color="red" style={styles.deleteIcon} />
-                        </TouchableOpacity>
-                    </>
-                )}
+                <TouchableOpacity style={styles.productContainer} onPress={() => handleProductPress(product1)}>
+                    <Image source={{uri: product1.image}} style={styles.productImage} />
+                    <View style={styles.productDetails}>
+                        <Text style={styles.productName}>{product1.name}</Text>
+                    </View>
+                </TouchableOpacity>
+                <MaterialIcons name="swap-horiz" size={24} color="black" style={styles.bidIcon} />
+                <TouchableOpacity style={styles.productContainer} onPress={() => handleProductPress(product2)}>
+                    <Image source={{uri: product2.image}} style={styles.productImage} />
+                    <View style={styles.productDetails}>
+                        <Text style={styles.productName}>{product2.name}</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleRemoveBid(item.product1Id, item.product2Id)}>
+                    <MaterialIcons name="delete" size={24} color="red" style={styles.deleteIcon} />
+                </TouchableOpacity>
             </View>
         )
     }
 
     return (
         <View style={styles.container}>
+            <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
             <FlatList
                 data={bids}
                 renderItem={renderItem}
@@ -95,7 +113,6 @@ const BidScreen: React.FC = () =>
                                 <Text style={styles.modalDescription}>{selectedProduct.description}</Text>
                                 <Text style={styles.modalTradeFor}>Trade for: {selectedProduct.tradeFor}</Text>
                             </ScrollView>
-
                             <TouchableOpacity
                                 style={[buttonStyles.button, buttonStyles.redButton, {marginTop: 20}]}
                                 onPress={() => setModalVisible(false)}
