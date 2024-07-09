@@ -1,13 +1,18 @@
 import React, {useState} from "react"
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from "react-native"
+import {Ionicons} from '@expo/vector-icons' // Import Ionicons
 import {buttonStyles} from "./ButtonStyles" // Import the button styles
 import ProductList from "./ProductList"
 import MyProducts from "./MyProducts"
+import {useNavigation} from "@react-navigation/native"
+import {StackNavigationProp} from "@react-navigation/stack"
+import {RootStackParamList} from "models/navigationTypes"
 
 const ProductsPage: React.FC = () =>
 {
     const [isProductListModalVisible, setProductListModalVisible] = useState(false)
     const [isMyProductsModalVisible, setMyProductsModalVisible] = useState(false)
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
     return (
         <View style={styles.container}>
@@ -18,14 +23,19 @@ const ProductsPage: React.FC = () =>
                     style={[buttonStyles.button]}
                     onPress={() => setProductListModalVisible(true)}
                 >
-                    <Text style={[buttonStyles.buttonText,]}>View Fullscreen</Text>
+                    <Text style={[buttonStyles.buttonText]}>View Fullscreen</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>My Products</Text>
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>My Products</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("PostItem")}>
+                        <Ionicons name="add-circle-outline" size={24} color="#8B4513" />
+                    </TouchableOpacity>
+                </View>
                 <MyProducts />
                 <TouchableOpacity
-                    style={[buttonStyles.button,]}
+                    style={[buttonStyles.button]}
                     onPress={() => setMyProductsModalVisible(true)}
                 >
                     <Text style={[buttonStyles.buttonText]}>View Fullscreen</Text>
@@ -88,11 +98,16 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
+    sectionHeader: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 15,
+    },
     sectionTitle: {
         fontSize: 20,
         fontWeight: "600",
         color: "#333333",
-        marginBottom: 15,
     },
     modalContainer: {
         flex: 1,
