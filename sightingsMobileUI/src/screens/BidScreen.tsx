@@ -1,4 +1,3 @@
-// BidScreen.tsx
 import React, {useState} from 'react'
 import {View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Button} from 'react-native'
 import {useSelector} from 'react-redux'
