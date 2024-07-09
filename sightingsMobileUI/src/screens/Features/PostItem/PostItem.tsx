@@ -40,7 +40,6 @@ const PostItem: React.FC = () =>
     depth: 0,
     weight: 0,
   })
-  const [dateListed, setDateListed] = useState(new Date().toISOString())
 
   const handleAddItem = () =>
   {
@@ -53,9 +52,9 @@ const PostItem: React.FC = () =>
       category: category ?? ProductCategory.Other,
       condition,
       location,
-      ownerId: "currentUserId", // Replace with actual user ID
+      ownerId: "currentUserId",
       dimensions,
-      dateListed: new Date().toISOString(), // Convert Date to string
+      dateListed: new Date().toISOString(),
     }
     dispatch(addUserItem(newItem))
     if (Platform.OS === "android")
@@ -80,7 +79,6 @@ const PostItem: React.FC = () =>
     setCondition(randomItem.condition)
     setLocation(randomItem.location)
     setDimensions(randomItem.dimensions ?? {width: 0, height: 0, depth: 0, weight: 0})
-    setDateListed(randomItem.dateListed) // Set dateListed from mock data
   }
 
   return (
