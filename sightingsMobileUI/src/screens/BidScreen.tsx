@@ -1,18 +1,21 @@
 import React, {useState} from 'react'
-import {View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Button} from 'react-native'
-import {useSelector} from 'react-redux'
+import {View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Button, Alert} from 'react-native'
+import {useSelector, useDispatch} from 'react-redux'
 import {MaterialIcons} from '@expo/vector-icons'
 import {RootState} from './Data/Store'
 import {Product} from 'models/navigationTypes'
 import {buttonStyles} from './ButtonStyles'
 import {selectAllProducts} from './Data/Selectors'
+import {Bid, removeBid} from './Data/BidSlice'
 
 const BidScreen: React.FC = () =>
 {
-    const bids = useSelector((state: RootState) => state.bids.bids)
+    const bids = useSelector((state: RootState) => state.bids.bids) as Bid[]
+    const userProducts = useSelector((state: RootState) => state.products.userProducts) as Product[]
     const allProducts = useSelector(selectAllProducts)
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const [isModalVisible, setModalVisible] = useState(false)
+    const dispatch = useDispatch()
 
     const findProductById = (id: string): Product | undefined =>
         allProducts.find((product) => product.id === id)
@@ -21,6 +24,22 @@ const BidScreen: React.FC = () =>
     {
         setSelectedProduct(product)
         setModalVisible(true)
+    }
+
+    const handleRemoveBid = (product1Id: string, product2Id: string) =>
+    {
+        const userOwnsProduct = userProducts.some(
+            (product) => product.id === product1Id || product.id === product2Id
+        )
+
+        if (userOwnsProduct)
+        {
+            dispatch(removeBid({product1Id, product2Id}))
+            Alert.alert('Success', 'Bid removed successfully.')
+        } else
+        {
+            Alert.alert('Error', 'You can only remove bids involving your own products.')
+        }
     }
 
     const renderItem = ({item}: {item: {product1Id: string; product2Id: string}}) =>
@@ -44,6 +63,9 @@ const BidScreen: React.FC = () =>
                             <View style={styles.productDetails}>
                                 <Text style={styles.productName}>{product2.name}</Text>
                             </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleRemoveBid(item.product1Id, item.product2Id)}>
+                            <MaterialIcons name="delete" size={24} color="red" style={styles.deleteIcon} />
                         </TouchableOpacity>
                     </>
                 )}
@@ -75,12 +97,11 @@ const BidScreen: React.FC = () =>
                             </ScrollView>
 
                             <TouchableOpacity
-                                style={[buttonStyles.button, buttonStyles.redButton, {marginTop: 20}]} // Added marginTop here
+                                style={[buttonStyles.button, buttonStyles.redButton, {marginTop: 20}]}
                                 onPress={() => setModalVisible(false)}
                             >
                                 <Text style={[buttonStyles.buttonText, buttonStyles.redButtonText]}>Close</Text>
                             </TouchableOpacity>
-
                         </View>
                     </View>
                 </Modal>
@@ -128,6 +149,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     bidIcon: {
+        marginHorizontal: 8,
+    },
+    deleteIcon: {
         marginHorizontal: 8,
     },
     modalContainer: {
