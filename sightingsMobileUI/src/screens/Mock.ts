@@ -1,3 +1,4 @@
+import {Bid} from "./Data/BidSlice"
 import { Product } from "./Data/ProductSlice";
 
 export const mockUserProducts: Product[] = [
@@ -131,6 +132,13 @@ export const mockPostProducts = [
     tradeFor: "Power bank",
     image: "https://images.pexels.com/photos/914912/pexels-photo-914912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   }
+];
+
+export const mockBids: Bid[] = [
+  { product1Id: '5', product2Id: '6' }, // Smartphone <-> Headphones
+  { product1Id: '7', product2Id: '8' }, // Backpack <-> Water Bottle
+  { product1Id: '10', product2Id: '11' }, // Gaming Console <-> E-Reader
+  { product1Id: '12', product2Id: '14' }, // Desk Lamp <-> Bluetooth Speaker
 ];
 
 export const mockAppLogo = "https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"

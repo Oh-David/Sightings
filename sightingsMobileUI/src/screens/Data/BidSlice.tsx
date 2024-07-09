@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {mockBids} from "../Mock"
 
 export interface Bid
 {
@@ -12,7 +13,7 @@ interface BidState
 }
 
 const initialBidState: BidState = {
-    bids: [],
+    bids: mockBids,
 }
 
 const BidSlice = createSlice({
