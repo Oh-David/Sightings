@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {mockProducts, mockUserProducts} from "../Mock"
-import {Product} from "models/navigationTypes"
+import {Product} from "./Product"
 
 interface ProductState
 {
