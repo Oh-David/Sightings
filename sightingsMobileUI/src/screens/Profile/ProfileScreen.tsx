@@ -1,21 +1,21 @@
 import React from "react"
 import
-  {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    FlatList,
-    Modal,
-    ActivityIndicator,
-    TouchableOpacity,
-    Button as RNButton,
-  } from "react-native"
+{
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Modal,
+  ActivityIndicator,
+  TouchableOpacity,
+  Button as RNButton,
+} from "react-native"
 import
-  {
-    ProfileScreenNavigationProp,
-    RouteParams,
-  } from "models/navigationTypes"
+{
+  ProfileScreenNavigationProp,
+  RouteParams,
+} from "models/navigationTypes"
 import useProfile from "./useProfile"
 import {mockUserProducts} from "../Mock" // Ensure this path is correct
 import {buttonStyles} from "../ButtonStyles"
@@ -75,25 +75,19 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
   )
 
   return (
-    <FlatList
-      data={[]}
-      ListHeaderComponent={
-        <View>
-          {renderHeader()}
+    <View>
+      {renderHeader()}
 
-          <MyProducts />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={buttonStyles.button}
-              onPress={handleLogout}
-            >
-              <Text style={buttonStyles.buttonText}>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      }
-      keyExtractor={(item, index) => index.toString()}
-    />
+      <MyProducts />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={buttonStyles.button}
+          onPress={handleLogout}
+        >
+          <Text style={buttonStyles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
 
