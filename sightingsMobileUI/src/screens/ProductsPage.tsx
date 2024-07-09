@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from "react-native"
-import {Ionicons} from '@expo/vector-icons' // Import Ionicons
-import {buttonStyles} from "./ButtonStyles" // Import the button styles
+import {Ionicons} from '@expo/vector-icons'
+import {buttonStyles} from "./ButtonStyles"
 import ProductList from "./ProductList"
 import MyProducts from "./MyProducts"
 import {useNavigation} from "@react-navigation/native"
@@ -48,7 +48,7 @@ const ProductsPage: React.FC = () =>
                 onRequestClose={() => setProductListModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
-                    <ProductList showCategoryFilter={true} />
+                    <ProductList showCategoryFilter={true} allowNavigation={false} />
                     <TouchableOpacity
                         style={[buttonStyles.button, buttonStyles.redButton]}
                         onPress={() => setProductListModalVisible(false)}

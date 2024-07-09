@@ -1,13 +1,13 @@
 import React, {useState} from "react"
 import
-{
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native"
+  {
+    View,
+    Text,
+    FlatList,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+  } from "react-native"
 import {useSelector} from "react-redux"
 import useProductList from "./useProductList"
 import {RootState} from "./Data/Store"
@@ -18,9 +18,10 @@ import {ProductCategory} from "./Data/ProductCategory"
 interface ProductListProps
 {
   showCategoryFilter?: boolean
+  allowNavigation?: boolean
 }
 
-const ProductList: React.FC<ProductListProps> = ({showCategoryFilter = false}) =>
+const ProductList: React.FC<ProductListProps> = ({showCategoryFilter = false, allowNavigation = true}) =>
 {
   const products = useSelector((state: RootState) => state.products.products) as Product[]
   const {handlePress} = useProductList()
@@ -42,7 +43,9 @@ const ProductList: React.FC<ProductListProps> = ({showCategoryFilter = false}) =
         data={filteredProducts}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => handlePress(item)}>
+          <TouchableOpacity
+            onPress={() => allowNavigation && handlePress(item)}
+          >
             <View style={styles.productItem}>
               <Image source={{uri: item.image}} style={styles.productImage} />
               <View style={styles.productInfo}>
