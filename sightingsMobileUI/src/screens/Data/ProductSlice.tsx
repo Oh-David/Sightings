@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {allItems, userItems} from "../Mock"
+import {mockProducts, mockUserProducts} from "../Mock"
 
 export interface Product 
 {
@@ -18,8 +18,8 @@ interface ProductState
 
 const initialState: ProductState =
 {
-  userProducts: userItems,
-  products: allItems,
+  userProducts: mockUserProducts,
+  products: mockProducts,
 }
 
 const ProductSlice = createSlice({

@@ -1,30 +1,33 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  Modal,
-  ActivityIndicator,
-  TouchableOpacity,
-  Button as RNButton,
-} from "react-native";
-import {
-  ProfileScreenNavigationProp,
-  RouteParams,
-} from "models/navigationTypes";
-import useProfile from "./useProfile";
-import { userItems } from "../Mock"; // Ensure this path is correct
-import { buttonStyles } from "../ButtonStyles";
-import MyProducts from "../MyProducts";
+import React from "react"
+import
+  {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    FlatList,
+    Modal,
+    ActivityIndicator,
+    TouchableOpacity,
+    Button as RNButton,
+  } from "react-native"
+import
+  {
+    ProfileScreenNavigationProp,
+    RouteParams,
+  } from "models/navigationTypes"
+import useProfile from "./useProfile"
+import {mockUserProducts} from "../Mock" // Ensure this path is correct
+import {buttonStyles} from "../ButtonStyles"
+import MyProducts from "../MyProducts"
 
 type ProfileScreenProps = {
-  navigation: ProfileScreenNavigationProp;
-  route: { params?: RouteParams };
-};
+  navigation: ProfileScreenNavigationProp
+  route: {params?: RouteParams}
+}
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
+const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
+{
   const {
     //imageUri,
     //userItems
@@ -37,16 +40,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
     handleProfileImage,
     handleEditItem,
     handleDeleteItem,
-  } = useProfile(navigation, route);
+  } = useProfile(navigation, route)
 
   const imageUri =
-    "https://images.pexels.com/photos/1310522/pexels-photo-1310522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+    "https://images.pexels.com/photos/1310522/pexels-photo-1310522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 
   const renderHeader = () => (
     <View style={styles.header}>
       <TouchableOpacity onLongPress={handleProfileImage}>
         {imageUri ? (
-          <Image source={{ uri: imageUri }} style={styles.profileImage} />
+          <Image source={{uri: imageUri}} style={styles.profileImage} />
         ) : (
           <View style={styles.placeholderImage}>
             <Text style={styles.placeholderText}>Upload Image</Text>
@@ -55,21 +58,21 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
       </TouchableOpacity>
       <Text style={styles.title}>Welcome to Your Profile</Text>
     </View>
-  );
+  )
 
   const renderSectionTitle = (title: string) => (
     <View style={styles.sectionTitleContainer}>
       <Text style={styles.sectionTitle}>{title}</Text>
     </View>
-  );
+  )
 
-  const renderUserItem = ({ item }) => (
+  const renderUserItem = ({item}) => (
     <View style={styles.itemCard}>
-      <Image source={{ uri: item.image }} style={styles.itemImage} />
+      <Image source={{uri: item.image}} style={styles.itemImage} />
       <Text style={styles.itemName}>{item.name}</Text>
       <View style={styles.itemButtonContainer}></View>
     </View>
-  );
+  )
 
   return (
     <FlatList
@@ -91,8 +94,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
       }
       keyExtractor={(item, index) => index.toString()}
     />
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginBottom: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
@@ -153,7 +156,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 25,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
@@ -198,7 +201,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -245,11 +248,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 2,
   },
-});
+})
 
-export default ProfileScreen;
+export default ProfileScreen

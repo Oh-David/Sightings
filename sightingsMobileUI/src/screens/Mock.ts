@@ -1,6 +1,6 @@
 import { Product } from "./Data/ProductSlice";
 
-export const userItems: Product[] = [
+export const mockUserProducts: Product[] = [
   {
     id: "1001",
     name: "Bicycle",
@@ -35,7 +35,7 @@ export const userItems: Product[] = [
   },
 ];
 
-export const allItems: Product[] = [
+export const mockProducts: Product[] = [
   {
     id: "5",
     name: "Smartphone",
@@ -70,7 +70,7 @@ export const allItems: Product[] = [
   }
 ];
 
-export const productItems = [
+export const mockPostProducts = [
   {
     id: "105",
     name: "Notebook",
