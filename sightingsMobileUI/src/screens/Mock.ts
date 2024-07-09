@@ -100,3 +100,5 @@ export const mockPostProducts = [
     image: "https://images.pexels.com/photos/914912/pexels-photo-914912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   }
 ];
+
+export const mockAppLogo = "https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
