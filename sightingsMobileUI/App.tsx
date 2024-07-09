@@ -112,7 +112,7 @@ export default function App()
           <Stack.Screen
             name="ProductsPage"
             component={ProductsPage}
-            options={{title: "ProductsPage"}}
+            options={{title: "Products"}}
           />
 
         </Stack.Navigator>

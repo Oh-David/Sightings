@@ -15,20 +15,20 @@ const ProductsPage: React.FC = () =>
                 <Text style={styles.sectionTitle}>Product List</Text>
                 <ProductList />
                 <TouchableOpacity
-                    style={[buttonStyles.button, buttonStyles.blueButton]}
+                    style={[buttonStyles.button]}
                     onPress={() => setProductListModalVisible(true)}
                 >
-                    <Text style={[buttonStyles.buttonText, buttonStyles.blueButtonText]}>View Fullscreen</Text>
+                    <Text style={[buttonStyles.buttonText,]}>View Fullscreen</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>My Products</Text>
                 <MyProducts />
                 <TouchableOpacity
-                    style={[buttonStyles.button, buttonStyles.blueButton]}
+                    style={[buttonStyles.button,]}
                     onPress={() => setMyProductsModalVisible(true)}
                 >
-                    <Text style={[buttonStyles.buttonText, buttonStyles.blueButtonText]}>View Fullscreen</Text>
+                    <Text style={[buttonStyles.buttonText]}>View Fullscreen</Text>
                 </TouchableOpacity>
             </View>
 
