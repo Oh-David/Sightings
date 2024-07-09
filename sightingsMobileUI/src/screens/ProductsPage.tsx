@@ -16,7 +16,6 @@ const ProductsPage: React.FC = () =>
     return (
         <View style={styles.container}>
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Product List</Text>
                 <ProductList showCategoryFilter={true} />
             </View>
             <TouchableOpacity

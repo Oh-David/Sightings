@@ -1,14 +1,16 @@
 import React, {useState} from "react"
 import
-    {
-        View,
-        Text,
-        TouchableOpacity,
-        Modal,
-        ScrollView,
-        StyleSheet,
-    } from "react-native"
+{
+    View,
+    Text,
+    TouchableOpacity,
+    Modal,
+    ScrollView,
+    StyleSheet,
+} from "react-native"
 import {ProductCategory} from "./Data/ProductCategory"
+import {buttonStyles} from "./ButtonStyles"
+import {Ionicons} from '@expo/vector-icons' // Assuming you're using Expo and have Ionicons installed
 
 interface CategoryFilterProps
 {
@@ -90,11 +92,12 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
         <View>
             <TouchableOpacity
                 onPress={() => setModalVisible(true)}
-                style={styles.dropdownButton}
+                style={[buttonStyles.dropdownButton, styles.dropdownButton]}
             >
-                <Text style={styles.dropdownButtonText}>
+                <Text style={[buttonStyles.dropdownButtonText, styles.dropdownButtonText]}>
                     {selectedCategory === null ? "All Categories" : getCategoryName(selectedCategory)}
                 </Text>
+                <Ionicons name="chevron-down" size={24} style={styles.icon} />
             </TouchableOpacity>
 
             <Modal
@@ -128,22 +131,18 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 
 const styles = StyleSheet.create({
     dropdownButton: {
-        padding: 12,
-        backgroundColor: "#4CAF50",
-        borderRadius: 8,
+        marginBottom: 10, // Adjusted margin
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
-        shadowColor: "#000",
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        marginBottom: 20,
+        justifyContent: "center", // Center the text
     },
     dropdownButtonText: {
         fontSize: 18,
-        color: "#fff",
         fontWeight: "bold",
+        marginRight: 10, // Space between text and icon
+    },
+    icon: {
+        alignSelf: "center",
     },
     modalOverlay: {
         flex: 1,
