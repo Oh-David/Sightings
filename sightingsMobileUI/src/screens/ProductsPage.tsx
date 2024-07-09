@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from "react-native"
+import {buttonStyles} from "./ButtonStyles" // Import the button styles
 import ProductList from "./ProductList"
 import MyProducts from "./MyProducts"
 
@@ -14,20 +15,20 @@ const ProductsPage: React.FC = () =>
                 <Text style={styles.sectionTitle}>Product List</Text>
                 <ProductList />
                 <TouchableOpacity
-                    style={styles.viewButton}
+                    style={[buttonStyles.button, buttonStyles.blueButton]}
                     onPress={() => setProductListModalVisible(true)}
                 >
-                    <Text style={styles.viewButtonText}>View Fullscreen</Text>
+                    <Text style={[buttonStyles.buttonText, buttonStyles.blueButtonText]}>View Fullscreen</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>My Products</Text>
                 <MyProducts />
                 <TouchableOpacity
-                    style={styles.viewButton}
+                    style={[buttonStyles.button, buttonStyles.blueButton]}
                     onPress={() => setMyProductsModalVisible(true)}
                 >
-                    <Text style={styles.viewButtonText}>View Fullscreen</Text>
+                    <Text style={[buttonStyles.buttonText, buttonStyles.blueButtonText]}>View Fullscreen</Text>
                 </TouchableOpacity>
             </View>
 
@@ -39,10 +40,10 @@ const ProductsPage: React.FC = () =>
                 <View style={styles.modalContainer}>
                     <ProductList />
                     <TouchableOpacity
-                        style={styles.closeButton}
+                        style={[buttonStyles.button, buttonStyles.redButton]}
                         onPress={() => setProductListModalVisible(false)}
                     >
-                        <Text style={styles.closeButtonText}>Close</Text>
+                        <Text style={[buttonStyles.buttonText, buttonStyles.redButtonText]}>Close</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
@@ -55,10 +56,10 @@ const ProductsPage: React.FC = () =>
                 <View style={styles.modalContainer}>
                     <MyProducts />
                     <TouchableOpacity
-                        style={styles.closeButton}
+                        style={[buttonStyles.button, buttonStyles.redButton]}
                         onPress={() => setMyProductsModalVisible(false)}
                     >
-                        <Text style={styles.closeButtonText}>Close</Text>
+                        <Text style={[buttonStyles.buttonText, buttonStyles.redButtonText]}>Close</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
@@ -69,42 +70,35 @@ const ProductsPage: React.FC = () =>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
+        padding: 15,
+        backgroundColor: "#F5F5F5",
     },
     section: {
         flex: 1,
         marginBottom: 20,
+        padding: 20,
+        backgroundColor: "#FFFFFF",
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
     },
     sectionTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-    viewButton: {
-        backgroundColor: "#007BFF",
-        padding: 10,
-        borderRadius: 5,
-        alignItems: "center",
-    },
-    viewButtonText: {
-        color: "#FFF",
-        fontSize: 16,
+        fontSize: 20,
+        fontWeight: "600",
+        color: "#333333",
+        marginBottom: 15,
     },
     modalContainer: {
         flex: 1,
         padding: 20,
         justifyContent: "center",
-    },
-    closeButton: {
-        backgroundColor: "#FF0000",
-        padding: 10,
-        borderRadius: 5,
-        alignItems: "center",
-        marginTop: 20,
-    },
-    closeButtonText: {
-        color: "#FFF",
-        fontSize: 16,
+        backgroundColor: "#FFFFFF",
     },
 })
 

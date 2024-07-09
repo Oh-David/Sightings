@@ -22,4 +22,18 @@ export const buttonStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
+  blueButton: {
+    backgroundColor: "#007BFF",
+    borderWidth: 0,
+  },
+  blueButtonText: {
+    color: "#FFFFFF",
+  },
+  redButton: {
+    backgroundColor: "#FF3B30",
+    borderWidth: 0,
+  },
+  redButtonText: {
+    color: "#FFFFFF",
+  },
 });
