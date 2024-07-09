@@ -29,14 +29,12 @@ const ProductSlice = createSlice({
     addUserItem: (state, action: PayloadAction<Product>) =>
     {
       state.userProducts.push(action.payload)
-      state.products.push(action.payload)
     },
     removeUserItem: (state, action: PayloadAction<string>) =>
     {
       state.userProducts = state.userProducts.filter(
         (item) => item.id !== action.payload
       )
-      state.products = state.products.filter((item) => item.id !== action.payload)
     },
   },
 })

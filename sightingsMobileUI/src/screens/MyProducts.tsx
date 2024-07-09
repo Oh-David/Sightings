@@ -43,7 +43,7 @@ const MyProducts: React.FC = () =>
     <View style={styles.itemContainer}>
       <TouchableOpacity
         style={styles.itemContent}
-        onPress={() => handlePress(item)}
+        onPress={() => { }}
       >
         <Image source={{uri: item.image}} style={styles.itemImage} />
         <Text style={styles.itemText}>{item.name}</Text>

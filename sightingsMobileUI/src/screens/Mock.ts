@@ -113,6 +113,14 @@ export const allItems: Product[] = [
       "https://images.pexels.com/photos/374898/pexels-photo-374898.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     tradeFor: "Travel bag",
   },
+  {
+    id: "8",
+    name: "Water Bottle",
+    description: "Stay hydrated.",
+    image:
+      "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tradeFor: "Fitness tracker",
+  }
 ];
 
 export const userBids: Bid[] = [

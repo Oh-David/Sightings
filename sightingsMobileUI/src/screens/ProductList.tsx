@@ -18,7 +18,7 @@ import {RootState} from "./Data/Store"
 const ProductList: React.FC = () =>
 {
   const products = useSelector(
-    (state: RootState) => state.products.userProducts
+    (state: RootState) => state.products.products
   ) as Product[]
 
   const {handlePress} = useProductList(
