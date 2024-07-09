@@ -1,4 +1,4 @@
-import { Bid, UserItem } from "./Data/UserItems";
+import { Bid, Product } from "./Data/ProductSlice";
 
 export const itemNames = [
   "Laptop",
@@ -52,7 +52,7 @@ export const itemImages = [
   "https://images.pexels.com/photos/914912/pexels-photo-914912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
 ];
 
-export const userItems: UserItem[] = [
+export const userItems: Product[] = [
   {
     id: "1",
     name: "Bicycle",
@@ -88,7 +88,7 @@ export const userItems: UserItem[] = [
 ];
 
 // Mock data for all items (no overlap with user items)
-export const allItems: UserItem[] = [
+export const allItems: Product[] = [
   {
     id: "5",
     name: "Smartphone",

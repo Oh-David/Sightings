@@ -1,47 +1,51 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
+import React from "react"
+import {useSelector, useDispatch} from "react-redux"
+import
+{
   View,
   Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
   Image,
-} from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootState } from "./Data/Store";
-import { RootStackParamList } from "models/navigationTypes";
-import { removeItem, UserItem } from "./Data/UserItems";
+} from "react-native"
+import {FontAwesome} from "@expo/vector-icons"
+import {useNavigation} from "@react-navigation/native"
+import {StackNavigationProp} from "@react-navigation/stack"
+import {RootStackParamList} from "models/navigationTypes"
+import {removeUserItem, Product} from "./Data/ProductSlice"
+import {RootState} from "./Data/Store"
 
 type MyProductsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "ProductDetail"
->;
+>
 
-const MyProducts: React.FC = () => {
+const MyProducts: React.FC = () =>
+{
   const products = useSelector(
-    (state: RootState) => state.userItems.items
-  ) as UserItem[];
-  const dispatch = useDispatch();
-  const navigation = useNavigation<MyProductsScreenNavigationProp>();
+    (state: RootState) => state.userItems.userProducts
+  ) as Product[]
+  const dispatch = useDispatch()
+  const navigation = useNavigation<MyProductsScreenNavigationProp>()
 
-  const handleRemoveItem = (id: string) => {
-    dispatch(removeItem(id));
-  };
+  const handleRemoveItem = (id: string) =>
+  {
+    dispatch(removeUserItem(id))
+  }
 
-  const handlePress = (item: UserItem) => {
-    navigation.navigate("ProductDetail", { product: item });
-  };
+  const handlePress = (item: Product) =>
+  {
+    navigation.navigate("ProductDetail", {product: item})
+  }
 
-  const renderItem = ({ item }: { item: UserItem }) => (
+  const renderItem = ({item}: {item: Product}) => (
     <View style={styles.itemContainer}>
       <TouchableOpacity
         style={styles.itemContent}
         onPress={() => handlePress(item)}
       >
-        <Image source={{ uri: item.image }} style={styles.itemImage} />
+        <Image source={{uri: item.image}} style={styles.itemImage} />
         <Text style={styles.itemText}>{item.name}</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -51,7 +55,7 @@ const MyProducts: React.FC = () => {
         <FontAwesome name="trash" size={24} color="red" />
       </TouchableOpacity>
     </View>
-  );
+  )
 
   return (
     <View style={styles.container}>
@@ -63,8 +67,8 @@ const MyProducts: React.FC = () => {
         contentContainerStyle={styles.listContainer}
       />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
@@ -113,6 +117,6 @@ const styles = StyleSheet.create({
   removeButton: {
     padding: 5,
   },
-});
+})
 
-export default MyProducts;
+export default MyProducts

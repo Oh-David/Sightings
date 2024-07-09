@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addItem } from "../../Data/UserItems";
-import {
+import {useState} from "react"
+import {useDispatch} from "react-redux"
+import {addUserItem} from "../../Data/ProductSlice"
+import
+{
   itemDescriptions,
   itemImages,
   itemNames,
   itemTradeFor,
-} from "../../Mock";
-import {
+} from "../../Mock"
+import
+{
   TextInput,
   View,
   StyleSheet,
@@ -16,45 +18,50 @@ import {
   Platform,
   ToastAndroid,
   Alert,
-} from "react-native";
-import React from "react";
-import { buttonStyles } from "../../ButtonStyles";
-import { useNavigation } from "@react-navigation/native";
-import { LandingPageScreenNavigationProp } from "../../../models/navigationTypes";
+} from "react-native"
+import React from "react"
+import {buttonStyles} from "../../ButtonStyles"
+import {useNavigation} from "@react-navigation/native"
+import {LandingPageScreenNavigationProp} from "../../../models/navigationTypes"
 
-const PostItem: React.FC = () => {
-  const navigation = useNavigation<LandingPageScreenNavigationProp>();
+const PostItem: React.FC = () =>
+{
+  const navigation = useNavigation<LandingPageScreenNavigationProp>()
 
-  const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [tradeFor, setTradeFor] = useState("");
+  const dispatch = useDispatch()
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const [image, setImage] = useState("")
+  const [tradeFor, setTradeFor] = useState("")
 
-  const handleAddItem = () => {
+  const handleAddItem = () =>
+  {
     const newItem = {
       id: new Date().toISOString(),
       name,
       description,
       image,
       tradeFor,
-    };
-    dispatch(addItem(newItem));
-    if (Platform.OS === "android") {
-      ToastAndroid.show("Item posted successfully!", ToastAndroid.SHORT);
-    } else {
-      Alert.alert("Success", "Item posted successfully!");
     }
-    navigation.navigate("LandingPage");
-  };
+    dispatch(addUserItem(newItem))
+    if (Platform.OS === "android")
+    {
+      ToastAndroid.show("Item posted successfully!", ToastAndroid.SHORT)
+    } else
+    {
+      Alert.alert("Success", "Item posted successfully!")
+    }
+    navigation.navigate("LandingPage")
+  }
 
-  const handleAutoGenerate = () => {
-    const randomIndex = Math.floor(Math.random() * itemNames.length);
-    setName(itemNames[randomIndex]);
-    setDescription(itemDescriptions[randomIndex]);
-    setImage(itemImages[randomIndex]);
-    setTradeFor(itemTradeFor[randomIndex]);
-  };
+  const handleAutoGenerate = () =>
+  {
+    const randomIndex = Math.floor(Math.random() * itemNames.length)
+    setName(itemNames[randomIndex])
+    setDescription(itemDescriptions[randomIndex])
+    setImage(itemImages[randomIndex])
+    setTradeFor(itemTradeFor[randomIndex])
+  }
 
   return (
     <View style={styles.container}>
@@ -98,8 +105,8 @@ const PostItem: React.FC = () => {
         </TouchableOpacity>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "#FFF",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
@@ -132,6 +139,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-});
+})
 
-export default PostItem;
+export default PostItem
