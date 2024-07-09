@@ -30,7 +30,10 @@ const MyProducts: React.FC = () =>
         onPress={() => { }}
       >
         <Image source={{uri: item.image}} style={styles.itemImage} />
-        <Text style={styles.itemText}>{item.name}</Text>
+        <View style={styles.itemInfo}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemDescription}>{item.description}</Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.removeButton}
@@ -56,31 +59,19 @@ const MyProducts: React.FC = () =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
     padding: 20,
-    backgroundColor: "#F5F5F5",
-  },
-  title: {
-    fontSize: 21,
-    fontWeight: "600",
-    marginBottom: 20,
-    color: "#333",
   },
   listContainer: {
     paddingBottom: 20,
   },
   itemContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#FFF",
     padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    backgroundColor: "#fff",
   },
   itemContent: {
     flex: 1,
@@ -90,12 +81,19 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 50,
     height: 50,
-    borderRadius: 8,
+    borderRadius: 25,
     marginRight: 15,
   },
-  itemText: {
+  itemInfo: {
+    flex: 1,
+  },
+  itemName: {
     fontSize: 18,
-    color: "#333",
+    fontWeight: "bold",
+  },
+  itemDescription: {
+    fontSize: 14,
+    color: "#666",
   },
   removeButton: {
     padding: 5,
