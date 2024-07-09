@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import
 {
   View,
@@ -12,32 +12,42 @@ import {useSelector} from "react-redux"
 import useProductList from "./useProductList"
 import {RootState} from "./Data/Store"
 import {Product} from "./Data/Product"
+import CategoryFilter from "./CategoryFilter"
+import {ProductCategory} from "./Data/ProductCategory"
 
-const ProductList: React.FC = () =>
+interface ProductListProps
+{
+  showCategoryFilter?: boolean
+}
+
+const ProductList: React.FC<ProductListProps> = ({showCategoryFilter = false}) =>
 {
   const products = useSelector((state: RootState) => state.products.products) as Product[]
-
   const {handlePress} = useProductList()
+  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null)
+
+  const filteredProducts = selectedCategory === null
+    ? products
+    : products.filter(product => product.category === selectedCategory)
 
   return (
     <View style={styles.container}>
+      {showCategoryFilter && (
+        <CategoryFilter
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+      )}
       <FlatList
-        data={products}
+        data={filteredProducts}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() =>
-            {
-              handlePress(item)
-            }}
-          >
+          <TouchableOpacity onPress={() => handlePress(item)}>
             <View style={styles.productItem}>
               <Image source={{uri: item.image}} style={styles.productImage} />
               <View style={styles.productInfo}>
                 <Text style={styles.productName}>{item.name}</Text>
-                <Text style={styles.productDescription}>
-                  {item.description}
-                </Text>
+                <Text style={styles.productDescription}>{item.description}</Text>
               </View>
             </View>
           </TouchableOpacity>

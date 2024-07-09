@@ -48,7 +48,7 @@ const ProductsPage: React.FC = () =>
                 onRequestClose={() => setProductListModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
-                    <ProductList />
+                    <ProductList showCategoryFilter={true} />
                     <TouchableOpacity
                         style={[buttonStyles.button, buttonStyles.redButton]}
                         onPress={() => setProductListModalVisible(false)}
