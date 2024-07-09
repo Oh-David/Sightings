@@ -3,10 +3,10 @@ import {View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal, Scroll
 import {useSelector, useDispatch} from 'react-redux'
 import {MaterialIcons} from '@expo/vector-icons'
 import {RootState} from './Data/Store'
-import {Product} from 'models/navigationTypes'
 import {buttonStyles} from './ButtonStyles'
 import {selectAllProducts} from './Data/Selectors'
 import {Bid, removeBid} from './Data/BidSlice'
+import {Product} from './Data/Product'
 
 const BidScreen: React.FC = () =>
 {

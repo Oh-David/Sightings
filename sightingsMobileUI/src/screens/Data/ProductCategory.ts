@@ -1,0 +1,23 @@
+export enum ProductCategory
+{
+  Electronics,
+  Furniture,
+  Clothing,
+  Books,
+  Toys,
+  Tools,
+  Appliances,
+  SportsEquipment,
+  MusicalInstruments,
+  Art,
+  Jewelry,
+  Collectibles,
+  Automotive,
+  Gardening,
+  OfficeSupplies,
+  PetSupplies,
+  HealthAndBeauty,
+  HomeDecor,
+  OutdoorGear,
+  Other
+}

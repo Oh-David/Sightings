@@ -1,14 +1,7 @@
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Item } from "API";
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  tradeFor: string;
-}
+import {Product} from "screens/Data/Product"
 
 export interface Offer {
   productOffered: string;

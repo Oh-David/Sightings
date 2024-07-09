@@ -10,9 +10,8 @@ import
 } from "react-native"
 import {useSelector} from "react-redux"
 import useProductList from "./useProductList"
-
-import {Product} from "./Data/ProductSlice"
 import {RootState} from "./Data/Store"
+import {Product} from "./Data/Product"
 
 const ProductList: React.FC = () =>
 {

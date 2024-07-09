@@ -16,8 +16,9 @@ import {buttonStyles} from "./ButtonStyles"
 import {useSelector, useDispatch} from "react-redux"
 import {RootState} from "./Data/Store"
 import {addBid} from "./Data/BidSlice"
-import {Product, RootStackParamList} from "models/navigationTypes"
+import {RootStackParamList} from "models/navigationTypes"
 import {StackNavigationProp} from "@react-navigation/stack"
+import {Product} from "./Data/Product"
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 

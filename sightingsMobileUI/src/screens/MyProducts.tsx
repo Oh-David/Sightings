@@ -10,8 +10,9 @@ import
   Image,
 } from "react-native"
 import {FontAwesome} from "@expo/vector-icons"
-import {removeUserItem, Product} from "./Data/ProductSlice"
+import {removeUserItem} from "./Data/ProductSlice"
 import {RootState} from "./Data/Store"
+import {Product} from "./Data/Product"
 
 const MyProducts: React.FC = () =>
 {
