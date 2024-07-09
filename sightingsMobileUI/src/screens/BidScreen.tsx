@@ -5,13 +5,12 @@ import {MaterialIcons} from '@expo/vector-icons'
 import {RootState} from './Data/Store'
 import {Product} from 'models/navigationTypes'
 import {buttonStyles} from './ButtonStyles'
+import {selectAllProducts} from './Data/Selectors'
 
 const BidScreen: React.FC = () =>
 {
     const bids = useSelector((state: RootState) => state.bids.bids)
-    const userProducts = useSelector((state: RootState) => state.products.userProducts)
-    const products = useSelector((state: RootState) => state.products.products)
-    const allProducts = [...userProducts, ...products]
+    const allProducts = useSelector(selectAllProducts)
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const [isModalVisible, setModalVisible] = useState(false)
 
