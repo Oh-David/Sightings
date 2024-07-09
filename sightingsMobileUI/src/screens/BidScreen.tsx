@@ -1,16 +1,27 @@
-import React from 'react'
-import {View, Text, FlatList, StyleSheet} from 'react-native'
+// BidScreen.tsx
+import React, {useState} from 'react'
+import {View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Button} from 'react-native'
 import {useSelector} from 'react-redux'
+import {MaterialIcons} from '@expo/vector-icons'
 import {RootState} from './Data/Store'
 import {Product} from 'models/navigationTypes'
+import {buttonStyles} from './ButtonStyles'
 
 const BidScreen: React.FC = () =>
 {
     const bids = useSelector((state: RootState) => state.bids.bids)
     const products = useSelector((state: RootState) => state.products.products)
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+    const [isModalVisible, setModalVisible] = useState(false)
 
     const findProductById = (id: string): Product | undefined =>
         products.find((product) => product.id === id)
+
+    const handleProductPress = (product: Product) =>
+    {
+        setSelectedProduct(product)
+        setModalVisible(true)
+    }
 
     const renderItem = ({item}: {item: {product1Id: string; product2Id: string}}) =>
     {
@@ -21,9 +32,19 @@ const BidScreen: React.FC = () =>
             <View style={styles.bidItem}>
                 {product1 && product2 && (
                     <>
-                        <Text style={styles.productName}>{product1.name}</Text>
-                        <Text style={styles.bidText}>is bid with</Text>
-                        <Text style={styles.productName}>{product2.name}</Text>
+                        <TouchableOpacity style={styles.productContainer} onPress={() => handleProductPress(product1)}>
+                            <Image source={{uri: product1.image}} style={styles.productImage} />
+                            <View style={styles.productDetails}>
+                                <Text style={styles.productName}>{product1.name}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <MaterialIcons name="swap-horiz" size={24} color="black" style={styles.bidIcon} />
+                        <TouchableOpacity style={styles.productContainer} onPress={() => handleProductPress(product2)}>
+                            <Image source={{uri: product2.image}} style={styles.productImage} />
+                            <View style={styles.productDetails}>
+                                <Text style={styles.productName}>{product2.name}</Text>
+                            </View>
+                        </TouchableOpacity>
                     </>
                 )}
             </View>
@@ -38,6 +59,33 @@ const BidScreen: React.FC = () =>
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
             />
+            {selectedProduct && (
+                <Modal
+                    visible={isModalVisible}
+                    transparent={true}
+                    animationType="slide"
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Image source={{uri: selectedProduct.image}} style={styles.modalImage} />
+                            <Text style={styles.modalTitle}>{selectedProduct.name}</Text>
+                            <ScrollView>
+                                <Text style={styles.modalDescription}>{selectedProduct.description}</Text>
+                                <Text style={styles.modalTradeFor}>Trade for: {selectedProduct.tradeFor}</Text>
+                            </ScrollView>
+
+                            <TouchableOpacity
+                                style={[buttonStyles.button, buttonStyles.redButton, {marginTop: 20}]} // Added marginTop here
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={[buttonStyles.buttonText, buttonStyles.redButtonText]}>Close</Text>
+                            </TouchableOpacity>
+
+                        </View>
+                    </View>
+                </Modal>
+            )}
         </View>
     )
 }
@@ -56,18 +104,64 @@ const styles = StyleSheet.create({
     bidItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 8,
+        justifyContent: 'space-between',
+        marginBottom: 16,
         padding: 8,
         backgroundColor: '#f9f9f9',
         borderRadius: 8,
+    },
+    productContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+    },
+    productImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 8,
+        marginRight: 16,
+    },
+    productDetails: {
+        flex: 1,
     },
     productName: {
         fontSize: 16,
         fontWeight: 'bold',
     },
-    bidText: {
-        fontSize: 16,
+    bidIcon: {
         marginHorizontal: 8,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        width: '80%',
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 8,
+        marginBottom: 16,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    modalDescription: {
+        fontSize: 16,
+        marginBottom: 8,
+    },
+    modalTradeFor: {
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 })
 
