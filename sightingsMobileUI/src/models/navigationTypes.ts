@@ -15,7 +15,6 @@ export interface Offer {
   productRequested: string;
 }
 
-// Ensure RouteParams is defined and exported
 export type RouteParams = {
   newOffer?: Offer;
 };
@@ -29,7 +28,7 @@ export type RootStackParamList = {
   PostItem: undefined;
   ItemDetails: { item: Item };
   ConfirmationScreen: { username: string };
-  Profile: undefined; // Adjusted to use RouteParams type
+  Profile: undefined; 
   UploadSightingImageForm: {
     photoUri: string;
   };
