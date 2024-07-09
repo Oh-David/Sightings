@@ -24,7 +24,7 @@ type MyProductsScreenNavigationProp = StackNavigationProp<
 const MyProducts: React.FC = () =>
 {
   const products = useSelector(
-    (state: RootState) => state.userItems.userProducts
+    (state: RootState) => state.products.userProducts
   ) as Product[]
   const dispatch = useDispatch()
   const navigation = useNavigation<MyProductsScreenNavigationProp>()
