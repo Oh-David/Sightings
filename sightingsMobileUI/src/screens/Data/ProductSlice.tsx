@@ -13,13 +13,13 @@ export interface Product
 interface ProductState
 {
   userProducts: Product[]
-  product: Product[]
+  products: Product[]
 }
 
 const initialState: ProductState =
 {
   userProducts: userItems,
-  product: allItems,
+  products: allItems,
 }
 
 const ProductSlice = createSlice({
@@ -29,14 +29,14 @@ const ProductSlice = createSlice({
     addUserItem: (state, action: PayloadAction<Product>) =>
     {
       state.userProducts.push(action.payload)
-      state.product.push(action.payload)
+      state.products.push(action.payload)
     },
     removeUserItem: (state, action: PayloadAction<string>) =>
     {
       state.userProducts = state.userProducts.filter(
         (item) => item.id !== action.payload
       )
-      state.product = state.product.filter((item) => item.id !== action.payload)
+      state.products = state.products.filter((item) => item.id !== action.payload)
     },
   },
 })
