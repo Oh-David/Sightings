@@ -26,22 +26,7 @@ public class DatabaseService : IDatabaseService
                 {
                     while (reader.Read())
                     {
-                        productList.Add(new ProductDTO
-                        {
-                            Id = reader["id"].ToString(),
-                            Name = reader["name"].ToString(),
-                            Image = reader["image"].ToString(),
-                            Description = reader["description"].ToString(),
-                            TradeFor = reader["tradeFor"].ToString(),
-                            Category = reader["category"].ToString(),
-                            Condition = reader["condition"].ToString(),
-                            Location = reader["location"].ToString(),
-                            DimensionsWidth = float.Parse(reader["dimensions_width"].ToString()),
-                            DimensionsHeight = float.Parse(reader["dimensions_height"].ToString()),
-                            DimensionsDepth = float.Parse(reader["dimensions_depth"].ToString()),
-                            DimensionsWeight = float.Parse(reader["dimensions_weight"].ToString()),
-                            DateListed = DateTime.Parse(reader["dateListed"].ToString())
-                        });
+                        productList.Add(reader.MapTo<ProductDTO>());
                     }
                 }
             }
