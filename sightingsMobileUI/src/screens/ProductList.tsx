@@ -1,57 +1,64 @@
-import React from "react";
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import React, {useState} from "react"
+import
+  {
+    View,
+    Text,
+    FlatList,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+  } from "react-native"
+import {useSelector} from "react-redux"
+import useProductList from "./useProductList"
+import {RootState} from "./Data/Store"
+import {Product} from "./Data/Product"
+import CategoryFilter from "./CategoryFilter"
+import {ProductCategory} from "./Data/ProductCategory"
 
-const products = [
-  {
-    id: "1",
-    name: "Bicycle",
-    description: "A nice road bike.",
-    image:
-      "https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: "2",
-    name: "Guitar",
-    description: "An acoustic guitar.",
-    image:
-      "https://images.pexels.com/photos/165971/pexels-photo-165971.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: "3",
-    name: "Laptop",
-    description: "A powerful gaming laptop.",
-    image:
-      "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: "4",
-    name: "Camera",
-    description: "A DSLR camera.",
-    image:
-      "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  // Add more products as needed
-];
+interface ProductListProps
+{
+  showCategoryFilter?: boolean
+  allowNavigation?: boolean
+}
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC<ProductListProps> = ({showCategoryFilter = false, allowNavigation = true}) =>
+{
+  const products = useSelector((state: RootState) => state.products.products) as Product[]
+  const {handlePress} = useProductList()
+  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null)
+
+  const filteredProducts = selectedCategory === null
+    ? products
+    : products.filter(product => product.category === selectedCategory)
+
   return (
     <View style={styles.container}>
+      {showCategoryFilter && (
+        <CategoryFilter
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+      )}
       <FlatList
-        data={products}
+        data={filteredProducts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.productItem}>
-            <Image source={{ uri: item.image }} style={styles.productImage} />
-            <View style={styles.productInfo}>
-              <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productDescription}>{item.description}</Text>
+        renderItem={({item}) => (
+          <TouchableOpacity
+            onPress={() => allowNavigation && handlePress(item)}
+          >
+            <View style={styles.productItem}>
+              <Image source={{uri: item.image}} style={styles.productImage} />
+              <View style={styles.productInfo}>
+                <Text style={styles.productName}>{item.name}</Text>
+                <Text style={styles.productDescription}>{item.description}</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -83,6 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
   },
-});
+})
 
-export default ProductList;
+export default ProductList
