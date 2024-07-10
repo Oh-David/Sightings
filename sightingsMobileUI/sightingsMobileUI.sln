@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "node_modules", "node_modules", "{D20EE539-149F-41CD-A0E8-8E0B97F2C3F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "react-native-camera", "react-native-camera", "{8AC53E90-7F28-44EB-9B98-A842D1E4644D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "windows", "windows", "{BBB4E19F-09A5-4644-A75A-B9C0287A59BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RNCamera", "node_modules\react-native-camera\windows\RNCamera\RNCamera.csproj", "{304EC89D-8711-4BA7-8883-E1577C99954F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C659CAA2-9846-4F9F-B93E-37BE0CAB10FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "screens", "screens", "{7AEF51D6-487E-4FE1-82BF-DC7DA6B8FBB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{45962518-7E8D-4291-AC40-0B1AD7AAAD27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{D17EEB8B-EAA4-44B1-9EB9-E1CA219592B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarterApi", "src\screens\Data\Api\BarterApi\BarterApi.csproj", "{BB48341C-EFBF-4453-9C7A-BBC7144435BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{304EC89D-8711-4BA7-8883-E1577C99954F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{304EC89D-8711-4BA7-8883-E1577C99954F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{304EC89D-8711-4BA7-8883-E1577C99954F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{304EC89D-8711-4BA7-8883-E1577C99954F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB48341C-EFBF-4453-9C7A-BBC7144435BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB48341C-EFBF-4453-9C7A-BBC7144435BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB48341C-EFBF-4453-9C7A-BBC7144435BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB48341C-EFBF-4453-9C7A-BBC7144435BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8AC53E90-7F28-44EB-9B98-A842D1E4644D} = {D20EE539-149F-41CD-A0E8-8E0B97F2C3F8}
+		{BBB4E19F-09A5-4644-A75A-B9C0287A59BB} = {8AC53E90-7F28-44EB-9B98-A842D1E4644D}
+		{304EC89D-8711-4BA7-8883-E1577C99954F} = {BBB4E19F-09A5-4644-A75A-B9C0287A59BB}
+		{7AEF51D6-487E-4FE1-82BF-DC7DA6B8FBB2} = {C659CAA2-9846-4F9F-B93E-37BE0CAB10FC}
+		{45962518-7E8D-4291-AC40-0B1AD7AAAD27} = {7AEF51D6-487E-4FE1-82BF-DC7DA6B8FBB2}
+		{D17EEB8B-EAA4-44B1-9EB9-E1CA219592B5} = {45962518-7E8D-4291-AC40-0B1AD7AAAD27}
+		{BB48341C-EFBF-4453-9C7A-BBC7144435BA} = {D17EEB8B-EAA4-44B1-9EB9-E1CA219592B5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE25FC9A-49CD-44E3-9C6A-9C66680F699C}
+	EndGlobalSection
+EndGlobal
