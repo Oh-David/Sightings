@@ -10,3 +10,6 @@ EXECUTE @RC = [dbo].[GetUserById] @UserId
 -- Print the return code.
 PRINT @RC
 GO
+
+
+EXEC GetProductsByOwner @OwnerId = 'user12';
