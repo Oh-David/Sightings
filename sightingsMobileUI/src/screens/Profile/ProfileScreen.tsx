@@ -1,21 +1,25 @@
-import React from "react"
+// ProfileScreen.tsx
+
+import React, {useEffect, useState} from 'react'
 import
-  {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    TouchableOpacity,
-  } from "react-native"
+{
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native'
 import
-  {
-    ProfileScreenNavigationProp,
-    RouteParams,
-  } from "models/navigationTypes"
-import useProfile from "./useProfile"
-import {mockProfileImage} from "../Mock" // Ensure this path is correct
-import {buttonStyles} from "../ButtonStyles"
-import MyProducts from "../MyProducts"
+{
+  ProfileScreenNavigationProp,
+  RouteParams,
+} from 'models/navigationTypes'
+import useProfile from './useProfile'
+import {mockProfileImage} from '../Mock' // Ensure this path is correct
+import {buttonStyles} from '../ButtonStyles'
+import MyProducts from '../MyProducts'
+import {getUserById} from '../Data/Api/ApiService'
 
 type ProfileScreenProps = {
   navigation: ProfileScreenNavigationProp
@@ -25,15 +29,54 @@ type ProfileScreenProps = {
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
 {
   const {handleLogout, handleProfileImage} = useProfile(navigation, route)
+  const [userName, setUserName] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() =>
+  {
+    const fetchUser = async () =>
+    {
+      try
+      {
+        const user = await getUserById('user12')
+        setUserName(user.name)
+      } catch (error)
+      {
+        setError('Failed to fetch user data')
+      } finally
+      {
+        setLoading(false)
+      }
+    }
+
+    fetchUser()
+  }, [])
 
   const renderHeader = () => (
     <View style={styles.header}>
       <TouchableOpacity onLongPress={handleProfileImage}>
         <Image source={{uri: mockProfileImage}} style={styles.profileImage} />
       </TouchableOpacity>
-      <Text style={styles.title}>Welcome to Your Profile</Text>
+      <Text style={styles.title}>
+        Welcome{userName ? `, ${userName}` : ''}
+      </Text>
     </View>
   )
+
+  if (loading)
+  {
+    return <ActivityIndicator size="large" color="#0000ff" />
+  }
+
+  if (error)
+  {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -51,10 +94,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
 
       {/* Logout Button */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={buttonStyles.button}
-          onPress={handleLogout}
-        >
+        <TouchableOpacity style={buttonStyles.button} onPress={handleLogout}>
           <Text style={buttonStyles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -65,14 +105,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: '#F5F5F5',
   },
   header: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
     paddingVertical: 20,
     marginBottom: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -86,21 +126,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#333333",
+    fontWeight: 'bold',
+    color: '#333333',
   },
   productsHeader: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: "#DDD",
-    alignItems: "center",
+    borderBottomColor: '#DDD',
+    alignItems: 'center',
   },
   productsTitle: {
     fontSize: 22,
-    fontWeight: "bold",
-    color: "#333333",
+    fontWeight: 'bold',
+    color: '#333333',
   },
   productsContainer: {
     flex: 1,
@@ -108,7 +148,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginVertical: 20,
-    alignItems: "center",
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
   },
 })
 
