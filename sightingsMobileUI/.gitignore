@@ -263,3 +263,5 @@ $RECYCLE.BIN/
 
 # Python virtualenv
 .venv
+
+publish/
