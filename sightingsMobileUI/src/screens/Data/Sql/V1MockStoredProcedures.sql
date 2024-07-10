@@ -15,7 +15,7 @@ BEGIN
         p.image,
         p.description,
         p.tradeFor,
-        pc.category AS categoryName,
+        pc.category AS category,
         p.condition,
         p.location,
         p.dimensions_width,
@@ -26,4 +26,12 @@ BEGIN
     FROM Products p
     INNER JOIN ProductCategories pc ON p.categoryId = pc.id
     WHERE p.ownerId = @OwnerId;
+END;
+
+CREATE OR ALTER PROCEDURE GetAllProductCategories
+AS
+BEGIN
+    SELECT id, category
+    FROM ProductCategories
+    ORDER BY category;
 END;
