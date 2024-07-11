@@ -5,7 +5,7 @@ import ProductList from "../ProductList"
 import {mockAppLogo} from "../Mock"
 import {useDispatch, useSelector} from "react-redux"
 import {AppDispatch, RootState} from "../Data/Store"
-import {fetchProductsNotOwnedByUser} from "../Data/Api/ApiService"
+import {fetchProductsNotOwnedByUser, fetchProductsByOwner} from "../Data/Api/ApiService"
 
 const LandingPage: React.FC = () =>
 {
@@ -16,8 +16,12 @@ const LandingPage: React.FC = () =>
 
   useEffect(() =>
   {
-    dispatch(fetchProductsNotOwnedByUser(currentUser?.id || ""))
-  }, [dispatch])
+    if (currentUser?.id)
+    {
+      dispatch(fetchProductsNotOwnedByUser(currentUser.id))
+      dispatch(fetchProductsByOwner(currentUser.id))
+    }
+  }, [dispatch, currentUser])
 
   if (status === "loading")
   {

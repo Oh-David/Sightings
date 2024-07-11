@@ -38,3 +38,18 @@ export const fetchProductsNotOwnedByUser = createAsyncThunk<Product[], string, {
         }
     }
 )
+
+export const fetchProductsByOwner = createAsyncThunk<Product[], string, {rejectValue: string}>(
+    'products/fetchProductsByOwner',
+    async (ownerId, thunkAPI) =>
+    {
+        try
+        {
+            const response = await axios.get<Product[]>(`${BASE_URL}/Products/ByOwner/${ownerId}`)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to fetch products by owner')
+        }
+    }
+)

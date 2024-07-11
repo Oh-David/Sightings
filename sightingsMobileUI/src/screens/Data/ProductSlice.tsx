@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {fetchProductsNotOwnedByUser} from './Api/ApiService'
+import {fetchProductsByOwner, fetchProductsNotOwnedByUser} from './Api/ApiService'
 import {mockUserProducts} from '../Mock'
 import {Product} from './Models/Product'
 
@@ -49,6 +49,20 @@ const productSlice = createSlice({
       {
         state.status = 'failed'
         state.error = action.payload || 'Failed to fetch products'
+      })
+      .addCase(fetchProductsByOwner.pending, (state) =>
+      {
+        state.status = 'loading'
+      })
+      .addCase(fetchProductsByOwner.fulfilled, (state, action: PayloadAction<Product[]>) =>
+      {
+        state.status = 'succeeded'
+        state.userProducts = action.payload
+      })
+      .addCase(fetchProductsByOwner.rejected, (state, action) =>
+      {
+        state.status = 'failed'
+        state.error = action.payload || 'Failed to fetch products by owner'
       })
   },
 })
