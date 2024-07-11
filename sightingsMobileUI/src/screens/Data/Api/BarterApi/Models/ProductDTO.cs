@@ -24,6 +24,9 @@ public class ProductDTO
     [DbColumn("location")]
     public string Location { get; set; }
 
+    [DbColumn("ownerId")]
+    public string OwnerId { get; set; }
+
     [DbColumn("dimensions_width")]
     public float DimensionsWidth { get; set; }
 

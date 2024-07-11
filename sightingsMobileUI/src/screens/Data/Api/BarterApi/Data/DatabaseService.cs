@@ -34,4 +34,29 @@ public class DatabaseService : IDatabaseService
 
         return productList;
     }
+
+    public async Task<IEnumerable<ProductDTO>> GetProductsNotOwnedByUser(string ownerId)
+    {
+        var productList = new List<ProductDTO>();
+
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            using (var command = new SqlCommand("GetProductsNotOwnedByUser", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@OwnerId", ownerId);
+
+                connection.Open();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        productList.Add(reader.MapTo<ProductDTO>());
+                    }
+                }
+            }
+        }
+
+        return productList;
+    }
 }

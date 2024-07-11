@@ -17,4 +17,11 @@ public class ProductsController : ControllerBase
         var products = await _databaseService.GetProductsByOwner(ownerId);
         return Ok(products);
     }
+
+    [HttpGet("NotOwnedByUser/{ownerId}")]
+    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsNotOwnedByUser(string ownerId)
+    {
+        var products = await _databaseService.GetProductsNotOwnedByUser(ownerId);
+        return Ok(products);
+    }
 }
