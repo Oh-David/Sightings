@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
-import {Product} from '../Product'
+import {Product} from '../Models/Product'
 
 const BASE_URL = 'https://barterapi.azurewebsites.net/api'
 

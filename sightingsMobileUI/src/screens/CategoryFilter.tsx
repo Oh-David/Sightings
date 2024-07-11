@@ -8,7 +8,7 @@ import
     ScrollView,
     StyleSheet,
 } from "react-native"
-import {ProductCategory} from "./Data/ProductCategory"
+import {ProductCategory} from "./Data/Models/ProductCategory"
 import {buttonStyles} from "./ButtonStyles"
 import {Ionicons} from '@expo/vector-icons' // Assuming you're using Expo and have Ionicons installed
 

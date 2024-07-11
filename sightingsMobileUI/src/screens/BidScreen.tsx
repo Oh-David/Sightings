@@ -17,9 +17,9 @@ import {RootState} from './Data/Store'
 import {buttonStyles} from './ButtonStyles'
 import {selectAllProducts} from './Data/Selectors'
 import {Bid, removeBid} from './Data/BidSlice'
-import {Product} from './Data/Product'
+import {Product} from './Data/Models/Product'
 import CategoryFilter from './CategoryFilter'
-import {ProductCategory} from './Data/ProductCategory'
+import {ProductCategory} from './Data/Models/ProductCategory'
 
 const BidScreen: React.FC = () =>
 {

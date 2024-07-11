@@ -12,7 +12,7 @@ import
 import {FontAwesome} from "@expo/vector-icons"
 import {removeUserItem} from "./Data/ProductSlice"
 import {RootState} from "./Data/Store"
-import {Product} from "./Data/Product"
+import {Product} from "./Data/Models/Product"
 
 const MyProducts: React.FC = () =>
 {

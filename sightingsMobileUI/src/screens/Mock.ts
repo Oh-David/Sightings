@@ -1,6 +1,6 @@
 import {Bid} from "./Data/BidSlice"
-import {Product} from "./Data/Product"
-import {ProductCategory} from "./Data/ProductCategory"
+import {Product} from "./Data/Models/Product"
+import {ProductCategory} from "./Data/Models/ProductCategory"
 
 export const mockUserProducts: Product[] = [
   {
@@ -14,7 +14,7 @@ export const mockUserProducts: Product[] = [
     condition: "Used",
     location: "Los Angeles, CA",
     ownerId: "user123",
-    dimensions: { width: 60, height: 40, depth: 20, weight: 15 },
+    dimensions: {width: 60, height: 40, depth: 20, weight: 15},
     dateListed: new Date('2023-07-01').toISOString(),
   },
   {
@@ -28,7 +28,7 @@ export const mockUserProducts: Product[] = [
     condition: "New",
     location: "San Francisco, CA",
     ownerId: "user456",
-    dimensions: { width: 40, height: 10, depth: 5, weight: 3 },
+    dimensions: {width: 40, height: 10, depth: 5, weight: 3},
     dateListed: new Date('2023-06-15').toISOString(),
   },
   {
@@ -42,7 +42,7 @@ export const mockUserProducts: Product[] = [
     condition: "Refurbished",
     location: "New York, NY",
     ownerId: "user789",
-    dimensions: { width: 15, height: 10, depth: 1, weight: 5 },
+    dimensions: {width: 15, height: 10, depth: 1, weight: 5},
     dateListed: new Date('2023-05-20').toISOString(),
   },
   {
@@ -56,10 +56,10 @@ export const mockUserProducts: Product[] = [
     condition: "Used",
     location: "Chicago, IL",
     ownerId: "user321",
-    dimensions: { width: 8, height: 6, depth: 5, weight: 2 },
+    dimensions: {width: 8, height: 6, depth: 5, weight: 2},
     dateListed: new Date('2023-04-10').toISOString(),
   },
-];
+]
 
 export const mockProducts: Product[] = [
   {
@@ -73,7 +73,7 @@ export const mockProducts: Product[] = [
     condition: "Used",
     location: "Miami, FL",
     ownerId: "user987",
-    dimensions: { width: 3, height: 6, depth: 0.3, weight: 0.4 },
+    dimensions: {width: 3, height: 6, depth: 0.3, weight: 0.4},
     dateListed: new Date('2023-07-01').toISOString(),
   },
   {
@@ -87,7 +87,7 @@ export const mockProducts: Product[] = [
     condition: "New",
     location: "Seattle, WA",
     ownerId: "user654",
-    dimensions: { width: 7, height: 8, depth: 3, weight: 0.5 },
+    dimensions: {width: 7, height: 8, depth: 3, weight: 0.5},
     dateListed: new Date('2023-06-10').toISOString(),
   },
   {
@@ -101,7 +101,7 @@ export const mockProducts: Product[] = [
     condition: "Used",
     location: "Portland, OR",
     ownerId: "user321",
-    dimensions: { width: 15, height: 20, depth: 10, weight: 2 },
+    dimensions: {width: 15, height: 20, depth: 10, weight: 2},
     dateListed: new Date('2023-07-05').toISOString(),
   },
   {
@@ -115,7 +115,7 @@ export const mockProducts: Product[] = [
     condition: "New",
     location: "Austin, TX",
     ownerId: "user852",
-    dimensions: { width: 3, height: 10, depth: 3, weight: 0.5 },
+    dimensions: {width: 3, height: 10, depth: 3, weight: 0.5},
     dateListed: new Date('2023-06-20').toISOString(),
   },
   {
@@ -129,7 +129,7 @@ export const mockProducts: Product[] = [
     condition: "Used",
     location: "Los Angeles, CA",
     ownerId: "user753",
-    dimensions: { width: 12, height: 4, depth: 8, weight: 7 },
+    dimensions: {width: 12, height: 4, depth: 8, weight: 7},
     dateListed: new Date('2023-05-30').toISOString(),
   },
   {
@@ -143,7 +143,7 @@ export const mockProducts: Product[] = [
     condition: "Refurbished",
     location: "Chicago, IL",
     ownerId: "user369",
-    dimensions: { width: 5, height: 7, depth: 0.5, weight: 0.4 },
+    dimensions: {width: 5, height: 7, depth: 0.5, weight: 0.4},
     dateListed: new Date('2023-04-25').toISOString(),
   },
   {
@@ -157,7 +157,7 @@ export const mockProducts: Product[] = [
     condition: "New",
     location: "New York, NY",
     ownerId: "user159",
-    dimensions: { width: 6, height: 18, depth: 6, weight: 2 },
+    dimensions: {width: 6, height: 18, depth: 6, weight: 2},
     dateListed: new Date('2023-07-08').toISOString(),
   },
   {
@@ -171,10 +171,10 @@ export const mockProducts: Product[] = [
     condition: "Used",
     location: "Boston, MA",
     ownerId: "user246",
-    dimensions: { width: 6, height: 6, depth: 6, weight: 1.5 },
+    dimensions: {width: 6, height: 6, depth: 6, weight: 1.5},
     dateListed: new Date('2023-06-12').toISOString(),
   }
-];
+]
 
 export const mockPostProducts: Product[] = [
   {
@@ -187,7 +187,7 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "Dallas, TX",
     ownerId: "user111",
-    dimensions: { width: 8, height: 11, depth: 0.5, weight: 1 },
+    dimensions: {width: 8, height: 11, depth: 0.5, weight: 1},
     dateListed: new Date('2023-06-05').toISOString(),
   },
   {
@@ -200,7 +200,7 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "San Jose, CA",
     ownerId: "user112",
-    dimensions: { width: 0.5, height: 5, depth: 0.5, weight: 0.05 },
+    dimensions: {width: 0.5, height: 5, depth: 0.5, weight: 0.05},
     dateListed: new Date('2023-06-10').toISOString(),
   },
   {
@@ -213,7 +213,7 @@ export const mockPostProducts: Product[] = [
     condition: "Used",
     location: "Las Vegas, NV",
     ownerId: "user113",
-    dimensions: { width: 6, height: 2, depth: 2, weight: 0.1 },
+    dimensions: {width: 6, height: 2, depth: 2, weight: 0.1},
     dateListed: new Date('2023-06-20').toISOString(),
   },
   {
@@ -226,7 +226,7 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "Denver, CO",
     ownerId: "user114",
-    dimensions: { width: 2, height: 3, depth: 1, weight: 0.2 },
+    dimensions: {width: 2, height: 3, depth: 1, weight: 0.2},
     dateListed: new Date('2023-06-25').toISOString(),
   },
   {
@@ -239,7 +239,7 @@ export const mockPostProducts: Product[] = [
     condition: "Used",
     location: "Phoenix, AZ",
     ownerId: "user115",
-    dimensions: { width: 20, height: 15, depth: 10, weight: 30 },
+    dimensions: {width: 20, height: 15, depth: 10, weight: 30},
     dateListed: new Date('2023-07-01').toISOString(),
   },
   {
@@ -252,7 +252,7 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "Philadelphia, PA",
     ownerId: "user116",
-    dimensions: { width: 10, height: 40, depth: 10, weight: 8 },
+    dimensions: {width: 10, height: 40, depth: 10, weight: 8},
     dateListed: new Date('2023-07-05').toISOString(),
   },
   {
@@ -265,7 +265,7 @@ export const mockPostProducts: Product[] = [
     condition: "Used",
     location: "Houston, TX",
     ownerId: "user117",
-    dimensions: { width: 36, height: 72, depth: 30, weight: 200 },
+    dimensions: {width: 36, height: 72, depth: 30, weight: 200},
     dateListed: new Date('2023-06-15').toISOString(),
   },
   {
@@ -278,7 +278,7 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "San Diego, CA",
     ownerId: "user118",
-    dimensions: { width: 20, height: 12, depth: 16, weight: 25 },
+    dimensions: {width: 20, height: 12, depth: 16, weight: 25},
     dateListed: new Date('2023-06-30').toISOString(),
   },
   {
@@ -291,7 +291,7 @@ export const mockPostProducts: Product[] = [
     condition: "Refurbished",
     location: "Miami, FL",
     ownerId: "user119",
-    dimensions: { width: 24, height: 34, depth: 24, weight: 100 },
+    dimensions: {width: 24, height: 34, depth: 24, weight: 100},
     dateListed: new Date('2023-07-08').toISOString(),
   },
   {
@@ -304,7 +304,7 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "Dallas, TX",
     ownerId: "user120",
-    dimensions: { width: 7, height: 15, depth: 7, weight: 5 },
+    dimensions: {width: 7, height: 15, depth: 7, weight: 5},
     dateListed: new Date('2023-07-04').toISOString(),
   },
   {
@@ -317,7 +317,7 @@ export const mockPostProducts: Product[] = [
     condition: "Used",
     location: "Orlando, FL",
     ownerId: "user121",
-    dimensions: { width: 8, height: 12, depth: 8, weight: 6 },
+    dimensions: {width: 8, height: 12, depth: 8, weight: 6},
     dateListed: new Date('2023-07-02').toISOString(),
   },
   {
@@ -330,17 +330,17 @@ export const mockPostProducts: Product[] = [
     condition: "New",
     location: "Atlanta, GA",
     ownerId: "user122",
-    dimensions: { width: 7, height: 10, depth: 7, weight: 2 },
+    dimensions: {width: 7, height: 10, depth: 7, weight: 2},
     dateListed: new Date('2023-07-06').toISOString(),
   }
-];
+]
 
 export const mockBids: Bid[] = [
-  { product1Id: '5', product2Id: '6' }, // Smartphone <-> Headphones
-  { product1Id: '7', product2Id: '8' }, // Backpack <-> Water Bottle
-  { product1Id: '10', product2Id: '11' }, // Gaming Console <-> E-Reader
-  { product1Id: '12', product2Id: '14' }, // Desk Lamp <-> Bluetooth Speaker
-];
+  {product1Id: '5', product2Id: '6'}, // Smartphone <-> Headphones
+  {product1Id: '7', product2Id: '8'}, // Backpack <-> Water Bottle
+  {product1Id: '10', product2Id: '11'}, // Gaming Console <-> E-Reader
+  {product1Id: '12', product2Id: '14'}, // Desk Lamp <-> Bluetooth Speaker
+]
 
 export const mockAppLogo = "https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 

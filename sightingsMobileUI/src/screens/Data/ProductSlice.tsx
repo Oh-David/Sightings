@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {fetchProductsNotOwnedByUser} from './Api/ApiService'
-import {mockProducts, mockUserProducts} from '../Mock'
-import {Product} from './Product'
+import {mockUserProducts} from '../Mock'
+import {Product} from './Models/Product'
 
 interface ProductState
 {
@@ -13,7 +13,7 @@ interface ProductState
 
 const initialState: ProductState = {
   userProducts: mockUserProducts,
-  products: mockProducts,
+  products: [],
   status: 'idle',
   error: null,
 }

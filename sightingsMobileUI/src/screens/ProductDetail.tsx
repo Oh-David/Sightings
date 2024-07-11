@@ -18,7 +18,7 @@ import {RootState} from "./Data/Store"
 import {addBid} from "./Data/BidSlice"
 import {RootStackParamList} from "models/navigationTypes"
 import {StackNavigationProp} from "@react-navigation/stack"
-import {Product} from "./Data/Product"
+import {Product} from "./Data/Models/Product"
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 

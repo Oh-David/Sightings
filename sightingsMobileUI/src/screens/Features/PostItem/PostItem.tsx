@@ -17,8 +17,8 @@ import React from "react"
 import {buttonStyles} from "../../ButtonStyles"
 import {useNavigation} from "@react-navigation/native"
 import {LandingPageScreenNavigationProp} from "../../../models/navigationTypes"
-import {ProductCategory} from "../../Data/ProductCategory"
-import {Product} from "../../Data/Product"
+import {ProductCategory} from "../../Data/Models/ProductCategory"
+import {Product} from "../../Data/Models/Product"
 
 const PostItem: React.FC = () =>
 {
