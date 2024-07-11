@@ -1,4 +1,6 @@
+import {createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
+import {Product} from '../Product'
 
 const BASE_URL = 'https://barterapi.azurewebsites.net/api'
 
@@ -22,28 +24,17 @@ export const getUserById = async (userId: string) =>
     }
 }
 
-export const getProductsByOwner = async (ownerId: string) =>
-{
-    try
+export const fetchProductsNotOwnedByUser = createAsyncThunk<Product[], string, {rejectValue: string}>(
+    'products/fetchProductsNotOwnedByUser',
+    async (ownerId, thunkAPI) =>
     {
-        const response = await api.get(`/Products/ByOwner/${ownerId}`)
-        return response.data
-    } catch (error)
-    {
-        console.error('Error fetching products by owner:', error)
-        throw error
+        try
+        {
+            const response = await axios.get<Product[]>(`${BASE_URL}/Products/NotOwnedByUser/${ownerId}`)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to fetch products')
+        }
     }
-}
-
-export const getProductsNotOwnedByUser = async (ownerId: string) =>
-{
-    try
-    {
-        const response = await api.get(`/Products/NotOwnedByUser/${ownerId}`)
-        return response.data
-    } catch (error)
-    {
-        console.error('Error fetching products not owned by user:', error)
-        throw error
-    }
-}
+)
