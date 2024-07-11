@@ -1,6 +1,7 @@
 import {Bid} from "./Data/BidSlice"
 import {Product} from "./Data/Models/Product"
 import {ProductCategory} from "./Data/Models/ProductCategory"
+import {User} from "./Data/Models/User"
 
 export const mockUserProducts: Product[] = [
   {
@@ -345,3 +346,12 @@ export const mockBids: Bid[] = [
 export const mockAppLogo = "https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 
 export const mockProfileImage = "https://images.pexels.com/photos/1310522/pexels-photo-1310522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+
+export const mockCurrentUser: User = {
+  "id": "user12",
+  "username": "victoriaclark",
+  "email": "victoria.clark@example.com",
+  "name": "Victoria Clark",
+  "location": "Austin, TX",
+  "dateJoined": "2023-07-02T00:00:00"
+}

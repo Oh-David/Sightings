@@ -12,10 +12,11 @@ const LandingPage: React.FC = () =>
   const dispatch = useDispatch<AppDispatch>()
   const status = useSelector((state: RootState) => state.products.status)
   const error = useSelector((state: RootState) => state.products.error)
+  const currentUser = useSelector((state: RootState) => state.users.currentUser)
 
   useEffect(() =>
   {
-    dispatch(fetchProductsNotOwnedByUser("specificOwnerId")) // Replace 'specificOwnerId' with the actual owner ID
+    dispatch(fetchProductsNotOwnedByUser(currentUser?.id || ""))
   }, [dispatch])
 
   if (status === "loading")
