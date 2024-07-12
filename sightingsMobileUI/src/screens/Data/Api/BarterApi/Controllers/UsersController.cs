@@ -1,30 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
-    private readonly BarterContext _context;
+    private readonly IDatabaseService _databaseService;
 
-    public UsersController(BarterContext context)
+    public UsersController(IDatabaseService databaseService)
     {
-        _context = context;
+        _databaseService = databaseService;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<User>> GetUserById(string id)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-        var users = _context.Users
-                            .FromSqlRaw("EXEC GetUserById @UserId={0}", id)
-                            .AsEnumerable()
-                            .FirstOrDefault();
-
-        if (users == null)
+        if (!ModelState.IsValid)
         {
-            return NotFound();
+            return BadRequest(ModelState);
         }
 
-        return Ok(users);
+        var result = await _databaseService.RegisterUserAsync(request);
+        if (result.Contains("Error"))
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, result);
+        }
+
+        return Ok(result);
+    }
+
+    [HttpPost("signin")]
+    public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _databaseService.SignInUserAsync(request);
+        if (result.ErrorMessage != null)
+        {
+            return Unauthorized(result.ErrorMessage);
+        }
+
+        return Ok(result);
     }
 }

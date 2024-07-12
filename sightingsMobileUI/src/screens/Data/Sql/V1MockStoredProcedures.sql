@@ -1,10 +1,3 @@
-CREATE OR ALTER PROCEDURE GetUserById
-@UserId VARCHAR(255)
-AS
-BEGIN
-    SELECT * FROM Users WHERE id = @UserId
-END;
-
 CREATE OR ALTER PROCEDURE GetProductsByOwner
     @OwnerId VARCHAR(255)
 AS
@@ -176,5 +169,60 @@ BEGIN
     IF @@ROWCOUNT = 0
     BEGIN
         RAISERROR('No product found with the given ID.', 16, 1);
+    END
+END;
+
+CREATE OR ALTER PROCEDURE RegisterUser
+    @id UNIQUEIDENTIFIER,
+    @username VARCHAR(255),
+    @password_hash VARCHAR(255),
+    @email VARCHAR(255),
+    @name VARCHAR(255),
+    @location VARCHAR(255),
+    @dateJoined DATE
+AS
+BEGIN
+    BEGIN TRY
+        IF EXISTS (SELECT 1 FROM Users WHERE username = @username)
+        BEGIN
+            SELECT 'Error: Username already exists' AS ErrorMessage;
+            RETURN;
+        END
+
+        IF EXISTS (SELECT 1 FROM Users WHERE email = @email)
+        BEGIN
+            SELECT 'Error: Email already exists' AS ErrorMessage;
+            RETURN;
+        END
+
+        INSERT INTO Users (id, username, password_hash, email, name, location, dateJoined)
+        VALUES (@id, @username, @password_hash, @email, @name, @location, @dateJoined);
+        
+        SELECT 'User registered successfully' AS Message;
+    END TRY
+    BEGIN CATCH
+        SELECT ERROR_MESSAGE() AS ErrorMessage;
+    END CATCH
+END;
+
+CREATE OR ALTER PROCEDURE SignInUser
+    @username VARCHAR(255),
+    @password_hash VARCHAR(255)
+AS
+BEGIN
+    DECLARE @userId VARCHAR(255);
+    SELECT @userId = id
+    FROM Users
+    WHERE username = @username AND password_hash = @password_hash;
+
+    IF @userId IS NOT NULL
+    BEGIN
+        SELECT 'Sign-in successful' AS Message;
+        -- You can also return the user id or any other relevant info
+        SELECT @userId AS UserId;
+    END
+    ELSE
+    BEGIN
+        SELECT 'Invalid username or password' AS ErrorMessage;
     END
 END;

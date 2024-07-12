@@ -7,4 +7,6 @@ public interface IDatabaseService
     Task<int> AddBidAsync(string product1Id, string product2Id);
     Task<string> AddProductAsync(AddProductRequest product);
     Task RemoveProductAsync(string productId);
+    Task<string> RegisterUserAsync(RegisterUserRequest request);
+    Task<SignInResult> SignInUserAsync(SignInRequest request);
 }
