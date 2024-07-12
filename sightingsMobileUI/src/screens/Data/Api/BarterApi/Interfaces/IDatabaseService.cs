@@ -5,4 +5,6 @@ public interface IDatabaseService
     Task<IEnumerable<BidDTO>> GetAllBidsAsync();
     Task RemoveBidAsync(int bidId);
     Task<int> AddBidAsync(string product1Id, string product2Id);
+    Task<string> AddProductAsync(ProductDTO product);
+    Task RemoveProductAsync(string productId);
 }
