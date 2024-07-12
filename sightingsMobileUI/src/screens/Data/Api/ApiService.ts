@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 import {Product} from '../Models/Product'
+import {Bid} from '../Models/Bid'
 
 const BASE_URL = 'https://barterapi.azurewebsites.net/api'
 
@@ -50,6 +51,51 @@ export const fetchProductsByOwner = createAsyncThunk<Product[], string, {rejectV
         } catch (error)
         {
             return thunkAPI.rejectWithValue('Failed to fetch products by owner')
+        }
+    }
+)
+
+export const addBid = createAsyncThunk<number, AddBidRequest, {rejectValue: string}>(
+    'bids/addBid',
+    async (request, thunkAPI) =>
+    {
+        try
+        {
+            const response = await axios.post<number>(`${BASE_URL}/bids`, request)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to add bid')
+        }
+    }
+)
+
+export const removeBid = createAsyncThunk<number, number, {rejectValue: string}>(
+    'bids/removeBid',
+    async (bidId, thunkAPI) =>
+    {
+        try
+        {
+            await axios.delete(`${BASE_URL}/bids/${bidId}`)
+            return bidId
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to remove bid')
+        }
+    }
+)
+
+export const fetchAllBids = createAsyncThunk<Bid[], void, {rejectValue: string}>(
+    'bids/fetchAllBids',
+    async (_, thunkAPI) =>
+    {
+        try
+        {
+            const response = await axios.get<Bid[]>(`${BASE_URL}/bids`)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to fetch bids')
         }
     }
 )

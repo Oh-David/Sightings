@@ -4,7 +4,6 @@ import
   View,
   Text,
   Image,
-  StyleSheet,
   FlatList,
   TouchableOpacity,
   Platform,
@@ -14,11 +13,12 @@ import
 import {RouteProp, useNavigation} from "@react-navigation/native"
 import {buttonStyles} from "./ButtonStyles"
 import {useSelector, useDispatch} from "react-redux"
-import {RootState} from "./Data/Store"
-import {addBid} from "./Data/BidSlice"
+import {RootState, AppDispatch} from "./Data/Store"
+import {addBid, fetchAllBids} from "./Data/Api/ApiService"
 import {RootStackParamList} from "models/navigationTypes"
 import {StackNavigationProp} from "@react-navigation/stack"
 import {Product} from "./Data/Models/Product"
+import {productDetailStyles} from "./ProductDetailStyles"
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, "ProductDetail">
 
@@ -29,13 +29,16 @@ interface ProductDetailProps
 
 const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
 {
-  const userProducts = useSelector((state: RootState) => state.products.userProducts) as Product[]
+  const styles = productDetailStyles
+  const userProducts = useSelector(
+    (state: RootState) => state.products.userProducts
+  ) as Product[]
   const {product} = route.params
-  const [selectedItem, setSelectedItem] = useState<(typeof userProducts)[0] | null>(null)
+  const [selectedItem, setSelectedItem] = useState<Product | null>(null)
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
-  const handleTradeOffer = () =>
+  const handleTradeOffer = async () =>
   {
     if (selectedItem)
     {
@@ -44,37 +47,40 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
         product2Id: product.id,
       }
 
-      dispatch(addBid(bid))
+      const resultAction = await dispatch(addBid(bid))
 
-      if (Platform.OS === "android")
+      if (addBid.fulfilled.match(resultAction))
       {
-        ToastAndroid.show(
-          "Trade offer made successfully!",
-          ToastAndroid.SHORT
-        )
+        await dispatch(fetchAllBids())
+
+        if (Platform.OS === "android")
+        {
+          ToastAndroid.show("Trade offer made successfully!", ToastAndroid.SHORT)
+        } else
+        {
+          Alert.alert("Success", "Trade offer made successfully!")
+        }
+
+        navigation.navigate("LandingPage")
       } else
       {
-        Alert.alert(
-          "Success",
-          "Trade offer made successfully!"
-        )
+        const errorMessage = (resultAction.payload as string) || 'Failed to make trade offer.'
+        if (Platform.OS === "android")
+        {
+          ToastAndroid.show(errorMessage, ToastAndroid.SHORT)
+        } else
+        {
+          Alert.alert("Error", errorMessage)
+        }
       }
-
-      navigation.navigate("LandingPage")
     } else
     {
       if (Platform.OS === "android")
       {
-        ToastAndroid.show(
-          "Please select an item to trade.",
-          ToastAndroid.SHORT
-        )
+        ToastAndroid.show("Please select an item to trade.", ToastAndroid.SHORT)
       } else
       {
-        Alert.alert(
-          "Error",
-          "Please select an item to trade."
-        )
+        Alert.alert("Error", "Please select an item to trade.")
       }
     }
   }
@@ -84,9 +90,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
       <Image source={{uri: product.image}} style={styles.productImage} />
       <Text style={styles.productName}>{product.name}</Text>
       <Text style={styles.productDescription}>{product.description}</Text>
-      <Text style={styles.tradeFor}>
-        Wants to trade for: {product.tradeFor}
-      </Text>
+      <Text style={styles.tradeFor}>Wants to trade for: {product.tradeFor}</Text>
       <Text style={styles.selectText}>Select an item to trade:</Text>
       <FlatList
         data={userProducts}
@@ -97,9 +101,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
             <View
               style={[
                 styles.userItem,
-                selectedItem && selectedItem.id === item.id
-                  ? styles.selectedItem
-                  : null,
+                selectedItem && selectedItem.id === item.id ? styles.selectedItem : null,
               ]}
             >
               <Image source={{uri: item.image}} style={styles.userImage} />
@@ -114,74 +116,5 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route}) =>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 20,
-  },
-  productImage: {
-    width: "100%",
-    height: 200,
-    resizeMode: "cover",
-    marginBottom: 20,
-  },
-  productName: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  productDescription: {
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  tradeFor: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginVertical: 10,
-  },
-  selectText: {
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  userItem: {
-    marginRight: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  selectedItem: {
-    borderColor: "#000",
-  },
-  userImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-  },
-  userName: {
-    marginTop: 10,
-    fontSize: 14,
-    textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#007BFF",
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
-    marginTop: 20,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-})
 
 export default ProductDetail
