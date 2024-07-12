@@ -7,12 +7,16 @@ import {buttonStyles} from '../ButtonStyles'
 import MyProducts from '../MyProducts'
 import {useNavigation} from '@react-navigation/native'
 import {mockProfileImage} from '../Mock'
+import {StackNavigationProp} from '@react-navigation/stack'
+import {RootStackParamList} from 'models/navigationTypes'
+
+type ProductListNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>
 
 
 const ProfileScreen: React.FC = () =>
 {
   const dispatch = useDispatch<AppDispatch>()
-  const navigation = useNavigation()
+  const navigation = useNavigation<ProductListNavigationProp>()
   const currentUser = useSelector((state: RootState) => state.users.currentUser)
 
   const handleLogout = async () =>
