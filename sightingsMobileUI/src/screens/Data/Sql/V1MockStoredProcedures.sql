@@ -107,3 +107,74 @@ BEGIN
     JOIN
         Products P2 ON B.product2Id = P2.id;
 END;
+
+CREATE OR ALTER PROCEDURE AddProduct
+    @name VARCHAR(255),
+    @image VARCHAR(255),
+    @description TEXT,
+    @tradeFor VARCHAR(255),
+    @categoryId INT,
+    @condition VARCHAR(20),
+    @location VARCHAR(255),
+    @ownerId VARCHAR(255),
+    @dimensions_width FLOAT,
+    @dimensions_height FLOAT,
+    @dimensions_depth FLOAT,
+    @dimensions_weight FLOAT,
+    @dateListed DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @newId VARCHAR(255);
+    SET @newId = NEWID();
+
+    INSERT INTO Products (
+        id,
+        name,
+        image,
+        description,
+        tradeFor,
+        categoryId,
+        condition,
+        location,
+        ownerId,
+        dimensions_width,
+        dimensions_height,
+        dimensions_depth,
+        dimensions_weight,
+        dateListed
+    ) VALUES (
+        @newId,
+        @name,
+        @image,
+        @description,
+        @tradeFor,
+        @categoryId,
+        @condition,
+        @location,
+        @ownerId,
+        @dimensions_width,
+        @dimensions_height,
+        @dimensions_depth,
+        @dimensions_weight,
+        @dateListed
+    );
+
+    SELECT @newId AS NewProductId;
+END;
+
+CREATE OR ALTER PROCEDURE RemoveProduct
+    @id VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DELETE FROM Products
+    WHERE id = @id;
+
+    IF @@ROWCOUNT = 0
+    BEGIN
+        RAISERROR('No product found with the given ID.', 16, 1);
+    END
+END;
