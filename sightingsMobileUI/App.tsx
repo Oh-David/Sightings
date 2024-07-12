@@ -5,7 +5,6 @@ import SignInScreen from './src/screens/Authentication/SignInScreen/SignInScreen
 import ForgotPasswordScreen from './src/screens/Authentication/ForgotPassword/ForgotPasswordScreen'
 import ResetPasswordScreen from './src/screens/Authentication/ResetPassword/ResetPasswordScreen'
 import ProfileScreen from './src/screens/Profile/ProfileScreen'
-import CreateAccountScreen from './src/screens/Authentication/CreateAccount/CreateAccountScreen'
 import ConfirmationScreen from './src/screens/Authentication/Confirmation/ConfirmationScreen'
 import LandingPage from './src/screens/LandingPage/LandingPage'
 import PostItem from './src/screens/Features/PostItem/PostItem'
@@ -18,6 +17,7 @@ import store from './src/screens/Data/Store'
 import ProductsPage from './src/screens/ProductsPage'
 import BidScreen from './src/screens/BidScreen'
 import {setUserId} from './src/screens/Data/UserSlice'
+import CreateAccountScreen from './src/screens/CreateAccountScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -51,7 +51,7 @@ const App = () =>
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={initialRouteName}>
-          <Stack.Screen name="SignIn" component={SignInScreen} options={{title: 'Sign In'}} />
+          <Stack.Screen name="SignIn" component={SignInScreen} options={{title: 'Welcome Back!'}} />
           <Stack.Screen name="CreateAccount" component={CreateAccountScreen} options={{title: 'Create Account'}} />
           <Stack.Screen name="ConfirmationScreen" component={ConfirmationScreen} options={{title: 'Confirm Your Account'}} />
           <Stack.Screen name="LandingPage" component={LandingPage} options={{title: 'Welcome to BarterApp'}} />

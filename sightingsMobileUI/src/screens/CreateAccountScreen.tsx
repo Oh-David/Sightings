@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, TextInput, Button, StyleSheet, Alert} from 'react-native'
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import {useDispatch} from 'react-redux'
 import {useNavigation} from '@react-navigation/native'
 import {AppDispatch} from './Data/Store'
@@ -43,16 +43,18 @@ const CreateAccountScreen: React.FC = () =>
 
     return (
         <View style={styles.container}>
-            <Text>Create a New Account</Text>
+            <Text style={styles.title}>Create a New Account</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Username"
+                placeholderTextColor="#888"
                 value={username}
                 onChangeText={setUsername}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Password"
+                placeholderTextColor="#888"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -60,22 +62,33 @@ const CreateAccountScreen: React.FC = () =>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
+                placeholderTextColor="#888"
                 value={email}
                 onChangeText={setEmail}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Name"
+                placeholderTextColor="#888"
                 value={name}
                 onChangeText={setName}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Location"
+                placeholderTextColor="#888"
                 value={location}
                 onChangeText={setLocation}
             />
-            <Button title="Sign Up" onPress={handleSignUp} />
+            <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.backToSignInButton}
+                onPress={() => navigation.navigate('SignIn')}
+            >
+                <Text style={styles.buttonText}>Back to Sign In</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -86,14 +99,46 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
+        backgroundColor: '#F5F5F5',
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        marginBottom: 40,
+        color: '#333',
     },
     input: {
         width: '100%',
-        height: 40,
-        borderColor: 'gray',
+        height: 50,
+        borderColor: '#DDD',
         borderWidth: 1,
-        marginBottom: 12,
-        padding: 8,
+        borderRadius: 8,
+        paddingHorizontal: 16,
+        marginBottom: 20,
+        backgroundColor: '#FFF',
+        fontSize: 16,
+    },
+    signUpButton: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#007AFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+        marginBottom: 20,
+    },
+    backToSignInButton: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#34C759',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#FFF',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 })
 
