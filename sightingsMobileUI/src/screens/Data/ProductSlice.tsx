@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {fetchProductsByOwner, fetchProductsNotOwnedByUser} from './Api/ApiService'
+import {addProduct, removeProduct} from './Api/ApiService'
 import {mockUserProducts} from '../Mock'
 import {Product} from './Models/Product'
 
@@ -28,9 +29,7 @@ const productSlice = createSlice({
     },
     removeUserItem: (state, action: PayloadAction<string>) =>
     {
-      state.userProducts = state.userProducts.filter(
-        (item) => item.id !== action.payload
-      )
+      state.userProducts = state.userProducts.filter((item) => item.id !== action.payload)
     },
   },
   extraReducers: (builder) =>
@@ -48,7 +47,7 @@ const productSlice = createSlice({
       .addCase(fetchProductsNotOwnedByUser.rejected, (state, action) =>
       {
         state.status = 'failed'
-        state.error = action.payload || 'Failed to fetch products'
+        state.error = action.error.message || 'Failed to fetch products'
       })
       .addCase(fetchProductsByOwner.pending, (state) =>
       {
@@ -62,7 +61,34 @@ const productSlice = createSlice({
       .addCase(fetchProductsByOwner.rejected, (state, action) =>
       {
         state.status = 'failed'
-        state.error = action.payload || 'Failed to fetch products by owner'
+        state.error = action.error.message || 'Failed to fetch products by owner'
+      })
+      .addCase(addProduct.pending, (state) =>
+      {
+        state.status = 'loading'
+      })
+      .addCase(addProduct.fulfilled, (state) =>
+      {
+        state.status = 'succeeded'
+      })
+      .addCase(addProduct.rejected, (state, action) =>
+      {
+        state.status = 'failed'
+        state.error = action.error.message || 'Failed to add product'
+      })
+      .addCase(removeProduct.pending, (state) =>
+      {
+        state.status = 'loading'
+      })
+      .addCase(removeProduct.fulfilled, (state, action) =>
+      {
+        state.status = 'succeeded'
+        state.userProducts = state.userProducts.filter((product) => product.id !== action.meta.arg.id)
+      })
+      .addCase(removeProduct.rejected, (state, action) =>
+      {
+        state.status = 'failed'
+        state.error = action.error.message || 'Failed to remove product'
       })
   },
 })

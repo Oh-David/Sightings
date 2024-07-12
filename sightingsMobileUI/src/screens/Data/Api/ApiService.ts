@@ -2,6 +2,8 @@ import {createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 import {Product} from '../Models/Product'
 import {Bid} from '../Models/Bid'
+import {AddProductRequest} from './AddProductRequest'
+import {RemoveProductRequest} from './RemoveProductRequest'
 
 const BASE_URL = 'https://barterapi.azurewebsites.net/api'
 
@@ -96,6 +98,35 @@ export const fetchAllBids = createAsyncThunk<Bid[], void, {rejectValue: string}>
         } catch (error)
         {
             return thunkAPI.rejectWithValue('Failed to fetch bids')
+        }
+    }
+)
+
+export const addProduct = createAsyncThunk<string, AddProductRequest, {rejectValue: string}>(
+    'products/addProduct',
+    async (request, thunkAPI) =>
+    {
+        try
+        {
+            const response = await axios.post<string>(`${BASE_URL}/Products`, request)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to add product')
+        }
+    }
+)
+
+export const removeProduct = createAsyncThunk<void, RemoveProductRequest, {rejectValue: string}>(
+    'products/removeProduct',
+    async (request, thunkAPI) =>
+    {
+        try
+        {
+            await axios.delete(`${BASE_URL}/Products/${request.id}`)
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to remove product')
         }
     }
 )
