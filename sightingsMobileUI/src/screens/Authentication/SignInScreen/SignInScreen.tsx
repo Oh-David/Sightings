@@ -1,91 +1,80 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
-import { Auth } from 'aws-amplify';
-import { SignInScreenNavigationProp } from 'models/navigationTypes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState} from 'react'
+import {View, Text, TextInput, Button, StyleSheet, Alert} from 'react-native'
+import {useDispatch} from 'react-redux'
+import {useNavigation} from '@react-navigation/native'
+import {signInUser} from '../../Data/Api/ApiService'
+import {AppDispatch} from 'screens/Data/Store'
 
-type SignInScreenProps = {
-  navigation: SignInScreenNavigationProp;
-};
+const SignInScreen: React.FC = () =>
+{
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch<AppDispatch>()
+  const navigation = useNavigation()
 
-const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  
-  const handleSignIn = async () => {
-    try {
-      const user = await Auth.signIn({
-        username,
-        password
-      });
-      // Store a token in AsyncStorage upon successful login
-      await AsyncStorage.setItem('userToken', user.signInUserSession.idToken.jwtToken);
-      // Navigate to the next screen after sign in
-      navigation.navigate('LandingPage');
-    } catch (error) {
-      const amplifyError = error as { code?: string, message?: string };
-      if (amplifyError.code === 'UserNotConfirmedException') {
-      // User account is not confirmed, navigate to ConfirmationScreen
-      navigation.navigate('ConfirmationScreen', { username });
-      } else {
-        // Handle other types of errors
-        console.error('Error signing in:', amplifyError);
-        Alert.alert('Error', amplifyError.message || 'An error occurred during sign in');
+  const handleSignIn = async () =>
+  {
+    const payload = {username, passwordHash: password}
+
+    try
+    {
+      const resultAction = await dispatch(signInUser(payload))
+      console.log(resultAction)
+
+      if (signInUser.fulfilled.match(resultAction))
+      {
+        Alert.alert('Success', 'Signed in successfully')
+        navigation.navigate('LandingPage')
+      } else
+      {
+        Alert.alert('Error', resultAction.payload || 'Failed to sign in')
       }
+    } catch (error)
+    {
+      Alert.alert('Error', 'An error occurred while signing in')
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
+      <Text>Sign In</Text>
       <TextInput
+        style={styles.input}
+        placeholder="Username"
         value={username}
         onChangeText={setUsername}
-        placeholder="Username" 
-        style={styles.input} 
-        testID="input-username"
-        autoCapitalize="none"
       />
       <TextInput
+        style={styles.input}
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        placeholder="Password" 
-        style={styles.input} 
-        secureTextEntry 
-        testID="input-password" 
+        secureTextEntry
       />
-      <Button 
-        title="Sign In" 
-        onPress={handleSignIn} 
+      <Button title="Sign In" onPress={handleSignIn} />
+      <Button
+        title="Create Account"
+        onPress={() => navigation.navigate('CreateAccount')}
       />
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.link}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
-        <Text style={styles.link}>Don't have an account? Sign Up</Text>
-      </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 16,
   },
   input: {
-    width: '80%',
-    padding: 10,
-    marginVertical: 10,
-    borderWidth: 1,
+    width: '100%',
+    height: 40,
     borderColor: 'gray',
-    borderRadius: 5,
+    borderWidth: 1,
+    marginBottom: 12,
+    padding: 8,
   },
-  link: { // Define your link style here
-    color: 'blue',
-    marginTop: 15,
-    textDecorationLine: 'underline', // Make the text underlined to indicate it's a link
-  },
-});
+})
 
-export default SignInScreen;
+export default SignInScreen

@@ -1,57 +1,37 @@
-// ProfileScreen.tsx
-
-import React, {useEffect, useState} from 'react'
-import
-{
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native'
-import
-{
-  ProfileScreenNavigationProp,
-  RouteParams,
-} from 'models/navigationTypes'
-import useProfile from './useProfile'
-import {mockProfileImage} from '../Mock' // Ensure this path is correct
+import React from 'react'
+import {View, Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootState, AppDispatch} from '../Data/Store'
+import {clearCurrentUser} from '../Data/UserSlice'
 import {buttonStyles} from '../ButtonStyles'
 import MyProducts from '../MyProducts'
-import {getUserById} from '../Data/Api/ApiService'
+import {useNavigation} from '@react-navigation/native'
+import {mockProfileImage} from '../Mock'
 
-type ProfileScreenProps = {
-  navigation: ProfileScreenNavigationProp
-  route: {params?: RouteParams}
-}
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
+const ProfileScreen: React.FC = () =>
 {
-  const {handleLogout, handleProfileImage} = useProfile(navigation, route)
-  const [userName, setUserName] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
+  const dispatch = useDispatch<AppDispatch>()
+  const navigation = useNavigation()
+  const currentUser = useSelector((state: RootState) => state.users.currentUser)
 
-  useEffect(() =>
+  const handleLogout = async () =>
   {
-    const fetchUser = async () =>
+    try
     {
-      try
-      {
-        const user = await getUserById('user12')
-        setUserName(user.name)
-      } catch (error)
-      {
-        setError('Failed to fetch user data')
-      } finally
-      {
-        setLoading(false)
-      }
+      dispatch(clearCurrentUser())
+      navigation.navigate('SignIn')
+    } catch (error)
+    {
+      console.error('Logout error:', error)
+      Alert.alert('Error', 'An error occurred while logging out')
     }
+  }
 
-    fetchUser()
-  }, [])
+  const handleProfileImage = () =>
+  {
+    Alert.alert('Change Profile Image', 'Profile image change functionality to be implemented.')
+  }
 
   const renderHeader = () => (
     <View style={styles.header}>
@@ -59,40 +39,23 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) =>
         <Image source={{uri: mockProfileImage}} style={styles.profileImage} />
       </TouchableOpacity>
       <Text style={styles.title}>
-        Welcome{userName ? `, ${userName}` : ''}
+        Welcome{currentUser?.name ? `, ${currentUser.name}` : ''}
       </Text>
     </View>
   )
-
-  if (loading)
-  {
-    return <ActivityIndicator size="large" color="#0000ff" />
-  }
-
-  if (error)
-  {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>{error}</Text>
-      </View>
-    )
-  }
 
   return (
     <View style={styles.container}>
       {renderHeader()}
 
-      {/* Your Products Header */}
       <View style={styles.productsHeader}>
         <Text style={styles.productsTitle}>Your Products</Text>
       </View>
 
-      {/* My Products Section */}
       <View style={styles.productsContainer}>
         <MyProducts />
       </View>
 
-      {/* Logout Button */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={buttonStyles.button} onPress={handleLogout}>
           <Text style={buttonStyles.buttonText}>Logout</Text>

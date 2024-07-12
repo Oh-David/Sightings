@@ -1,6 +1,8 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
 import {User} from './Models/User'
 import {mockCurrentUser} from '../Mock'
+import {registerUser, signInUser} from './Api/ApiService'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface UserState
 {
@@ -8,6 +10,7 @@ interface UserState
     users: User[]
     status: 'idle' | 'loading' | 'succeeded' | 'failed'
     error: string | null
+    userId: string | null
 }
 
 const initialState: UserState = {
@@ -15,6 +18,7 @@ const initialState: UserState = {
     users: [],
     status: 'idle',
     error: null,
+    userId: null,
 }
 
 const userSlice = createSlice({
@@ -28,6 +32,8 @@ const userSlice = createSlice({
         clearCurrentUser: (state) =>
         {
             state.currentUser = null
+            state.userId = null
+            AsyncStorage.removeItem('userId')
         },
         addUser: (state, action: PayloadAction<User>) =>
         {
@@ -37,9 +43,52 @@ const userSlice = createSlice({
         {
             state.users = state.users.filter(user => user.id !== action.payload)
         },
+        setToken: (state, action: PayloadAction<string | null>) =>
+        {
+            state.userId = action.payload
+        },
+        setUserId: (state, action: PayloadAction<string | null>) =>
+        {
+            state.userId = action.payload
+        },
+    },
+    extraReducers: (builder) =>
+    {
+        builder
+            .addCase(registerUser.pending, (state) =>
+            {
+                state.status = 'loading'
+                state.error = null
+            })
+            .addCase(registerUser.fulfilled, (state) =>
+            {
+                state.status = 'succeeded'
+                state.error = null
+            })
+            .addCase(registerUser.rejected, (state, action) =>
+            {
+                state.status = 'failed'
+                state.error = action.payload || 'Failed to register user'
+            })
+            .addCase(signInUser.pending, (state) =>
+            {
+                state.status = 'loading'
+                state.error = null
+            })
+            .addCase(signInUser.fulfilled, (state, action) =>
+            {
+                state.status = 'succeeded'
+                state.error = null
+                state.userId = action.payload.token
+            })
+            .addCase(signInUser.rejected, (state, action) =>
+            {
+                state.status = 'failed'
+                state.error = action.payload || 'Failed to sign in user'
+            })
     }
 })
 
-export const {setCurrentUser, clearCurrentUser, addUser, removeUser} = userSlice.actions
+export const {setCurrentUser, clearCurrentUser, addUser, removeUser, setUserId} = userSlice.actions
 
 export default userSlice.reducer

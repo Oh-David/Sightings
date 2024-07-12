@@ -4,6 +4,11 @@ import {Product} from '../Models/Product'
 import {Bid} from '../Models/Bid'
 import {AddProductRequest} from './AddProductRequest'
 import {RemoveProductRequest} from './RemoveProductRequest'
+import {RegisterUserRequest} from './RegisterUserRequest'
+import {RegisterUserResponse} from './RegisterUserResponse'
+import {SignInResponse} from './SignInResponse'
+import {SignInRequest} from './SignInRequest'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const BASE_URL = 'https://barterapi.azurewebsites.net/api'
 
@@ -129,6 +134,48 @@ export const removeProduct = createAsyncThunk<void, RemoveProductRequest, {rejec
         } catch (error)
         {
             return thunkAPI.rejectWithValue('Failed to remove product')
+        }
+    }
+)
+
+export const registerUser = createAsyncThunk<RegisterUserResponse, RegisterUserRequest, {rejectValue: string}>(
+    'users/registerUser',
+    async (user, thunkAPI) =>
+    {
+        try
+        {
+            const response = await axios.post<RegisterUserResponse>(`${BASE_URL}/users/register`, user)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to register user')
+        }
+    }
+)
+
+export const signInUser = createAsyncThunk<SignInResponse, SignInRequest, {rejectValue: string}>(
+    'users/signInUser',
+    async (credentials, thunkAPI) =>
+    {
+        try
+        {
+            const response = await axios.post<SignInResponse>(`${BASE_URL}/users/signin`, credentials)
+
+            if (response.data.errorMessage)
+            {
+                return thunkAPI.rejectWithValue(response.data.errorMessage)
+            }
+
+            if (!response.data.userId)
+            {
+                return thunkAPI.rejectWithValue('User ID not found in response')
+            }
+
+            await AsyncStorage.setItem('userId', response.data.userId)
+            return response.data
+        } catch (error)
+        {
+            return thunkAPI.rejectWithValue('Failed to sign in user')
         }
     }
 )
