@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface UserState
 {
-    currentUser: User | null
+    currentUser: {id: string}
     users: User[]
     status: 'idle' | 'loading' | 'succeeded' | 'failed'
     error: string | null
@@ -79,7 +79,8 @@ const userSlice = createSlice({
             {
                 state.status = 'succeeded'
                 state.error = null
-                state.userId = action.payload.token
+                state.currentUser = {id: action.payload.userId || ''}
+                state.userId = action.payload.userId || null
             })
             .addCase(signInUser.rejected, (state, action) =>
             {
