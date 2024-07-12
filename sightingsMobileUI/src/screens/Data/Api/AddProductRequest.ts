@@ -4,7 +4,7 @@ export interface AddProductRequest
     image: string
     description: string
     tradeFor: string
-    categoryId: number
+    category: string
     condition: string
     location: string
     ownerId: string

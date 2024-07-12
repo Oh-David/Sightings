@@ -1,6 +1,6 @@
-import {useState} from "react"
-import {useDispatch} from "react-redux"
-import {addUserItem} from "../../Data/ProductSlice"
+import React, {useState} from "react"
+import {useDispatch, useSelector} from "react-redux"
+import {addProduct, fetchProductsByOwner} from "../../Data/Api/ApiService"
 import {mockPostProducts} from "../../Mock"
 import
 {
@@ -13,58 +13,75 @@ import
   ToastAndroid,
   Alert,
 } from "react-native"
-import React from "react"
 import {buttonStyles} from "../../ButtonStyles"
 import {useNavigation} from "@react-navigation/native"
 import {LandingPageScreenNavigationProp} from "../../../models/navigationTypes"
 import {ProductCategory} from "../../Data/Models/ProductCategory"
-import {Product} from "../../Data/Models/Product"
+import {AddProductRequest} from "../../Data/Api/AddProductRequest"
+import {ProductCategoryUtil} from "../../ProductCategoryUtil"
+import {RootState} from "screens/Data/Store"
 
 const PostItem: React.FC = () =>
 {
   const navigation = useNavigation<LandingPageScreenNavigationProp>()
-
-  const dispatch = useDispatch()
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [image, setImage] = useState("")
-  const [tradeFor, setTradeFor] = useState("")
+  const dispatch = useDispatch<any>()
+  const [name, setName] = useState<string>("")
+  const [description, setDescription] = useState<string>("")
+  const [image, setImage] = useState<string>("")
+  const [tradeFor, setTradeFor] = useState<string>("")
   const [category, setCategory] = useState<ProductCategory | null>(null)
-  const [condition, setCondition] = useState<"New" | "Used" | "Refurbished">(
-    "New"
-  )
-  const [location, setLocation] = useState("")
-  const [dimensions, setDimensions] = useState({
+  const [condition, setCondition] = useState<"New" | "Used" | "Refurbished">("New")
+  const [location, setLocation] = useState<string>("")
+  const [dimensions, setDimensions] = useState<{width: number, height: number, depth: number, weight: number}>({
     width: 0,
     height: 0,
     depth: 0,
     weight: 0,
   })
+  const ownerId = useSelector((state: RootState) => state.users.currentUser)?.id as string
 
-  const handleAddItem = () =>
+  const handleAddItem = async () =>
   {
-    const newItem: Product = {
-      id: new Date().toISOString(),
+    const newItem: AddProductRequest = {
       name,
       description,
       image,
       tradeFor,
-      category: category ?? ProductCategory.Other,
+      category: category ? ProductCategoryUtil.getCategoryId(category).toString() : ProductCategoryUtil.getCategoryId(ProductCategory.Other).toString(),
       condition,
       location,
-      ownerId: "currentUserId",
-      dimensions,
+      ownerId,
+      dimensionsWidth: dimensions.width,
+      dimensionsHeight: dimensions.height,
+      dimensionsDepth: dimensions.depth,
+      dimensionsWeight: dimensions.weight,
       dateListed: new Date().toISOString(),
     }
-    dispatch(addUserItem(newItem))
-    if (Platform.OS === "android")
+
+    const resultAction = await dispatch(addProduct(newItem))
+
+    if (addProduct.fulfilled.match(resultAction))
     {
-      ToastAndroid.show("Item posted successfully!", ToastAndroid.SHORT)
+      await dispatch(fetchProductsByOwner(ownerId))
+      if (Platform.OS === "android")
+      {
+        ToastAndroid.show("Item posted successfully!", ToastAndroid.SHORT)
+      } else
+      {
+        Alert.alert("Success", "Item posted successfully!")
+      }
+      navigation.navigate("LandingPage")
     } else
     {
-      Alert.alert("Success", "Item posted successfully!")
+      const errorMessage = (resultAction.payload as string) || "Failed to post item."
+      if (Platform.OS === "android")
+      {
+        ToastAndroid.show(errorMessage, ToastAndroid.SHORT)
+      } else
+      {
+        Alert.alert("Error", errorMessage)
+      }
     }
-    navigation.navigate("LandingPage")
   }
 
   const handleAutoGenerate = () =>

@@ -116,7 +116,7 @@ public class DatabaseService : IDatabaseService
         return bidList;
     }
 
-    public async Task<string> AddProductAsync(ProductDTO product)
+    public async Task<string> AddProductAsync(AddProductRequest product)
     {
         using (var connection = new SqlConnection(_connectionString))
         {

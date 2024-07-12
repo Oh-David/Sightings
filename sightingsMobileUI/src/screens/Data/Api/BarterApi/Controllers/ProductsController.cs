@@ -26,7 +26,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> AddProduct([FromBody] ProductDTO product)
+    public async Task<ActionResult<string>> AddProduct([FromBody] AddProductRequest product)
     {
         if (product == null)
         {
