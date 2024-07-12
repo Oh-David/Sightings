@@ -71,7 +71,8 @@ public class DatabaseService : IDatabaseService
                 command.Parameters.AddWithValue("@product2Id", product2Id);
 
                 connection.Open();
-                return (int)await command.ExecuteScalarAsync();
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
             }
         }
     }
