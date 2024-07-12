@@ -111,8 +111,6 @@ export const addProduct = createAsyncThunk<string, AddProductRequest, {rejectVal
     'products/addProduct',
     async (request, thunkAPI) =>
     {
-        console.log('request:', request)
-
         try
         {
             const response = await axios.post<string>(`${BASE_URL}/Products`, request)
