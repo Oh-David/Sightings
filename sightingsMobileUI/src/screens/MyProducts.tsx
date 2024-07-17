@@ -8,20 +8,34 @@ import
   StyleSheet,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native"
 import {FontAwesome} from "@expo/vector-icons"
-import {removeUserItem} from "./Data/ProductSlice"
-import {RootState} from "./Data/Store"
-import {Product} from "./Data/Product"
+import {RootState, AppDispatch} from "./Data/Store"
+import {Product} from "./Data/Models/Product"
+import {removeProduct, fetchProductsByOwner} from "./Data/Api/ApiService"
+import {RemoveProductRequest} from "./Data/Api/RemoveProductRequest"
 
 const MyProducts: React.FC = () =>
 {
   const userProducts = useSelector((state: RootState) => state.products.userProducts) as Product[]
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
+  const currentUser = useSelector((state: RootState) => state.users.currentUser)
 
-  const handleRemoveItem = (id: string) =>
+  const handleRemoveItem = async (id: string) =>
   {
-    dispatch(removeUserItem(id))
+    const request: RemoveProductRequest = {id}
+    const resultAction = await dispatch(removeProduct(request))
+
+    if (removeProduct.fulfilled.match(resultAction))
+    {
+      await dispatch(fetchProductsByOwner(currentUser?.id as string))
+      Alert.alert('Success', 'Product removed successfully.')
+    } else
+    {
+      const errorMessage = (resultAction.payload as string) || 'Failed to remove product.'
+      Alert.alert('Error', errorMessage)
+    }
   }
 
   const renderItem = ({item}: {item: Product}) => (

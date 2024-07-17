@@ -1,25 +1,26 @@
 import React, {useState} from 'react'
 import
-{
-    View,
-    Text,
-    FlatList,
-    StyleSheet,
-    Image,
-    TouchableOpacity,
-    Modal,
-    ScrollView,
-    Alert,
-} from 'react-native'
+    {
+        View,
+        Text,
+        FlatList,
+        StyleSheet,
+        Image,
+        TouchableOpacity,
+        Modal,
+        ScrollView,
+        Alert,
+    } from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import {MaterialIcons} from '@expo/vector-icons'
-import {RootState} from './Data/Store'
+import {RootState, AppDispatch} from './Data/Store'
 import {buttonStyles} from './ButtonStyles'
 import {selectAllProducts} from './Data/Selectors'
-import {Bid, removeBid} from './Data/BidSlice'
-import {Product} from './Data/Product'
+import {removeBid, fetchAllBids} from './Data/Api/ApiService'
+import {Product} from './Data/Models/Product'
 import CategoryFilter from './CategoryFilter'
-import {ProductCategory} from './Data/ProductCategory'
+import {ProductCategory} from './Data/Models/ProductCategory'
+import {Bid} from './Data/Models/Bid'
 
 const BidScreen: React.FC = () =>
 {
@@ -29,7 +30,7 @@ const BidScreen: React.FC = () =>
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const [isModalVisible, setModalVisible] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const findProductById = (id: string): Product | undefined =>
         allProducts.find((product) => product.id === id)
@@ -40,23 +41,22 @@ const BidScreen: React.FC = () =>
         setModalVisible(true)
     }
 
-    const handleRemoveBid = (product1Id: string, product2Id: string) =>
+    const handleRemoveBid = async (bidId: number) =>
     {
-        const userOwnsProduct = userProducts.some(
-            (product) => product.id === product1Id || product.id === product2Id
-        )
+        const resultAction = await dispatch(removeBid(bidId))
 
-        if (userOwnsProduct)
+        if (removeBid.fulfilled.match(resultAction))
         {
-            dispatch(removeBid({product1Id, product2Id}))
+            await dispatch(fetchAllBids())
             Alert.alert('Success', 'Bid removed successfully.')
         } else
         {
-            Alert.alert('Error', 'You can only remove bids involving your own products.')
+            const errorMessage = (resultAction.payload as string) || 'Failed to remove bid.'
+            Alert.alert('Error', errorMessage)
         }
     }
 
-    const renderItem = ({item}: {item: {product1Id: string; product2Id: string}}) =>
+    const renderItem = ({item}: {item: Bid}) =>
     {
         const product1 = findProductById(item.product1Id)
         const product2 = findProductById(item.product2Id)
@@ -83,7 +83,7 @@ const BidScreen: React.FC = () =>
                         <Text style={styles.productName}>{product2.name}</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleRemoveBid(item.product1Id, item.product2Id)}>
+                <TouchableOpacity onPress={() => handleRemoveBid(item.id)}>
                     <MaterialIcons name="delete" size={24} color="#696969" style={styles.deleteIcon} />
                 </TouchableOpacity>
             </View>
@@ -96,7 +96,7 @@ const BidScreen: React.FC = () =>
             <FlatList
                 data={bids}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item) => item.id.toString()}
             />
             {selectedProduct && (
                 <Modal

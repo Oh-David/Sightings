@@ -132,3 +132,136 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+bin/
+obj/
+
+# Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+*.pidb
+*.svclog
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Azure Pipelines
+*.azure-pipelines.yml
+.ionide
+
+# Local History
+.localhistory/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# npm package lock file
+package-lock.json
+
+# Yarn Integrity file
+.yarn-integrity
+
+# ASP.NET Core Secrets
+**/secrets.json
+
+# Azure Functions
+local.settings.json
+
+# Entity Framework
+**/*.edmx.diagram
+**/*.edmx.sql
+**/*.edmx
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# JetBrains Rider
+.idea/
+.idea/*
+
+# Include if you have a .dotsettings user file in your project directory
+*.dotsettings.user
+
+# VS Code
+.vscode/
+.vscode/*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# Python virtualenv
+.venv
+
+publish/

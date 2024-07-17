@@ -1,19 +1,19 @@
 import React, {useState} from "react"
 import
-  {
-    View,
-    Text,
-    FlatList,
-    StyleSheet,
-    Image,
-    TouchableOpacity,
-  } from "react-native"
+{
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native"
 import {useSelector} from "react-redux"
 import useProductList from "./useProductList"
 import {RootState} from "./Data/Store"
-import {Product} from "./Data/Product"
+import {Product} from "./Data/Models/Product"
 import CategoryFilter from "./CategoryFilter"
-import {ProductCategory} from "./Data/ProductCategory"
+import {ProductCategory} from "./Data/Models/ProductCategory"
 
 interface ProductListProps
 {

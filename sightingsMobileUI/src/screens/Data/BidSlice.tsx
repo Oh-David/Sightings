@@ -1,38 +1,73 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {mockBids} from "../Mock"
-
-export interface Bid
-{
-    product1Id: string
-    product2Id: string
-}
+import {Bid} from "./Models/Bid"
+import {addBid, fetchAllBids, removeBid} from "./Api/ApiService"
 
 interface BidState
 {
     bids: Bid[]
+    loading: boolean
+    error: string | null
 }
 
 const initialBidState: BidState = {
     bids: mockBids,
+    loading: false,
+    error: null,
 }
 
-const BidSlice = createSlice({
-    name: "Bids",
+const bidSlice = createSlice({
+    name: "bids",
     initialState: initialBidState,
-    reducers: {
-        addBid: (state, action: PayloadAction<Bid>) =>
-        {
-            state.bids.push(action.payload)
-        },
-        removeBid: (state, action: PayloadAction<{product1Id: string, product2Id: string}>) =>
-        {
-            state.bids = state.bids.filter(
-                (bid) =>
-                    !(bid.product1Id === action.payload.product1Id && bid.product2Id === action.payload.product2Id)
-            )
-        },
+    reducers: {},
+    extraReducers: (builder) =>
+    {
+        builder
+            .addCase(fetchAllBids.pending, (state) =>
+            {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(fetchAllBids.fulfilled, (state, action: PayloadAction<Bid[]>) =>
+            {
+                state.bids = action.payload
+                state.loading = false
+            })
+            .addCase(fetchAllBids.rejected, (state, action) =>
+            {
+                state.loading = false
+                state.error = action.payload as string
+            })
+            .addCase(addBid.pending, (state) =>
+            {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(addBid.fulfilled, (state, action: PayloadAction<number>) =>
+            {
+                state.loading = false
+            })
+            .addCase(addBid.rejected, (state, action) =>
+            {
+                state.loading = false
+                state.error = action.payload as string
+            })
+            .addCase(removeBid.pending, (state) =>
+            {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(removeBid.fulfilled, (state, action: PayloadAction<number>) =>
+            {
+                state.bids = state.bids.filter(bid => bid.id !== action.payload)
+                state.loading = false
+            })
+            .addCase(removeBid.rejected, (state, action) =>
+            {
+                state.loading = false
+                state.error = action.payload as string
+            })
     },
 })
 
-export const {addBid, removeBid} = BidSlice.actions
-export default BidSlice.reducer
+export default bidSlice.reducer

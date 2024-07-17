@@ -8,14 +8,19 @@ import
     ScrollView,
     StyleSheet,
 } from "react-native"
-import {ProductCategory} from "./Data/ProductCategory"
+import {ProductCategory} from "./Data/Models/ProductCategory"
 import {buttonStyles} from "./ButtonStyles"
-import {Ionicons} from '@expo/vector-icons' // Assuming you're using Expo and have Ionicons installed
+import {Ionicons} from '@expo/vector-icons'
 
 interface CategoryFilterProps
 {
     selectedCategory: ProductCategory | null
     onSelectCategory: (category: ProductCategory | null) => void
+}
+
+const formatCategoryName = (category: string): string =>
+{
+    return category.replace(/([A-Z])/g, ' $1').trim()
 }
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({
@@ -24,55 +29,6 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 }) =>
 {
     const [modalVisible, setModalVisible] = useState(false)
-
-    const getCategoryName = (category: ProductCategory): string =>
-    {
-        switch (category)
-        {
-            case ProductCategory.Electronics:
-                return "Electronics"
-            case ProductCategory.Furniture:
-                return "Furniture"
-            case ProductCategory.Clothing:
-                return "Clothing"
-            case ProductCategory.Books:
-                return "Books"
-            case ProductCategory.Toys:
-                return "Toys"
-            case ProductCategory.Tools:
-                return "Tools"
-            case ProductCategory.Appliances:
-                return "Appliances"
-            case ProductCategory.SportsEquipment:
-                return "Sports Equipment"
-            case ProductCategory.MusicalInstruments:
-                return "Musical Instruments"
-            case ProductCategory.Art:
-                return "Art"
-            case ProductCategory.Jewelry:
-                return "Jewelry"
-            case ProductCategory.Collectibles:
-                return "Collectibles"
-            case ProductCategory.Automotive:
-                return "Automotive"
-            case ProductCategory.Gardening:
-                return "Gardening"
-            case ProductCategory.OfficeSupplies:
-                return "Office Supplies"
-            case ProductCategory.PetSupplies:
-                return "Pet Supplies"
-            case ProductCategory.HealthAndBeauty:
-                return "Health and Beauty"
-            case ProductCategory.HomeDecor:
-                return "Home Decor"
-            case ProductCategory.OutdoorGear:
-                return "Outdoor Gear"
-            case ProductCategory.Other:
-                return "Other"
-            default:
-                return "Unknown"
-        }
-    }
 
     const renderCategoryOption = (category: ProductCategory) => (
         <TouchableOpacity
@@ -84,7 +40,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
             }}
             style={styles.option}
         >
-            <Text style={styles.optionText}>{getCategoryName(category)}</Text>
+            <Text style={styles.optionText}>{formatCategoryName(category)}</Text>
         </TouchableOpacity>
     )
 
@@ -95,7 +51,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 style={[buttonStyles.dropdownButton, styles.dropdownButton]}
             >
                 <Text style={[buttonStyles.dropdownButtonText, styles.dropdownButtonText]}>
-                    {selectedCategory === null ? "All Categories" : getCategoryName(selectedCategory)}
+                    {selectedCategory === null ? "All Categories" : formatCategoryName(selectedCategory)}
                 </Text>
                 <Ionicons name="chevron-down" size={24} style={styles.icon} />
             </TouchableOpacity>
@@ -118,9 +74,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
                             >
                                 <Text style={styles.optionText}>All Categories</Text>
                             </TouchableOpacity>
-                            {Object.values(ProductCategory)
-                                .filter(value => typeof value === 'number')
-                                .map(value => renderCategoryOption(value as ProductCategory))}
+                            {Object.values(ProductCategory).map(value => renderCategoryOption(value as ProductCategory))}
                         </ScrollView>
                     </View>
                 </View>
@@ -131,15 +85,15 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 
 const styles = StyleSheet.create({
     dropdownButton: {
-        marginBottom: 10, // Adjusted margin
+        marginBottom: 10,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center", // Center the text
+        justifyContent: "center",
     },
     dropdownButtonText: {
         fontSize: 18,
         fontWeight: "bold",
-        marginRight: 10, // Space between text and icon
+        marginRight: 10,
     },
     icon: {
         alignSelf: "center",

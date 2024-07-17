@@ -1,17 +1,45 @@
-import React, { } from "react"
+import React, {useEffect} from "react"
 import {View, Text, Image, StyleSheet} from "react-native"
 import CustomButtons from "./CustomButtons"
 import ProductList from "../ProductList"
 import {mockAppLogo} from "../Mock"
+import {useDispatch, useSelector} from "react-redux"
+import {AppDispatch, RootState} from "../Data/Store"
+import {fetchProductsNotOwnedByUser, fetchProductsByOwner, fetchAllBids} from "../Data/Api/ApiService"
 
 const LandingPage: React.FC = () =>
 {
+  const dispatch = useDispatch<AppDispatch>()
+  const status = useSelector((state: RootState) => state.products.status)
+  const error = useSelector((state: RootState) => state.products.error)
+  const currentUser = useSelector((state: RootState) => state.users.currentUser)
+
+  useEffect(() =>
+  {
+    if (currentUser?.id)
+    {
+      dispatch(fetchProductsNotOwnedByUser(currentUser.id))
+      dispatch(fetchProductsByOwner(currentUser.id))
+      dispatch(fetchAllBids())
+    }
+  }, [dispatch, currentUser])
+
+  if (status === "loading")
+  {
+    return <Text>Loading...</Text>
+  }
+
+  if (status === "failed")
+  {
+    return <Text>Error: {error}</Text>
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.heroSection}>
         <Image
           source={{
-            uri: mockAppLogo
+            uri: mockAppLogo,
           }}
           style={styles.heroImage}
         />
